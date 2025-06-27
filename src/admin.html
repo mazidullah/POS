@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Awesome PoS</title>
+    <link rel="stylesheet" href="./styles/admin.css">
+    <script src="./scripts/admin.js" type="module"></script>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li class="active-nav" data-navbar="dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-280h80v-200h-80v200Zm320 0h80v-400h-80v400Zm-160 0h80v-120h-80v120Zm0-200h80v-80h-80v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"/></svg>
+          <span>Dashboard</span>
+        </li>
+        <li data-navbar="user-management">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm246-164q-59 0-99.5-40.5T340-580q0-59 40.5-99.5T480-720q59 0 99.5 40.5T620-580q0 59-40.5 99.5T480-440Zm0 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q53 0 100-15.5t86-44.5q-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160Zm0-360q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm0-60Zm0 360Z"/></svg>
+          <span>Users</span>
+        </li>
+        <li data-navbar="employee-management">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-80q-33 0-56.5-23.5T80-160v-440q0-33 23.5-56.5T160-680h200v-120q0-33 23.5-56.5T440-880h80q33 0 56.5 23.5T600-800v120h200q33 0 56.5 23.5T880-600v440q0 33-23.5 56.5T800-80H160Zm0-80h640v-440H600q0 33-23.5 56.5T520-520h-80q-33 0-56.5-23.5T360-600H160v440Zm80-80h240v-18q0-17-9.5-31.5T444-312q-20-9-40.5-13.5T360-330q-23 0-43.5 4.5T276-312q-17 8-26.5 22.5T240-258v18Zm320-60h160v-60H560v60Zm-200-60q25 0 42.5-17.5T420-420q0-25-17.5-42.5T360-480q-25 0-42.5 17.5T300-420q0 25 17.5 42.5T360-360Zm200-60h160v-60H560v60ZM440-600h80v-200h-80v200Zm40 220Z"/></svg>
+          <span>Employees</span>
+        </li>
+        <li data-navbar="store-management">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M720-40v-120H600v-80h120v-120h80v120h120v80H800v120h-80ZM80-160v-240H40v-80l40-200h600l40 200v80h-40v120h-80v-120H440v240H80Zm80-80h200v-160H160v160Zm-38-240h516-516ZM80-720v-80h600v80H80Zm42 240h516l-24-120H146l-24 120Z"/></svg>
+          <span>Store</span>
+        </li>
+        <li data-navbar="setting">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m234-480-12-60q-12-5-22.5-10.5T178-564l-58 18-40-68 46-40q-2-13-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T222-820l12-60h80l12 60q12 5 22.5 10.5T370-796l58-18 40 68-46 40q2 13 2 26t-2 26l46 40-40 68-58-18q-11 8-21.5 13.5T326-540l-12 60h-80Zm40-120q33 0 56.5-23.5T354-680q0-33-23.5-56.5T274-760q-33 0-56.5 23.5T194-680q0 33 23.5 56.5T274-600ZM592-40l-18-84q-17-6-31.5-14.5T514-158l-80 26-56-96 64-56q-2-18-2-36t2-36l-64-56 56-96 80 26q14-11 28.5-19.5T574-516l18-84h112l18 84q17 6 31.5 14.5T782-482l80-26 56 96-64 56q2 18 2 36t-2 36l64 56-56 96-80-26q-14 11-28.5 19.5T722-124l-18 84H592Zm56-160q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Z"/></svg>
+          <span>Settings</span>
+        </li>
+      </ul>
+    </nav>
+    <main>
+      <div class="active-nav" data-navbar="dashboard">dashboard</div>
+      <div data-navbar="user-management">
+        <div>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Password</th>
+              <th>Last Login</th>
+              <th>E/D</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+        </div>
+        <div class="create-new-user">
+          <div>
+            Create New User
+          </div>
+          <div class="input">
+            <label for="newUserName">Username</label>
+            <input type="text" id="newUserName" placeholder="Username">
+          </div>
+
+          <div class="input">
+            <label for="newUserPassword">Password</label>
+            <input type="password" id="newUserPassword" placeholder="Password">
+          </div>
+
+          <div class="input">
+            <button id="createNewUser">Create</button>
+          </div>
+        </div>
+      </div>
+      <div data-navbar="employee-management">employees</div>
+      <div data-navbar="store-management">store</div>
+      <div data-navbar="setting">settings</div>
+    </main>
+
+    <div class="messege hidden" id="messege">
+      <div><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#282828"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></div>
+      <h1>sgasdf</h1>
+      <p>.asdfasd</p>
+    </div>
+
+    <dialog id="userEdit">
+      <div>
+        <div>
+          <span>Edit User</span>
+          <svg onclick="userEdit.close()" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#282828"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </div>
+        <div class="input">
+          <label for="userEditName">Username</label>
+          <input type="text" id="userEditName" placeholder="Username">
+        </div>
+  
+        <div class="input">
+          <label for="userEditPassword">Password</label>
+          <input type="text" id="userEditPassword" placeholder="Password">
+        </div>
+  
+        <div class="input">
+          <button id="userEditOk">Done</button>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>

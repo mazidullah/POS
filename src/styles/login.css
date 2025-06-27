@@ -1,0 +1,51 @@
+@import url(./basic.css);
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#login {
+  margin-bottom: 5rem;
+  background-color: #cfcfcf;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 10px;
+
+  .input {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input:nth-child(4) {
+    flex-direction: row;
+  }
+
+  .input:last-child {
+    margin-top: 1rem;
+
+    button {
+      margin-left: auto;
+    }
+  }
+
+  input[type="text"], input[type="password"] {
+    width: 260px;
+  }
+
+  header {
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 0;
+  }
+}

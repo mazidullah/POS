@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+
+    <title>Awesome PoS</title>
+    <link rel="stylesheet" href="./styles/login.css">
+    <script src="./scripts/login.js" type="module"></script>
+  </head>
+  <body>
+    <div id="login">
+      <header>
+        <h1>Login</h1>
+        <div id="messegeLogin" class="hidden"></div>
+      </header>
+
+      <div class="input">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Passname">
+      </div>
+
+      <div class="input">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Password">
+      </div>
+
+      <div class="input">
+        <input type="checkbox" id="togglePassword">
+        <label for="togglePassword">Toggle password</label>
+      </div>
+
+      <div class="input">
+        <button id="loginButton">Login</button>
+      </div>
+    </div>
+  </body>
+</html>
