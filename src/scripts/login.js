@@ -1,8 +1,10 @@
-import enterKeyToNextInput from "./enterToNextInput.js"
+import {enterToNextInput, focus, delayFocus} from "./utils/utils.js"
+import {showMessege} from "./utils/messege.js"
+import {getAllData, updateInto} from "./utils/database.js"
 
-username.focus()
 
-enterKeyToNextInput([username, password, loginButton])
+enterToNextInput([username, password, loginButton])
+focus(username)
 
 togglePassword.addEventListener("input", e => {
   if(e.target.checked) password.type = "text"
@@ -12,25 +14,25 @@ togglePassword.addEventListener("input", e => {
 loginButton.addEventListener("click", () => {
   let uname = username.value.trim()
   let pass = password.value.trim()
-
-  const {DatabaseSync} = require("node:sqlite")
-  const db = new DatabaseSync("database.db")
-
-  let users = db.prepare("select * from Users").all()
+  let users = getAllData("Users")
 
   users.forEach(user => {
     if(user.name === uname && user.password === pass) {
-      db.prepare(`update Users set last_login = ? where id = ${user.id}`).run(
-        new Date().getTime()
+      updateInto(
+        "Users",
+        ["last_login"],
+        [new Date().getTime()],
+        `WHERE id = ${user.id}`
       )
-      db.close()
 
       const {ipcRenderer} = require("electron")
       if(user.role === "admin") ipcRenderer.send("open:adminWindow")
-      else ipcRenderer.send("open:window")
+      else ipcRenderer.send("open:posWindow")
 
       window.close();
     }
   })
 
+  showMessege("Error", "Username or password does not matched.")
+  delayFocus(username)
 })

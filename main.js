@@ -1,14 +1,12 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('node:path')
-require("./database.js")
-const {DatabaseSync} = require("node:sqlite")
-const db = new DatabaseSync("./database.db")
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+require("./schema.js")
 
 if (require('electron-squirrel-startup')) {
   app.quit()
 }
 
-const createStoreWindow = () => {
+const initializeWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
@@ -17,13 +15,13 @@ const createStoreWindow = () => {
     },
   })
 
-  window.loadFile(path.join(__dirname, "src/create-store.html"))
+  window.loadFile(path.join(__dirname, "src/initialize.html"))
   window.maximize()
   window.webContents.openDevTools() // Disable this
   // Menu.setApplicationMenu(null)
 }
 
-const createLoginWindow = () => {
+const loginWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
@@ -38,7 +36,7 @@ const createLoginWindow = () => {
   // Menu.setApplicationMenu(null)
 }
 
-const createAdminWindow = () => {
+const adminWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
@@ -53,43 +51,46 @@ const createAdminWindow = () => {
   // Menu.setApplicationMenu(null)
 }
 
-const createWindow = () => {
+const posWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       sandbox: false,
-
-      preload: path.join(__dirname, "preload.js")
     },
   })
 
-  window.loadFile(path.join(__dirname, "src/index.html"))
+  window.loadFile(path.join(__dirname, "src/pos.html"))
   window.maximize()
   window.webContents.openDevTools() // Disable this
-  Menu.setApplicationMenu(null)
+  // Menu.setApplicationMenu(null)
 }
 
 app.whenReady().then(() => {
-  if (!db.prepare(`select * from StoreInfo where id = ?`).get(1)) createStoreWindow()
-  else createLoginWindow()
+  const { DatabaseSync } = require("node:sqlite")
+  const db = new DatabaseSync("./database.db")
+  const hasStore = db.prepare(`select * from StoreInfo where id = ?`).get(1)
+  db.close()
 
-  ipcMain.on("open:login", () => {
-    createLoginWindow()
+  if (!hasStore) initializeWindow()
+  else loginWindow()
+
+  ipcMain.on("open:loginWindow", () => {
+    loginWindow()
   })
 
   ipcMain.on("open:adminWindow", () => {
-    createAdminWindow()
+    adminWindow()
   })
 
-  ipcMain.on("open:window", () => {
-    createWindow()
+  ipcMain.on("open:posWindow", () => {
+    posWindow()
   })
 })
 
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
+    loginWindow()
   }
 })
 

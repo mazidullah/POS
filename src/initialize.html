@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Awesome PoS</title>
+    <link rel="stylesheet" href="./styles/initialize.css">
+    <script src="./scripts/initialize.js" type="module"></script>
+  </head>
+  <body>
+    <div id="storeInfo">
+      <header>
+        <h1>Create New Store</h1>
+      </header>
+
+      <div class="input">
+        <label for="storeName">Store name</label>
+        <input type="text" id="storeName" placeholder="Store name">
+      </div>
+
+      <div class="input">
+        <label for="storeAddress">Store address</label>
+        <input type="text" id="storeAddress" placeholder="Store address">
+      </div>
+
+      <div class="input">
+        <label for="storeMobile">Mobile No.</label>
+        <input type="text" id="storeMobile" placeholder="01xxx-xxxxxx">
+      </div>
+
+      <div class="input">
+        <button id="next">Next</button>
+      </div>
+    </div>
+
+    <div id="adminInfo" class="hidden">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" id="back" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000">
+          <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
+        </svg>
+      </div>
+
+      <header>
+        <h1>Create Admin Account</h1>
+      </header>
+
+      <div class="input">
+        <label for="adminName">Admin name</label>
+        <input type="text" id="adminName" placeholder="Admin name">
+      </div>
+
+      <div class="input">
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" placeholder="Password">
+      </div>
+
+      <div class="input">
+        <label for="adminPasswordRepeat">Repeat Password</label>
+        <input type="password" id="adminPasswordRepeat" placeholder="Repeat Password">
+      </div>
+
+      <div class="input">
+        <input type="checkbox" id="togglePassword">
+        <label for="togglePassword">Show Password</label>
+      </div>
+
+      <div class="input">
+        <button id="create">Create</button>
+      </div>  
+    </div>
+
+    <!--messeging-->
+    <dialog id="confirmation">
+      <h1>Are your sure?</h1>
+      <div>
+        <button>OK</button>
+        <button>Cancel</button>
+      </div>
+    </dialog>
+    <div id="messege">
+      <div>
+        <h1 id="messegeHeader"></h1>
+        <span>
+          <svg id="messegeClose" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
+            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </div>
+      <p id="messegeText"></p>
+    </div>
+    <!--messeging-->
+  </body>
+</html>

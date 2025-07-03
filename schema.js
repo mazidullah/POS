@@ -1,4 +1,4 @@
-const {DatabaseSync} = require("node:sqlite")
+const { DatabaseSync } = require("node:sqlite")
 const db = new DatabaseSync("database.db")
 
 db.prepare(
@@ -7,7 +7,7 @@ db.prepare(
   name TEXT,
   mobile TEXT,
   address TEXT,
-  cash INTEGER
+  cash TEXT
 )`
 ).run()
 
@@ -29,7 +29,7 @@ db.prepare(
   mobile TEXT,
   address TEXT,
   remark TEXT,
-  due INTEGER,
+  dues TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
@@ -39,15 +39,16 @@ db.prepare(
   id INTEGER,
   name TEXT,
   mobile TEXT,
-  address TEXT,
   remark TEXT,
-  due INTEGER,
+  dues TEXT,
+  order_day TEXT,
+  delivery_day TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
 
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS ProductType (
+  `CREATE TABLE IF NOT EXISTS Types (
   id INTEGER,
   name TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
@@ -55,7 +56,7 @@ db.prepare(
 ).run()
 
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS GenericName (
+  `CREATE TABLE IF NOT EXISTS Generics (
   id INTEGER,
   name TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
@@ -63,48 +64,47 @@ db.prepare(
 ).run()
 
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS ProductName (
+  `CREATE TABLE IF NOT EXISTS Products (
   id INTEGER,
   name TEXT,
   company_id INTEGER,
   type_id INTEGER,
   generic_id INTEGER,
-  min_stoke INTEGER,
+  min_stock INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
 
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS Stock (
+  `CREATE TABLE IF NOT EXISTS Stocks (
   id INTEGER,
   product_id INTEGER,
   purchase_id INTEGER,
   quantity INTEGER,
-  purchase_price INTEGER,
-  sell_price INTEGER,
+  purchase_price TEXT,
+  sell_price TEXT,
   expire_date INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
 
-
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS Purchase (
+  `CREATE TABLE IF NOT EXISTS Purchases (
   id INTEGER,
   company_id TEXT,
   date INTEGER,
   type TEXT,
-  discount INTEGER,
-  payable INTEGER,
-  paid INTEGER,
-  due INTEGER,
+  discount TEXT,
+  payable TEXT,
+  paid TEXT,
+  dues TEXT,
   data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
 
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS PurchaseReturn (
+  `CREATE TABLE IF NOT EXISTS PurchaseReturns (
   id INTEGER,
   purchase_id INTEGER,
   date INTEGER,
@@ -114,28 +114,29 @@ db.prepare(
 ).run()
 
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS Sell (
+  `CREATE TABLE IF NOT EXISTS Sells (
   id INTEGER,
   customer_id INTEGER,
   date INTEGER,
-  discount INTEGER, 
-  payable INTEGER, 
-  paid INTEGER,
-  due INTEGER,
+  discount TEXT, 
+  payable TEXT, 
+  paid TEXT,
+  dues TEXT,
   data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
 
 db.prepare(
-  `CREATE TABLE IF NOT EXISTS SellReturn (
+  `CREATE TABLE IF NOT EXISTS SellReturns (
   id INTEGER,
   sell_id INTEGER,
-  paid INTEGER,
+  paid TEXT,
   data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
 
-
 db.close()
+
+require("./populate.js")
