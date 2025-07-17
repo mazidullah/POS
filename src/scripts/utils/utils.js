@@ -13,7 +13,7 @@ function isAlphaNumeric(char) {
 }
 
 function isSpace(char) {
-  return char === " "
+  return char === " " || char === "\t" || char === "\v"
 }
 
 function isSpecialChar(char) {
@@ -24,10 +24,14 @@ function isSpecialChar(char) {
 export function enterToNextInput(inputList) {
   for (let i = 0; i < inputList.length - 1; i++) {
     inputList[i].addEventListener("keyup", e => {
-      if (e.target.value.length > 0 && e.key === "Enter") {
-        inputList[i + 1].selectionStart = 0
-        inputList[i + 1].selectionEnd = inputList[i + 1].value.length
-        focus(inputList[i + 1])
+      if (e.key === "Enter") {
+        if (inputList[i + 1].type === "date") {
+          focus(inputList[i + 1])
+        } else {
+          inputList[i + 1].selectionStart = 0
+          inputList[i + 1].selectionEnd = inputList[i + 1].value.length
+          focus(inputList[i + 1])
+        }
       }
     })
   }
@@ -46,10 +50,22 @@ export function mobileInput(selector) {
     let chunk2 = value.slice(selectionEnd, length)
 
     if (e.key >= "0" && e.key <= "9") {
-      if (e.target.value.length >= 11) return
+      if (e.target.value.length >= 12) return
       if (e.target.value.length === 0 && e.key !== "0") return
       if (e.target.value.length === 1 && e.key !== "1") return
+      if (e.target.value.length === 5 && e.key !== "-") {
+        e.target.value = chunk1 + "-" + e.key + chunk2
+        e.target.selectionStart = chunk1.length + 2
+        e.target.selectionEnd = chunk1.length + 2
+        return
+      }
 
+      e.target.value = chunk1 + e.key + chunk2
+      e.target.selectionStart = chunk1.length + 1
+      e.target.selectionEnd = chunk1.length + 1
+    }
+
+    if (e.key === "-" && e.target.value.length === 5) {
       e.target.value = chunk1 + e.key + chunk2
       e.target.selectionStart = chunk1.length + 1
       e.target.selectionEnd = chunk1.length + 1
@@ -68,31 +84,20 @@ export function mobileInput(selector) {
       e.target.selectionStart = chunk1.length
       e.target.selectionEnd = chunk1.length
     }
-
-    if (e.key === "ArrowLeft") {
-      e.target.selectionStart =
-        e.target.selectionStart - 1 >= 0 ? e.target.selectionStart - 1 : 0
-      e.target.selectionEnd = e.target.selectionStart
-    }
-
-    if (e.key === "ArrowRight") {
-      e.target.selectionStart =
-        e.target.selectionStart + 1 <= e.target.value.length
-          ? e.target.selectionStart + 1
-          : e.target.value.length
-      e.target.selectionEnd = e.target.selectionStart
-    } else return
   })
 }
 
 export function focus(element) {
-  element.selectionStart = 0
-  element.selectionEnd = element.value.length
-
-  element.focus()
+  if (element.type === "date") {
+    element.focus()
+  } else {
+    element.selectionStart = 0
+    element.selectionEnd = element.value.length
+    element.focus()
+  }
 }
 
-export function delayFocus(element, delay = 0) {
+export function delayFocus(element, delay = 60) {
   setTimeout(() => {
     focus(element)
   }, delay)
@@ -109,7 +114,7 @@ export function suggestionHandler(element, suggetionElement, renderer) {
   }
 
   element.addEventListener("focus", () => {
-    renderer()
+    renderer(element.value.trim())
 
     if (suggetionElement.innerHTML === "") {
       suggetionElement.classList.add("hidden")
@@ -126,7 +131,7 @@ export function suggestionHandler(element, suggetionElement, renderer) {
   element.addEventListener("keydown", e => {
     if (e.key === "ArrowDown") {
       clearSelection()
-      let allSuggetion = suggetionElement.querySelectorAll("div")
+      let allSuggetion = suggetionElement.querySelectorAll(" & > div")
 
       if (allSuggetion.length) {
         currentSelection + 1 < allSuggetion.length
@@ -141,7 +146,7 @@ export function suggestionHandler(element, suggetionElement, renderer) {
       e.target.selectionStart = e.target.value.length
       e.target.selectionEnd = e.target.value.length
 
-      let allSuggetion = suggetionElement.querySelectorAll("div")
+      let allSuggetion = suggetionElement.querySelectorAll(" & > div")
 
       if (allSuggetion.length) {
         currentSelection - 1 > -1
@@ -156,15 +161,16 @@ export function suggestionHandler(element, suggetionElement, renderer) {
   element.addEventListener("keyup", e => {
     if (e.key === "Enter") {
       e.target.value =
-        suggetionElement.querySelector("div.selected span:nth-child(2)")
+        suggetionElement.querySelector("div.selected span.suggetionDataSpan")
           ?.innerText || e.target.value
 
       suggetionElement.dataset.id =
-        suggetionElement.querySelector("div.selected span:nth-child(1)")
-          ?.innerText || 0
+        suggetionElement.querySelector("div.selected span.suggetionIdSpan")
+          ?.innerText || e.target.dataset.id
 
       clearSelection()
       currentSelection = -1
+      suggetionElement.classList.add("hidden")
     } else if (e.key === "Escape") {
       currentSelection = -1
       suggetionElement.dataset.id = 0
@@ -172,7 +178,8 @@ export function suggestionHandler(element, suggetionElement, renderer) {
     } else if (
       isAlphaNumeric(e.key) ||
       isSpace(e.key) ||
-      isSpecialChar(e.key)
+      isSpecialChar(e.key) ||
+      e.key === "Backspace"
     ) {
       suggetionElement.innerHTML = ""
       suggetionElement.dataset.id = 0
@@ -190,12 +197,15 @@ export function suggestionHandler(element, suggetionElement, renderer) {
   suggetionElement.addEventListener(
     "click",
     e => {
-      let clicked = e.target.closest("div")
+      let clicked = e.target.closest("div.suggetion > div")
       suggetionElement.querySelectorAll("div").forEach(d => {
         if (d === clicked) {
-          element.value = clicked.querySelector("span:nth-child(2)").innerText
-          suggetionElement.dataset.id =
-            clicked.querySelector("span:nth-child(1)").innerText
+          element.value = clicked.querySelector(
+            "span.suggetionDataSpan"
+          ).innerText
+          suggetionElement.dataset.id = clicked.querySelector(
+            "span.suggetionIdSpan"
+          ).innerText
           clearSelection()
         }
       })
@@ -207,7 +217,7 @@ export function suggestionHandler(element, suggetionElement, renderer) {
 export function intInput(element) {
   element.addEventListener("keydown", e => {
     e.preventDefault()
-    let value = Number(e.target.value) + ""
+    let value = "" + (Number(e.target.value) > 0 ? Number(e.target.value) : "")
 
     if (e.key >= "0" && e.key <= "9") {
       if (
@@ -223,10 +233,13 @@ export function intInput(element) {
       e.target.value = current
     } else if (e.key === "ArrowDown") {
       let current = Number(value)
-      current--
+      current = current - 1 >= 0 ? current - 1 : 0
       e.target.value = current
     } else if (e.key === "Backspace") {
-      e.target.value = Number(value.slice(0, e.target.value.length - 1))
+      e.target.value =
+        Number(value.slice(0, e.target.value.length - 1)) > 0
+          ? Number(value.slice(0, e.target.value.length - 1))
+          : ""
     }
   })
 }
@@ -237,8 +250,7 @@ export function floatInput(element) {
     let value = "" + Number(e.target.value)
 
     if (e.key >= "0" && e.key <= "9") {
-      if (value.length === 0 && e.key === "0") return
-      e.target.value += e.key
+      e.target.value
     } else if (e.key === "ArrowUp") {
       let current = Number(value)
       current++

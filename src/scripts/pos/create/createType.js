@@ -1,6 +1,6 @@
-import { enterToNextInput, delayFocus } from "../utils/utils.js"
-import { showMessege } from "../utils/messege.js"
-import { insertInto, nextRowId } from "../utils/database.js"
+import { enterToNextInput, delayFocus } from "../../utils/utils.js"
+import { showMessege } from "../../utils/messege.js"
+import { insertInto, nextRowId } from "../../utils/database.js"
 
 const navbarName = "createType"
 const tableName = "Types"

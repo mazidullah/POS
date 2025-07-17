@@ -1,13 +1,15 @@
-const path = require('node:path')
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const path = require("node:path")
+const { app, BrowserWindow, ipcMain } = require("electron")
 require("./schema.js")
 
-if (require('electron-squirrel-startup')) {
+if (require("electron-squirrel-startup")) {
   app.quit()
 }
 
 const initializeWindow = () => {
   const window = new BrowserWindow({
+    width: 450,
+    height: 600,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -16,7 +18,6 @@ const initializeWindow = () => {
   })
 
   window.loadFile(path.join(__dirname, "src/initialize.html"))
-  window.maximize()
   window.webContents.openDevTools() // Disable this
   // Menu.setApplicationMenu(null)
 }
@@ -94,9 +95,8 @@ app.on("activate", () => {
   }
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit()
   }
 })
-

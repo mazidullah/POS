@@ -1,0 +1,57 @@
+#voucher.active,
+#customerList.active,
+#productList.active,
+#companyList.active,
+#genericList.active,
+#typeList.active,
+#customerReturnList.active,
+#companyReturnList.active,
+#stockList.active,
+#expenseList.active {
+  grid-template-rows: 65px 1fr;
+  header,
+  main {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffc078;
+    box-shadow: 0 0 5px #000000;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .input {
+      display: flex;
+      flex-direction: column;
+
+      input,
+      select {
+        width: 200px;
+      }
+
+      input[type="date"] {
+        width: auto;
+      }
+    }
+
+    .input:nth-child(3),
+    .input:nth-child(4) {
+      input {
+        width: 130px;
+      }
+    }
+  }
+
+  main {
+    padding: 0;
+    overflow-y: auto;
+    position: relative;
+    background-color: #ececec;
+
+    thead {
+      top: -2px;
+    }
+  }
+}

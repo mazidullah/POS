@@ -1,12 +1,16 @@
 import { showMessege } from "./utils/messege.js"
-import { insertInto } from "./utils/database.js"
-import { mobileInput, enterToNextInput, focus, delayFocus } from "./utils/utils.js"
+import { insertInto, fillDatabase } from "./utils/database.js"
+import {
+  mobileInput,
+  enterToNextInput,
+  focus,
+  delayFocus,
+} from "./utils/utils.js"
 
+focus(storeName)
 mobileInput(storeMobile)
 enterToNextInput([storeName, storeAddress, storeMobile, next])
 enterToNextInput([adminName, adminPassword, adminPasswordRepeat, create])
-
-focus(storeName)
 
 back.addEventListener("click", () => {
   storeInfo.classList.remove("hidden")
@@ -18,14 +22,13 @@ togglePassword.addEventListener("input", e => {
   if (e.target.checked) {
     adminPassword.type = "text"
     adminPasswordRepeat.type = "text"
-
     return
   }
   adminPassword.type = "password"
   adminPasswordRepeat.type = "password"
 })
 
-next.addEventListener("click", e => {
+next.addEventListener("click", () => {
   if (!storeName.value.length) {
     showMessege("Invalid input", "Store name is required!")
     delayFocus(storeName)
@@ -36,7 +39,7 @@ next.addEventListener("click", e => {
     delayFocus(storeAddress)
     return
   }
-  if (storeMobile.value.length !== 11) {
+  if (storeMobile.value.length !== 12) {
     showMessege("Invalid input", "Mobile number is not valid")
     delayFocus(storeMobile)
     return
@@ -72,6 +75,7 @@ create.addEventListener("click", () => {
       storeName.value.trim(),
       storeMobile.value.trim(),
       storeAddress.value.trim(),
+      "0.0",
     ]
   )
 
@@ -80,6 +84,10 @@ create.addEventListener("click", () => {
     ["id", "name", "password", "role", "last_login"],
     [1, adminName.value.trim(), adminPassword.value.trim(), "admin", 0]
   )
+
+  create.disabled = true
+  showMessege("Wait...", "Initializing Database")
+  fillDatabase()
 
   const { ipcRenderer } = require("electron")
   ipcRenderer.send("open:loginWindow")

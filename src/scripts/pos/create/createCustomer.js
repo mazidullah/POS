@@ -1,6 +1,6 @@
-import { enterToNextInput, mobileInput, delayFocus } from "../utils/utils.js"
-import {showMessege} from "../utils/messege.js"
-import { insertInto, nextRowId } from "../utils/database.js"
+import { enterToNextInput, mobileInput, delayFocus } from "../../utils/utils.js"
+import { showMessege } from "../../utils/messege.js"
+import { insertInto, nextRowId } from "../../utils/database.js"
 
 const navbarName = "createCustomer"
 const tableName = "Customers"
@@ -11,7 +11,6 @@ enterToNextInput([
   newCustomerName,
   newCustomerAddress,
   newCustomerMobile,
-  newCustomerRemark,
   createNewCustomer,
 ])
 mobileInput(newCustomerMobile)
@@ -21,6 +20,9 @@ navbar.addEventListener("click", () => {
   delayFocus(newCustomerName)
 })
 
+newCustomerRemark.addEventListener("keyup", e => {
+  if (e.target.value !== "" && e.key === "Enter") createNewCustomer.focus()
+})
 createNewCustomer.addEventListener("click", () => {
   const name = newCustomerName.value.trim()
   const address = newCustomerAddress.value.trim()
@@ -28,14 +30,17 @@ createNewCustomer.addEventListener("click", () => {
   const dues = "0.0"
   const remark = newCustomerRemark.value.trim()
 
-  if(name.length === 0) {
+  if (name.length === 0) {
     showMessege("Invalid name", "Customer name must not empty!")
     delayFocus(newCustomerName)
     return
   }
-  if(mobile.length < 11) {
-    showMessege("Invalid mobile no.", "Enter a valid mobile number (01xxx-xxxxxx")
-    delayFocus(newCustomerName)
+  if (mobile.length < 11) {
+    showMessege(
+      "Invalid mobile no.",
+      "Enter a valid mobile number (01xxx-xxxxxx"
+    )
+    delayFocus(newCustomerMobile)
     return
   }
 

@@ -1,0 +1,6 @@
+#typeList.active {
+  td:nth-child(1) {
+    text-align: center;
+    width: 80px;
+  }
+}

@@ -1,6 +1,6 @@
-import { enterToNextInput, delayFocus } from "../utils/utils.js"
-import {showMessege} from "../utils/messege.js"
-import { insertInto, nextRowId } from "../utils/database.js"
+import { enterToNextInput, delayFocus } from "../../utils/utils.js"
+import { showMessege } from "../../utils/messege.js"
+import { insertInto, nextRowId } from "../../utils/database.js"
 
 const navbarName = "createGeneric"
 const tableName = "Generics"
@@ -17,7 +17,7 @@ navbar.addEventListener("click", () => {
 createNewGeneric.addEventListener("click", () => {
   const name = newGenericName.value.trim()
 
-  if(name.length === 0) {
+  if (name.length === 0) {
     showMessege("Invalid name", "Name must not empty!")
     delayFocus(newGenericName)
     return

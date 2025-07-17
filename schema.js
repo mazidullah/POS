@@ -138,5 +138,3 @@ db.prepare(
 ).run()
 
 db.close()
-
-require("./populate.js")

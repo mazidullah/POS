@@ -1,8 +1,8 @@
 {
   "name": "pos",
-  "productName": "pos",
+  "productName": "Awesome PoS",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A Simple PoS Software",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -11,8 +11,13 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": [],
-  "author": "bappy",
+  "keywords": [
+    "PoS",
+    "Store Managenet",
+    "Sell Software",
+    "Inventory Managenet"
+  ],
+  "author": "Mazidullah Haque Bappy <mazidulhaque@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1"
@@ -26,7 +31,6 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.8.1",
     "@electron-forge/plugin-fuses": "^7.8.1",
     "@electron/fuses": "^1.8.0",
-    "csv-parser": "^3.2.0",
     "electron": "36.5.0"
   }
 }

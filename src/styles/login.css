@@ -4,6 +4,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background-color: var(--bg-clr-drk);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,12 +15,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  
+  background-color: var(--bg-clr-lt);
   padding: 1rem;
   margin-bottom: 4rem;
   border-radius: 1rem;
-  background-color: hsl(0, 0%, 93%);
-  box-shadow: 0 0 10px hsla(0, 0%, 17%, 0.568);
 }
 
 .input {
@@ -32,7 +31,7 @@ body {
 }
 
 .input:last-child {
-  margin-top: 1rem;
+  margin-top: 10px;
 
   button {
     margin-left: auto;
@@ -46,5 +45,6 @@ input[type="password"] {
 
 h1 {
   text-align: center;
+  border-bottom: 1px solid var(--clr-drk);
   margin-bottom: 10px;
 }

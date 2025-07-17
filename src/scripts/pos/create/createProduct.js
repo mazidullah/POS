@@ -3,9 +3,9 @@ import {
   delayFocus,
   suggestionHandler,
   intInput,
-} from "../utils/utils.js"
-import { showMessege } from "../utils/messege.js"
-import { insertInto, nextRowId, getAllData } from "../utils/database.js"
+} from "../../utils/utils.js"
+import { showMessege } from "../../utils/messege.js"
+import { insertInto, nextRowId, getAllData } from "../../utils/database.js"
 
 const navbarName = "createProduct"
 const tableName = "Products"
@@ -34,7 +34,7 @@ suggestionHandler(
 suggestionHandler(
   newProductTypeName,
   newProductTypeNameSuggetions,
-  renderTepeSuggetions
+  renderTypeSuggetions
 )
 
 intInput(newProductMinStock)
@@ -44,30 +44,39 @@ function renderCompanySuggetions(searchTerm) {
 
   if (searchTerm) {
     const companies = getAllData("Companies")
+
     let niddle
+    const startsWith = []
+    const possibleNameMatch = []
+
     try {
       niddle = new RegExp(searchTerm, "i")
     } catch (err) {
       niddle = new RegExp("")
     }
-    const possibleNameMatch = []
 
     companies.forEach(company => {
+      if (company.name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+        startsWith.push(company)
+        return
+      }
+
       if (niddle.test(company.name)) {
         possibleNameMatch.push(company)
         return
       }
     })
 
+    const sortedStartsWith = startsWith.sort((a, b) => a.name - b.name)
     const sortedNameMatch = possibleNameMatch.sort((a, b) => a.name - b.name)
-    const nextRenderList = [...sortedNameMatch]
+    const nextRenderList = [...sortedStartsWith, ...sortedNameMatch]
 
     let htmlString = ""
     nextRenderList.forEach(list => {
       htmlString += `
         <div>
-          <span>${list.id}</span>
-          <span>${list.name}</span>
+          <span class='suggetionIdSpan'>${list.id}</span>
+          <span class='suggetionDataSpan'>${list.name}</span>
         </div>
       `
     })
@@ -81,30 +90,39 @@ function renderGenericSuggetions(searchTerm) {
 
   if (searchTerm) {
     const generics = getAllData("Generics")
+
     let niddle
+    const startsWith = []
+    const possibleNameMatch = []
+
     try {
       niddle = new RegExp(searchTerm, "i")
     } catch (err) {
       niddle = new RegExp("")
     }
-    const possibleNameMatch = []
 
     generics.forEach(generic => {
+      if (generic.name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+        startsWith.push(generic)
+        return
+      }
+
       if (niddle.test(generic.name)) {
         possibleNameMatch.push(generic)
         return
       }
     })
 
+    const sortedStartsWith = startsWith.sort((a, b) => a.name - b.name)
     const sortedNameMatch = possibleNameMatch.sort((a, b) => a.name - b.name)
-    const nextRenderList = [...sortedNameMatch]
+    const nextRenderList = [...sortedStartsWith, ...sortedNameMatch]
 
     let htmlString = ""
     nextRenderList.forEach(list => {
       htmlString += `
         <div>
-          <span>${list.id}</span>
-          <span>${list.name}</span>
+          <span class='suggetionIdSpan'>${list.id}</span>
+          <span class='suggetionDataSpan'>${list.name}</span>
         </div>
       `
     })
@@ -113,35 +131,44 @@ function renderGenericSuggetions(searchTerm) {
   }
 }
 
-function renderTepeSuggetions(searchTerm) {
+function renderTypeSuggetions(searchTerm) {
   newProductTypeNameSuggetions.innerHTML = ""
 
   if (searchTerm) {
     const types = getAllData("Types")
+
     let niddle
+    const startsWith = []
+    const possibleNameMatch = []
+
     try {
       niddle = new RegExp(searchTerm, "i")
     } catch (err) {
       niddle = new RegExp("")
     }
-    const possibleNameMatch = []
 
     types.forEach(type => {
+      if (type.name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+        startsWith.push(type)
+        return
+      }
+
       if (niddle.test(type.name)) {
         possibleNameMatch.push(type)
         return
       }
     })
 
+    const sortedStartsWith = startsWith.sort((a, b) => a.name - b.name)
     const sortedNameMatch = possibleNameMatch.sort((a, b) => a.name - b.name)
-    const nextRenderList = [...sortedNameMatch]
+    const nextRenderList = [...sortedStartsWith, ...sortedNameMatch]
 
     let htmlString = ""
     nextRenderList.forEach(list => {
       htmlString += `
         <div>
-          <span>${list.id}</span>
-          <span>${list.name}</span>
+          <span class='suggetionIdSpan'>${list.id}</span>
+          <span class='suggetionDataSpan'>${list.name}</span>
         </div>
       `
     })
@@ -149,10 +176,6 @@ function renderTepeSuggetions(searchTerm) {
     newProductTypeNameSuggetions.innerHTML = htmlString
   }
 }
-
-// function checkIdName(id, name, tableName) {
-//   if(id && id < 0) id =
-// }
 
 navbar.addEventListener("click", () => {
   newProductId.value = nextRowId(tableName)

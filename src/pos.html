@@ -3,12 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'" />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'" />
 
     <title>Awesome PoS</title>
     <link rel="stylesheet" href="./styles/pos.css" />
@@ -29,7 +23,7 @@
           </svg>
           <span>POS</span>
         </li>
-        <li data-navitem="allVoucher">
+        <li data-navitem="voucher">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -65,7 +59,7 @@
           </svg>
           <span>Company Return</span>
         </li>
-        <li data-navitem="purchese">
+        <li data-navitem="purchase">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -92,13 +86,15 @@
             </svg>
           </div>
           <ul>
+            <li data-navitem="customerList">Customer List</li>
+            <li data-navitem="productList">Products List</li>
+            <li data-navitem="companyList">Company List</li>
+            <li data-navitem="genericList">Generics List</li>
+            <li data-navitem="typeList">Type List</li>
             <li data-navitem="customerReturnList">Customer Return</li>
             <li data-navitem="companyReturnList">Company Return</li>
-            <li data-navitem="expenseList">Expense List</li>
-            <li data-navitem="productList">Products List</li>
-            <li data-navitem="typeList">Type List</li>
-            <li data-navitem="genericsList">Generics List</li>
             <li data-navitem="stockList">Stock List</li>
+            <li data-navitem="expenseList">Expense List</li>
           </ul>
         </li>
         <!--Create-->
@@ -147,6 +143,18 @@
           </svg>
           <span>Telemetry</span>
         </li>
+        <li data-navitem="halt">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#e3e3e3">
+            <path
+              d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93ZM320-320v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T663-540L443-320H320Zm300-263-37-37 37 37ZM380-380h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+          </svg>
+          <span>Unfinied Voucher</span>
+        </li>
         <li data-navitem="settings">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -162,19 +170,876 @@
       </ul>
     </nav>
     <main>
-      <div class="active" id="pos">pos</div>
-      <div id="allVoucher">allvourcher</div>
-      <div id="customerReturn">customerReturn</div>
-      <div id="companyReturn">companyReturn</div>
-      <div id="purchese">purchese</div>
+      <div class="active" id="pos">
+        <header>
+          <div class="input">
+            <label for="posId">ID</label>
+            <input type="text" id="posId" placeholder="ID" disabled />
+          </div>
+
+          <div class="input">
+            <label for="posPrevDue">Dues</label>
+            <input
+              type="text"
+              id="posPrevDue"
+              placeholder="Prev deus"
+              disabled
+              value="0" />
+          </div>
+
+          <div class="input">
+            <label for="posTotalCost">Cost</label>
+            <input
+              type="text"
+              id="posTotalCost"
+              placeholder="Total Cost"
+              disabled
+              value="0" />
+          </div>
+
+          <div class="input">
+            <label for="posDate">Date</label>
+            <input type="date" id="posDate" />
+          </div>
+
+          <div class="input">
+            <label for="posName">Customer Name</label>
+            <input type="text" id="posName" placeholder="Customer Name or ID" />
+          </div>
+
+          <div class="input">
+            <label for="posAddress">Address</label>
+            <input type="text" id="posAddress" placeholder="Customer Address" />
+          </div>
+
+          <div class="input">
+            <label for="posMobile">Mobile</label>
+            <input type="text" id="posMobile" placeholder="01xxx-xxxxxx" />
+          </div>
+
+          <div class="input">
+            <label for="posInput">Khoj the Search</label>
+            <input
+              type="text"
+              id="posSearch"
+              placeholder="Product Name of Generic Name" />
+          </div>
+
+          <div class="input">
+            <label for="posQnt">Qnt</label>
+            <input type="text" id="posQnt" placeholder="Quantity" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Type</th>
+                <th>Product Name</th>
+                <th>Company Name</th>
+                <th>Rack No.</th>
+                <th>Qnt</th>
+                <th>P/P</th>
+                <th>Sell Price</th>
+                <th>Total Price</th>
+                <th>X</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </main>
+        <footer>
+          <div class="input">
+            <label for="posTotalBill">Bill Amount</label>
+            <input type="text" id="posTotalBill" />
+          </div>
+
+          <div class="wrapper">
+            <div class="input">
+              <label for="posDiscount">Dis</label>
+              <input type="text" id="posDiscount" />
+            </div>
+            <div class="input">
+              <label for="posDiscount">Dis %</label>
+              <input type="text" id="posDiscount" />
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="posPaid">Paid</label>
+            <input type="text" id="posPaid" />
+          </div>
+
+          <div class="input">
+            <label for="posPayable">Grand Total</label>
+            <input type="text" id="posPayable" />
+          </div>
+
+          <div class="input">
+            <label for="posDue">Due</label>
+            <input type="text" id="posDue" />
+          </div>
+
+          <div class="input">
+            <button id="posOk">Save</button>
+          </div>
+        </footer>
+        <div class="btn-grp">
+          <button id="posClear" style="background-color: brown">Clear</button>
+          <button id="posHalt" style="background-color: #885f08">Halt</button>
+        </div>
+      </div>
+      <div id="voucher">
+        <header>
+          <div class="input">
+            <label for="voucherName">Search</label>
+            <input
+              type="text"
+              id="voucherName"
+              placeholder="Search by Name/Id/Bill No." />
+          </div>
+
+          <div class="input">
+            <label for="voucherStartDate">Start Date</label>
+            <input type="date" id="voucherStartDate" />
+          </div>
+
+          <div class="input">
+            <label for="voucherEndDate">End Date</label>
+            <input type="date" id="voucherEndDate" />
+          </div>
+        </header>
+
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>Bill No.</th>
+                <th>Cus ID.</th>
+                <th>Cus Name</th>
+                <th>Date</th>
+                <th>Total Bill</th>
+                <th>Dis</th>
+                <th>Dis %</th>
+                <th>Payable</th>
+                <th>Paid</th>
+                <th>Due</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </main>
+      </div>
+      <div id="customerReturn">
+        <header>
+          <div class="input">
+            <label for="customerReturnVoucherId">Vou. No.</label>
+            <input
+              type="text"
+              id="customerReturnVoucherId"
+              placeholder="Voucher No." />
+          </div>
+
+          <div class="input">
+            <label for="customerReturnCustomerId">Cus. ID</label>
+            <input
+              type="text"
+              id="customerReturnCustomerId"
+              placeholder="Customer ID" />
+          </div>
+
+          <div class="input">
+            <label for="customerReturnVoucherDate">Bill Date</label>
+            <input type="date" id="customerReturnVoucherDate" />
+          </div>
+
+          <div class="input">
+            <label for="customerReturnCustomerName">Customer Name</label>
+            <input
+              type="text"
+              id="customerReturnCustomerName"
+              placeholder="Customer Name" />
+          </div>
+
+          <div class="input">
+            <label for="customerReturnCustomerAddress">Address</label>
+            <input
+              type="text"
+              id="customerReturnCustomerAddress"
+              placeholder="Customer Address" />
+          </div>
+
+          <div class="input">
+            <label for="customerReturnMobileNo">Mobile No.</label>
+            <input
+              type="text"
+              id="customerReturnMobileNo"
+              placeholder="Mobile No." />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Sell Qnt</th>
+                <th>Avail Qnt</th>
+                <th>Sell Price</th>
+                <th>Return Qnt</th>
+                <th>Total Price</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </main>
+        <footer>
+          <div class="input">
+            <label for="customerReturnTotalAmount">Total Amount</label>
+            <input
+              type="text"
+              id="customerReturnTotalAmount"
+              placeholder="Total Amount" />
+          </div>
+          <div class="input">
+            <button id="customerReturnSave">Save</button>
+          </div>
+        </footer>
+      </div>
+      <div id="companyReturn">
+        <header>sdffasd</header>
+      </div>
+      <div id="purchase">
+        <header>
+          <div class="input">
+            <label for="purchaseID">ID</label>
+            <input type="text" id="purchaseID" placeholder="ID" disabled />
+          </div>
+
+          <div class="input">
+            <div class="wrapper relative">
+              <label for="purchaseCompanyName">Company Name</label>
+              <input
+                type="text"
+                id="purchaseCompanyName"
+                placeholder="Company Name" />
+              <div
+                class="suggetion hidden"
+                id="purchaseCompanyNameSuggetions"
+                data-id="0"></div>
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="purchaseInvoiceNo">Inv No</label>
+            <input
+              type="text"
+              id="purchaseInvoiceNo"
+              placeholder="Invoice No." />
+          </div>
+
+          <div class="input">
+            <div class="wrapper relative">
+              <label for="purchaseProductName">Product Name</label>
+              <input
+                type="text"
+                id="purchaseProductName"
+                placeholder="Product Name" />
+              <div
+                class="suggetion hidden"
+                id="purchaseProductNameSuggetions"
+                data-id="0"></div>
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="purchaseProductQnt">Qnt</label>
+            <input type="text" id="purchaseProductQnt" placeholder="Quantity" />
+          </div>
+
+          <div class="input">
+            <label for="purchasePurchasePrice">P/P</label>
+            <input
+              type="text"
+              id="purchasePurchasePrice"
+              placeholder="Price Per Piece" />
+          </div>
+
+          <div class="input">
+            <label for="purchaseVat">VAT</label>
+            <input type="text" id="purchaseVat" placeholder="VAT Per Piece" />
+          </div>
+
+          <div class="input">
+            <label for="purchasePurchasePriceAll">P/P (all)</label>
+            <input
+              type="text"
+              id="purchasePurchasePriceAll"
+              placeholder="Total price" />
+          </div>
+
+          <div class="input">
+            <label for="purchaseVatAll">VAT (all)</label>
+            <input type="text" id="purchaseVatAll" placeholder="Total VAT" />
+          </div>
+
+          <div class="input">
+            <label for="purchaseSellPrice">S/P</label>
+            <input
+              type="text"
+              id="purchaseSellPrice"
+              placeholder="Sell Price" />
+          </div>
+
+          <div class="input">
+            <label for="purchaseRackNo">Rack</label>
+            <input type="text" id="purchaseRackNo" placeholder="Rack No." />
+          </div>
+
+          <div class="input">
+            <label for="purchaseExpireDate">Expire Date</label>
+            <input type="date" id="purchaseExpireDate" />
+          </div>
+
+          <div class="input">
+            <button id="purchaseAddProduct">Add</button>
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Product Name</th>
+                <th>Qnt</th>
+                <th>P/P</th>
+                <th>S/P</th>
+                <th>Total Cost</th>
+                <th>Expire</th>
+                <th>X</th>
+              </tr>
+            </thead>
+            <tbody id="purchaseTbody"></tbody>
+          </table>
+        </main>
+        <footer>
+          <div class="wrapper">
+            <div class="input">
+              <label for="purchaseTotalBill">Total Bill</label>
+              <input
+                type="text"
+                id="purchaseTotalBill"
+                placeholder="Total Bill"
+                value="0"
+                disabled />
+            </div>
+
+            <div class="input">
+              <label for="purchaseDiscount">Discount</label>
+              <input
+                type="text"
+                id="purchaseDiscount"
+                placeholder="Discount"
+                value="0" />
+            </div>
+
+            <div class="input">
+              <label for="purchasePayable">Payable</label>
+              <input
+                type="text"
+                id="purchasePayable"
+                placeholder="Payable"
+                value="0"
+                disabled />
+            </div>
+
+            <div class="input">
+              <label for="purchasePaid">Paid</label>
+              <input
+                type="text"
+                id="purchasePaid"
+                placeholder="Paid"
+                value="0" />
+            </div>
+
+            <div class="input">
+              <label for="purchaseDue">Due</label>
+              <input type="text" id="purchaseDue" placeholder="Due" value="0" />
+            </div>
+
+            <div class="input">
+              <button id="purchaseSave">Save</button>
+            </div>
+          </div>
+        </footer>
+      </div>
       <!--List-->
-      <div id="customerReturnList">cus retrun</div>
-      <div id="companyReturnList">com retrun</div>
-      <div id="expenseList">expense listy</div>
-      <div id="productList">prodtlis</div>
-      <div id="typeList">type list</div>
-      <div id="genericsList">genericsList</div>
-      <div id="stockList">stick list</div>
+      <div id="customerList">
+        <header>
+          <div class="input">
+            <label for="customerListSearch">Search</label>
+            <input type="text" id="customerListSearch" />
+          </div>
+          <div class="input">
+            <label for="customerListSortBy">Sort By</label>
+            <select id="customerListSortBy">
+              <option value="name_asc">1 - Name</option>
+              <option value="name_des">2 - Name (Rev)</option>
+              <option value="id_asc">3 - Id</option>
+              <option value="id_des" selected>4 - Id (Rev)</option>
+              <option value="mobile_asc">5 - Mobile</option>
+              <option value="mobile_des">6 - Mobile (Rev)</option>
+              <option value="address_asc">7 - Address</option>
+              <option value="address_des">8 - Address (Rev)</option>
+              <option value="remark_asc">9 - Remark</option>
+              <option value="remark_des">10 - Remark (Rev)</option>
+              <option value="due_des">11 - Due (Des)</option>
+              <option value="due_asc">12 - Due (Asc)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="customerListDisplayPerPage">Display</label>
+            <input type="text" id="customerListDisplayPerPage" value="100" />
+          </div>
+
+          <div class="input">
+            <label for="customerListGotoPage"
+              >Goto Page (Total
+              <span id="customerListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="customerListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Mobile</th>
+                <th>Remark</th>
+                <th>Due</th>
+              </tr>
+            </thead>
+
+            <tbody id="customerListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="productList">
+        <header>
+          <div class="input">
+            <label for="productListSearch">Search</label>
+            <input type="text" id="productListSearch" />
+            <div
+              class="suggetion hidden"
+              id="productListSuggetions"
+              data-id="0"></div>
+          </div>
+
+          <div class="input">
+            <label for="productListSortBy">Sort By</label>
+            <select id="productListSortBy">
+              <option value="id_asc">Id</option>
+              <option value="id_des">Id (Reverse)</option>
+              <option value="name_asc" selected>Name</option>
+              <option value="name_des">Name (Reverse)</option>
+              <option value="generic_asc">Generic</option>
+              <option value="generic_des">Generic (Reverse)</option>
+              <option value="type_asc">Type</option>
+              <option value="type_des">Type (Reverse)</option>
+              <option value="company_asc">Company</option>
+              <option value="company_des">Company (Reverse)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="productListDisplayPerPage">Display</label>
+            <input type="text" id="productListDisplayPerPage" value="100" />
+          </div>
+
+          <div class="input">
+            <label for="productListGotoPage"
+              >Goto Page (Total
+              <span id="productListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="productListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Generic</th>
+                <th>Company</th>
+              </tr>
+            </thead>
+
+            <tbody id="productListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="companyList">
+        <header>
+          <div class="input">
+            <label for="companyListSearch">Search</label>
+            <input type="text" id="companyListSearch" />
+          </div>
+
+          <div class="input">
+            <label for="companyListSortBy">Sort By</label>
+            <select id="companyListSortBy">
+              <option value="name_asc" selected>1 - Name</option>
+              <option value="name_des">2 - Name (Rev)</option>
+              <option value="id_asc">3 - Id</option>
+              <option value="id_des">4 - Id (Rev)</option>
+              <option value="mobile_asc">5 - Mobile</option>
+              <option value="mobile_des">6 - Mobile (Rev)</option>
+              <option value="order_day_asc">7 - Order Day</option>
+              <option value="order_day_des">8 - Order Day (Rev)</option>
+              <option value="delivery_day_asc">9 - Delivery Day</option>
+              <option value="delivery_day_des">10 - Delivery (Rev)</option>
+              <option value="remark_asc">11 - Remark</option>
+              <option value="remark_des">12 - Remark (Rev)</option>
+              <option value="due_des">13 - Due (Des)</option>
+              <option value="due_asc">14 - Due (Asc)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="companyListDisplayPerPage">Display</label>
+            <input type="text" id="companyListDisplayPerPage" value="100" />
+          </div>
+
+          <div class="input">
+            <label for="companyListGotoPage"
+              >Goto Page (<span id="companyListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="companyListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Order Day</th>
+                <th>Delivery Day</th>
+                <th>Remark</th>
+                <th>Due</th>
+              </tr>
+            </thead>
+
+            <tbody id="companyListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="genericList">
+        <header>
+          <div class="input">
+            <label for="genericListSearch">Search</label>
+            <input type="text" id="genericListSearch" />
+          </div>
+          <div class="input">
+            <label for="genericListSortBy">Sort By</label>
+            <select id="genericListSortBy">
+              <option value="name_asc" selected>Name</option>
+              <option value="name_des">Name (Reverse)</option>
+              <option value="id_asc">Id</option>
+              <option value="id_des">Id (Reverse)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="genericListDisplayPerPage">Display</label>
+            <input type="text" id="genericListDisplayPerPage" value="100" />
+          </div>
+
+          <div class="input">
+            <label for="genericListGotoPage"
+              >Goto Page (Total
+              <span id="genericListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="genericListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+
+            <tbody id="genericListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="typeList">
+        <header>
+          <div class="input">
+            <label for="typeListSearch">Search</label>
+            <input type="text" id="typeListSearch" />
+          </div>
+          <div class="input">
+            <label for="typeListSortBy">Sort By</label>
+            <select id="typeListSortBy">
+              <option value="name_asc" selected>Name</option>
+              <option value="name_des">Name (Reverse)</option>
+              <option value="id_asc">Id</option>
+              <option value="id_des">Id (Reverse)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="typeListDisplayPerPage">Display</label>
+            <input type="text" id="typeListDisplayPerPage" value="100" />
+          </div>
+
+          <div class="input">
+            <label for="typeListGotoPage"
+              >Goto Page (Total <span id="typeListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="typeListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+
+            <tbody id="typeListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="customerReturnList">
+        <header>
+          <div class="input">
+            <label for="customerReturnListSearch">Search</label>
+            <input type="text" id="customerReturnListSearch" />
+          </div>
+          <div class="input">
+            <label for="customerReturnListSortBy">Sort By</label>
+            <select id="customerReturnListSortBy">
+              <option value="customer_name_asc" selected>Customer Name</option>
+              <option value="customer_name_des">Customer Name (Rev).</option>
+              <option value="customer_id_asc" selected>Customer ID</option>
+              <option value="customer_name_des">Customer ID (Rev).</option>
+              <option value="return_id_asc">Return ID</option>
+              <option value="return_id_des">Return ID (Reverse)</option>
+              <option value="date_asc">Address</option>
+              <option value="date_des">Address (Reverse)</option>
+              <option value="return_amt_asc">Return Amount</option>
+              <option value="return_amt_des">Return Amount (Rev)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="customerReturnListDisplayPerPage">Display</label>
+            <input
+              type="text"
+              id="customerReturnListDisplayPerPage"
+              value="100" />
+          </div>
+
+          <div class="input">
+            <label for="customerReturnListGotoPage"
+              >Goto Page (Total
+              <span id="customerReturnListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="customerReturnListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Return Amount</th>
+                <th>Date-Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="customerReturnListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="companyReturnList">
+        <header>
+          <div class="input">
+            <label for="companyReturnListSearch">Search</label>
+            <input type="text" id="companyReturnListSearch" />
+          </div>
+          <div class="input">
+            <label for="companyReturnListSortBy">Sort By</label>
+            <select id="companyReturnListSortBy">
+              <option value="company_name_asc" selected>Company Name</option>
+              <option value="company_name_des">Company Name(Rev)</option>
+              <option value="return_id_asc">Return ID</option>
+              <option value="return_id_des">Return ID (Rev)</option>
+              <option value="date_asc">Date</option>
+              <option value="date_des">Date (Rev)</option>
+              <option value="amount_asc">Amount</option>
+              <option value="amount_des">Amount (Rev)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="companyReturnListDisplayPerPage">Display</label>
+            <input
+              type="text"
+              id="companyReturnListDisplayPerPage"
+              value="100" />
+          </div>
+
+          <div class="input">
+            <label for="companyReturnListGotoPage"
+              >Goto Page (Total
+              <span id="companyReturnListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="companyReturnListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Company Name</th>
+                <th>Amount</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody id="companyReturnListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="stockList">
+        <header>
+          <div class="input">
+            <label for="stockListSearch">Search</label>
+            <input type="text" id="stockListSearch" />
+          </div>
+          <div class="input">
+            <label for="stockListSortBy">Sort By</label>
+            <select id="stockListSortBy">
+              <option value="product_name_asc" selected>Product Name</option>
+              <option value="product_name_des">Product Name (Rev)</option>
+              <option value="company_name_asc">Company Name</option>
+              <option value="company_name_des">Company Name (Rev)</option>
+              <option value="generic_asc">Generic Name</option>
+              <option value="generic_des">Generic Name (Rev)</option>
+              <option value="qunatity_asc">Quantity</option>
+              <option value="quantity_des">Quantity (Rev)</option>
+              <option value="price_asc">Price</option>
+              <option value="price_des">Price (Des)</option>
+              <option value="expire_date">Expire Date</option>
+              <option value="expire_date_des">Expire Date (Des)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="stockListDisplayPerPage">Display</label>
+            <input type="text" id="stockListDisplayPerPage" value="100" />
+          </div>
+
+          <div class="input">
+            <label for="stockListGotoPage"
+              >Goto Page (Total
+              <span id="stockListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="stockListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Mobile</th>
+                <th>Remark</th>
+                <th>Due</th>
+              </tr>
+            </thead>
+
+            <tbody id="stockListTbody"></tbody>
+          </table>
+        </main>
+      </div>
+
+      <div id="expenseList">
+        <header>
+          <div class="input">
+            <label for="expenseListSearch">Search</label>
+            <input type="text" id="expenseListSearch" />
+          </div>
+          <div class="input">
+            <label for="expenseListSortBy">Sort By</label>
+            <select id="expenseListSortBy">
+              <option value="name_asc" selected>Cause</option>
+              <option value="name_des">Cause (Rev)</option>
+              <option value="id_asc">ID</option>
+              <option value="id_des">ID (Rev)</option>
+              <option value="date_asc">Date</option>
+              <option value="date_des">Date (Rev)</option>
+              <option value="amount_asc">Amount</option>
+              <option value="amount_des">Amount (Rev)</option>
+            </select>
+          </div>
+
+          <div class="input">
+            <label for="expenseListDisplayPerPage">Display</label>
+            <input type="text" id="expenseListDisplayPerPage" value="100" />
+          </div>
+
+          <div class="input">
+            <label for="expenseListGotoPage"
+              >Goto Page (Total
+              <span id="expenseListPossiblePage">1</span>)</label
+            >
+            <input type="text" id="expenseListGotoPage" value="1" />
+          </div>
+        </header>
+        <main>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cause</th>
+                <th>Amount</th>
+                <th>Date-Time</th>
+              </tr>
+            </thead>
+
+            <tbody id="expenseListTbody"></tbody>
+          </table>
+        </main>
+      </div>
       <!--Create-->
       <div id="createCustomer">
         <div>
@@ -408,8 +1273,225 @@
       </div>
       <div id="expense">expense</div>
       <div id="telemetry">telemetry</div>
+      <div id="halt">halt</div>
       <div id="settings">setting</div>
     </main>
+
+    <dialog id="editCustomerList">
+      <div>
+        <div class="input input_id">
+          <label for="editCustomerListId">Customer Id</label>
+          <input type="text" id="editCustomerListId" disabled />
+        </div>
+
+        <div class="input">
+          <label for="editCustomerListName">Customer Name</label>
+          <input type="text" id="editCustomerListName" />
+        </div>
+
+        <div class="input">
+          <label for="editCustomerListAddress">Customer Address</label>
+          <input type="text" id="editCustomerListAddress" />
+        </div>
+
+        <div class="input">
+          <label for="editCustomerListMobile">Customer Mobile</label>
+          <input type="text" id="editCustomerListMobile" />
+        </div>
+
+        <div class="input">
+          <label for="editCustomerListRemark">Customer Remark</label>
+          <input type="text" id="editCustomerListRemark" />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editCustomerListCancel" class="outline-btn">
+            Cancel
+          </button>
+          <button id="editCustomerListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editProductList">
+      <div>
+        <div class="input input_id">
+          <label for="editProductListId">Product Id</label>
+          <input type="text" id="editProductListId" disabled />
+        </div>
+
+        <div class="input">
+          <label for="editProductListName">Product Name</label>
+          <input type="text" id="editProductListName" />
+        </div>
+
+        <div class="input">
+          <label for="editProductListGenericId">Generic Id</label>
+          <input type="text" id="editProductListGenericId" />
+        </div>
+
+        <div class="input">
+          <label for="editProductListTypeId">Type Id</label>
+          <input type="text" id="editProductListTypeId" />
+        </div>
+
+        <div class="input">
+          <label for="editProductListCompanyId">Company Id</label>
+          <input type="text" id="editProductListCompanyId" />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editProductListCancel" class="outline-btn">Cancel</button>
+          <button id="editProductListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editCompanyList">
+      <div>
+        <div class="input input_id">
+          <label for="editCompanyListId">Company Id</label>
+          <input type="text" id="editCompanyListId" disabled />
+        </div>
+
+        <div class="input">
+          <label for="editCompanyListName">Company Name</label>
+          <input type="text" id="editCompanyListName" />
+        </div>
+
+        <div class="input">
+          <label for="editCompanyListMobile">Mobile No.</label>
+          <input
+            type="text"
+            id="editCompanyListMobile"
+            placeholder="01xxx-xxxxxx" />
+        </div>
+
+        <div class="input">
+          <label for="editCompanyListOrderDay">Order Day</label>
+          <input
+            type="text"
+            id="editCompanyListOrderDay"
+            placeholder="Sat, Sun,...." />
+        </div>
+
+        <div class="input">
+          <label for="editCompanyListDeliveryDay">Delivery Day</label>
+          <input
+            type="text"
+            id="editCompanyListDeliveryDay"
+            placeholder="Sat, Sun,...." />
+        </div>
+
+        <div class="input">
+          <label for="editCompanyListRemark">Remark</label>
+          <input type="text" id="editCompanyListRemark" placeholder="Remark" />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editCompanyListCancel" class="outline-btn">Cancel</button>
+          <button id="editCompanyListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editGenericList">
+      <div>
+        <div class="input input_id">
+          <label for="editGenericListId">Id</label>
+          <input type="text" id="editGenericListId" disabled />
+        </div>
+
+        <div class="input">
+          <label for="editGenericListName">Customer Id</label>
+          <input type="text" id="editGenericListName" />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editGenericListCancel" class="outline-btn">Cancel</button>
+          <button id="editGenericListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editTypeList">
+      <div>
+        <div class="input input_id">
+          <label for="editTypeListId">Customer Id</label>
+          <input type="text" id="editTypeListId" disabled />
+        </div>
+
+        <div class="input">
+          <label for="editTypeListName">Customer Id</label>
+          <input type="text" id="editTypeListName" />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editTypeListCancel" class="outline-btn">Cancel</button>
+          <button id="editTypeListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editCustomerReturnList">
+      <div>
+        <div class="input input_id">
+          <label for="editCustomerReturnListId">Customer Id</label>
+          <input type="text" id="editCustomerReturnListId" disabled />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editCustomerReturnListCancel" class="outline-btn">
+            Cancel
+          </button>
+          <button id="editCustomerReturnListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editCompanyReturnList">
+      <div>
+        <div class="input input_id">
+          <label for="editCompanyReturnListId">Customer Id</label>
+          <input type="text" id="editCompanyReturnListId" disabled />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editCompanyReturnListCancel" class="outline-btn">
+            Cancel
+          </button>
+          <button id="editCompanyReturnListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editStockList">
+      <div>
+        <div class="input input_id">
+          <label for="editStockListId">Customer Id</label>
+          <input type="text" id="editStockListId" disabled />
+        </div>
+
+        <div class="input input_action_btns">
+          <button id="editStockListCancel" class="outline-btn">Cancel</button>
+          <button id="editStockListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="editExpenseList">
+      <div>
+        <div class="input input">
+          <label for="editExpenseListId">Customer Id</label>
+          <input type="text" id="editExpenseListId" disabled />
+        </div>
+
+        <div class="input input_action_btn">
+          <button id="editExpenseListCancel" class="outline-btn">Cancel</button>
+          <button id="editExpenseListOk">Ok</button>
+        </div>
+      </div>
+    </dialog>
 
     <!--messeging-->
     <dialog id="confirmation">
@@ -419,6 +1501,7 @@
         <button>Cancel</button>
       </div>
     </dialog>
+
     <div id="messege">
       <div>
         <h1 id="messegeHeader"></h1>
@@ -426,9 +1509,9 @@
           <svg
             id="messegeClose"
             xmlns="http://www.w3.org/2000/svg"
-            height="18px"
+            height="15px"
             viewBox="0 -960 960 960"
-            width="18px">
+            width="15px">
             <path
               d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
           </svg>
