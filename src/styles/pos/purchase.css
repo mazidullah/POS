@@ -110,16 +110,29 @@
   }
 
   footer {
-    background-color: #ffc078;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px #1b1b1b;
-
     display: flex;
     justify-content: flex-end;
+
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffc078;
+    box-shadow: 0 0 5px #1b1b1b;
+
+    position: relative;
   }
 
-  footer > .wrapper {
+  footer > .wrapper:first-of-type {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+
+    button {
+      color: #fff;
+      background-color: #a52a2a;
+    }
+  }
+
+  footer > .wrapper:last-of-type {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 4px;
@@ -152,6 +165,7 @@
     .input:nth-child(6) {
       grid-area: 2 / 3 / 2 / 4;
       align-self: self-end;
+      margin-bottom: 3px;
     }
   }
 }

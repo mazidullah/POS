@@ -1,7 +1,4 @@
-export function padZero(number) {
-  if (number < 10) return `0${number}`
-  else return `${number}`
-}
+import { padZero } from './utils.js'
 
 export function getDateTime(dateObj) {
   let date = padZero(dateObj.getDate())

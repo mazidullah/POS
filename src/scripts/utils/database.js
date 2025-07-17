@@ -1,7 +1,9 @@
-const { DatabaseSync } = require("node:sqlite")
+import { showMessege } from './messege.js'
+
+const { DatabaseSync } = require('node:sqlite')
 
 export function nextRowId(tableName) {
-  const db = new DatabaseSync("database.db")
+  const db = new DatabaseSync('database.db')
   const sql = `SELECT * FROM ${tableName}`
 
   const result = db.prepare(sql).all().length
@@ -11,7 +13,7 @@ export function nextRowId(tableName) {
 }
 
 export function currentRowId(tableName) {
-  const db = new DatabaseSync("database.db")
+  const db = new DatabaseSync('database.db')
   const sql = `SELECT * FROM ${tableName}`
 
   const result = db.prepare(sql).all().length
@@ -35,7 +37,7 @@ export function hasData(tableName, columnName, data) {
 }
 
 export function getData(tableName, conditions) {
-  const db = new DatabaseSync("database.db")
+  const db = new DatabaseSync('database.db')
   const sql = `SELECT * FROM ${tableName} ${conditions}`
 
   const result = db.prepare(sql).get()
@@ -45,7 +47,7 @@ export function getData(tableName, conditions) {
 }
 
 export function getAllData(tableName) {
-  const db = new DatabaseSync("database.db")
+  const db = new DatabaseSync('database.db')
   const sql = `SELECT * FROM ${tableName}`
 
   const result = db.prepare(sql).all()
@@ -55,9 +57,9 @@ export function getAllData(tableName) {
 }
 
 export function insertInto(tableName, columns, values) {
-  const db = new DatabaseSync("database.db")
-  const qusmrk = new Array(columns.length).fill("?").join()
-  const sql = `INSERT INTO ${tableName}(${columns.join(",")}) VALUES(${qusmrk})`
+  const db = new DatabaseSync('database.db')
+  const qusmrk = new Array(columns.length).fill('?').join()
+  const sql = `INSERT INTO ${tableName}(${columns.join(',')}) VALUES(${qusmrk})`
 
   const result = db.prepare(sql).run(...values)
 
@@ -66,7 +68,7 @@ export function insertInto(tableName, columns, values) {
 }
 
 export function updateInto(tableName, columns, values, conditions) {
-  const db = new DatabaseSync("database.db")
+  const db = new DatabaseSync('database.db')
   const clmQusPair = columns.map(c => ` ${c} = ?`).join()
   const sql = `UPDATE ${tableName} SET ${clmQusPair} ${conditions}`
   const result = db.prepare(sql).run(...values)
@@ -76,8 +78,8 @@ export function updateInto(tableName, columns, values, conditions) {
 }
 
 export function deleteFrom(tableName, conditions) {
-  const db = new DatabaseSync("database.db")
-  const sql = `DELETE FROM ${tableName}${conditions ? " " + conditions : ""}`
+  const db = new DatabaseSync('database.db')
+  const sql = `DELETE FROM ${tableName}${conditions ? ' ' + conditions : ''}`
 
   const result = db.prepare(sql).run()
 
@@ -85,10 +87,28 @@ export function deleteFrom(tableName, conditions) {
   return result
 }
 
+export function updateCash(toAdd) {
+  let storeInfo = getData('StoreInfo', 'Where id = 1')
+  let cash = Number(storeInfo.cash)
+
+  if (cash + toAdd < 0) {
+    showMessege('Invalid Operation', 'Have not sufficient cash')
+    return new Error('Not Sufficient cash')
+  } else {
+    updateInto('StoreInfo', ['cash'], [String(cash + toAdd)], 'where id = 1')
+  }
+}
+
+export function updateCompanyDue(id, toAdd) {
+  let company = getData('companies', `where id = ${id}`)
+  let dues = company.dues
+  updateInto('companies', ['dues'], [String(dues + toAdd)], `where id = ${id}`)
+}
+
 export function fillDatabase() {
-  const fs = require("node:fs")
-  const { DatabaseSync } = require("node:sqlite")
-  const db = new DatabaseSync("database.db")
+  const fs = require('node:fs')
+  const { DatabaseSync } = require('node:sqlite')
+  const db = new DatabaseSync('database.db')
 
   const compFunc = (a, b) => {
     if (a.toUpperCase() < b.toUpperCase()) return -1
@@ -96,14 +116,14 @@ export function fillDatabase() {
     else return 0
   }
 
-  const datas = fs.readFileSync("data.csv", "utf-8").split("\n")
+  const datas = fs.readFileSync('data.csv', 'utf-8').split('\n')
 
   let generics = new Set()
   let companies = new Set()
   let types = new Set()
 
   datas.forEach(d => {
-    let data = d.split(",")
+    let data = d.split(',')
 
     generics.add(data[2])
     companies.add(data[3])
@@ -118,37 +138,37 @@ export function fillDatabase() {
   companies.sort(compFunc)
   types.sort(compFunc)
 
-  db.prepare("BEGIN TRANSACTION").run()
+  db.prepare('BEGIN TRANSACTION').run()
   generics.forEach(g => {
-    db.prepare("INSERT INTO Generics(name) Values(?)").run(g)
+    db.prepare('INSERT INTO Generics(name) Values(?)').run(g)
   })
-  db.prepare("COMMIT").run()
+  db.prepare('COMMIT').run()
 
-  db.prepare("BEGIN TRANSACTION").run()
+  db.prepare('BEGIN TRANSACTION').run()
   companies.forEach(c => {
-    db.prepare("INSERT INTO Companies(name) Values(?)").run(c)
+    db.prepare('INSERT INTO Companies(name) Values(?)').run(c)
   })
-  db.prepare("COMMIT").run()
+  db.prepare('COMMIT').run()
 
-  db.prepare("BEGIN TRANSACTION").run()
+  db.prepare('BEGIN TRANSACTION').run()
   types.forEach(t => {
-    db.prepare("INSERT INTO Types(name) Values(?)").run(t)
+    db.prepare('INSERT INTO Types(name) Values(?)').run(t)
   })
-  db.prepare("COMMIT").run()
+  db.prepare('COMMIT').run()
 
-  db.prepare("BEGIN TRANSACTION").run()
+  db.prepare('BEGIN TRANSACTION').run()
   datas.forEach(data => {
-    let d = data.split(",")
+    let d = data.split(',')
 
-    let g_id = db.prepare("Select id from Generics where name = ?").get(d[2]).id
+    let g_id = db.prepare('Select id from Generics where name = ?').get(d[2]).id
     let c_id = db
-      .prepare("Select id from Companies where name = ?")
+      .prepare('Select id from Companies where name = ?')
       .get(d[3]).id
-    let t_id = db.prepare("Select id from Types where name = ?").get(d[4]).id
+    let t_id = db.prepare('Select id from Types where name = ?').get(d[4]).id
 
     db.prepare(
-      "insert into Products(name, generic_id, company_id, type_id) values(?, ?, ?, ?)"
+      'insert into Products(name, generic_id, company_id, type_id) values(?, ?, ?, ?)'
     ).run(`${d[0]} ${d[1]}`, g_id, c_id, t_id)
   })
-  db.prepare("COMMIT").run()
+  db.prepare('COMMIT').run()
 }
