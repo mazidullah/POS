@@ -4,7 +4,7 @@ import { updateCash } from "../utils/database.js"
 import { updateCompanyDue } from "../utils/database.js"
 import { showMessege } from "../utils/messege.js"
 import { getDate } from "../utils/dateTime.js"
-import { padZero } from "../utils/utils.js"
+import { floatInput, padZero } from "../utils/utils.js"
 import { intInput } from "../utils/utils.js"
 import { delayFocus } from "../utils/utils.js"
 import { enterToNextInput } from "../utils/utils.js"
@@ -281,6 +281,10 @@ delayFocus(purchaseCompanyName, 1000)
 purchaseID.value = padZero(nextRowId("purchases"))
 purchaseExpireDate.value = plusOneYear()
 intInput(purchaseProductQnt, 1)
+floatInput(purchasePurchasePrice, 0)
+floatInput(purchasePurchasePriceAll, 0)
+floatInput(purchaseVat, 0)
+floatInput(purchaseVatAll, 0)
 intInput(purchaseRackNo, 1)
 intInput(purchaseDiscount)
 intInput(purchasePaid)
