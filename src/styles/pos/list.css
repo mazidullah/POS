@@ -6,42 +6,23 @@
 #typeList.active,
 #customerReturnList.active,
 #companyReturnList.active,
+#purchaseList.active,
 #stockList.active,
 #expenseList.active {
-  grid-template-rows: 65px 1fr;
+  grid-template-rows: auto 1fr;
+  background-color: #dadada;
+
   header,
   main {
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #ffc078;
-    box-shadow: 0 0 5px #000000;
+    border-radius: 6px;
+    box-shadow: 0 0 5px #020202af;
   }
 
   header {
     display: flex;
-    align-items: center;
-    gap: 10px;
-
-    .input {
-      display: flex;
-      flex-direction: column;
-
-      input,
-      select {
-        width: 200px;
-      }
-
-      input[type="date"] {
-        width: auto;
-      }
-    }
-
-    .input:nth-child(3),
-    .input:nth-child(4) {
-      input {
-        width: 130px;
-      }
-    }
+    gap: 4px;
+    padding: 6px;
+    background-color: #ffc078;
   }
 
   main {
@@ -51,7 +32,32 @@
     background-color: #ececec;
 
     thead {
-      top: -2px;
+      top: -1px;
     }
+  }
+}
+
+#editCustomerList {
+  main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 1rem;
+  }
+
+  .short {
+    width: 10ch;
   }
 }

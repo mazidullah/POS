@@ -1,61 +1,78 @@
-import {
-  delayFocus,
-  intInput,
-  enterToNextInput,
-  mobileInput
-} from '../../utils/utils.js'
-import { updateInto } from '../../utils/database.js'
-import { showMessege } from '../../utils/messege.js'
+import { delayFocus } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
+import { mobileInput } from "../../utils/utils.js"
+import { updateInto } from "../../utils/database.js"
+import { showMessege } from "../../utils/messege.js"
 
 function getCustomers(sortBy) {
-  const { DatabaseSync } = require('node:sqlite')
-  let db = new DatabaseSync('database.db')
+  const { DatabaseSync } = require("node:sqlite")
+  let db = new DatabaseSync("database.db")
   let stmt
 
-  if (sortBy === 'name_asc')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(name) ASC`)
-  else if (sortBy === 'name_des')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(name) DESC`)
-  else if (sortBy === 'id_asc')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY id`)
-  else if (sortBy === 'id_des')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY id DESC`)
-  else if (sortBy === 'mobile_asc')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY mobile`)
-  else if (sortBy === 'mobile_des')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY mobile DESC`)
-  else if (sortBy === 'address_asc')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(address)`)
-  else if (sortBy === 'address_des')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(address) DESC`)
-  else if (sortBy === 'remark_asc')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(remark)`)
-  else if (sortBy === 'remark_des')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(remark) DESC`)
-  else if (sortBy === 'due_asc')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY dues`)
-  else if (sortBy === 'due_des')
-    stmt = db.prepare(`SELECT * from Customers ORDER BY dues DESC`)
+  switch (sortBy) {
+    case "name":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(name) ASC`)
+      break
+    case "name_des":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(name) DESC`)
+      break
+    case "id":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY id`)
+      break
+    case "id_des":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY id DESC`)
+      break
+    case "mobile":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY mobile`)
+      break
+    case "mobile_des":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY mobile DESC`)
+      break
+    case "address":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(address)`)
+      break
+    case "address_des":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(address) DESC`)
+      break
+    case "remark":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(remark)`)
+      break
+    case "remark_des":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(remark) DESC`)
+      break
+    case "due":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY dues`)
+      break
+    case "due_des":
+      stmt = db.prepare(`SELECT * from Customers ORDER BY dues DESC`)
+      break
+
+    default:
+      stmt = db.prepare(`SELECT * from Customers ORDER BY id`)
+  }
 
   const customers = stmt.all()
   db.close()
+
   return customers
 }
 
 function sanitize(searchTerm, customers) {
   let niddle
+  const exactMatch = new Set()
   const startsWith = new Set()
-  const possibleNameMatch = new Set()
+  const possibleMatch = new Set()
 
   try {
-    niddle = new RegExp(searchTerm, 'i')
+    niddle = new RegExp(searchTerm, "i")
   } catch (err) {
-    niddle = new RegExp('')
+    niddle = new RegExp("")
   }
 
   customers.forEach(customer => {
-    if (customer.id == searchTerm) {
-      startsWith.add(customer)
+    if (customer.id === Number(searchTerm)) {
+      exactMatch.add(customer)
       return
     }
 
@@ -79,45 +96,28 @@ function sanitize(searchTerm, customers) {
       return
     }
 
-    if (customer.dues.toUpperCase().startsWith(searchTerm.toUpperCase())) {
-      startsWith.add(customer)
-      return
-    }
-
     if (niddle.test(customer.name)) {
-      possibleNameMatch.add(customer)
-      return
-    }
-
-    if (niddle.test(customer.mobile)) {
-      possibleNameMatch.add(customer)
+      possibleMatch.add(customer)
       return
     }
 
     if (niddle.test(customer.address)) {
-      possibleNameMatch.add(customer)
+      possibleMatch.add(customer)
       return
     }
 
     if (niddle.test(customer.remark)) {
-      possibleNameMatch.add(customer)
-      return
-    }
-
-    if (niddle.test(customer.dues)) {
-      possibleNameMatch.add(customer)
+      possibleMatch.add(customer)
       return
     }
   })
 
-  const sanitized = [...startsWith, ...possibleNameMatch]
-
-  return sanitized
+  return [...exactMatch, ...startsWith, ...possibleMatch]
 }
 
 function render() {
   let searchTerm = customerListSearch.value.trim()
-  let display_per_page = Number(customerListDisplayPerPage.value) || 100
+  let display_per_page = Number(customerListDisplayPerPage.value)
   let goto_page = Number(customerListGotoPage.value) || 1
   let sortBy = customerListSortBy.value
 
@@ -132,25 +132,25 @@ function render() {
       : goto_page * display_per_page
   )
 
-  let htmlString = ''
+  let htmlString = ""
   toRenderData.forEach(list => {
     let hasDue = Number(list.dues) > 0
     htmlString += `
         <tr>
-          <td>${list.id < 10 ? '0' + list.id : list.id}</td>
+          <td>${list.id < 10 ? "0" + list.id : list.id}</td>
           <td>${list.name}</td>
-          <td>${list.address || ''}</td>
-          <td>${list.mobile || ''}</td>
-          <td>${list.remark || ''}</td>
-          <td ${hasDue ? "style='background-color: #ff000050'" : ''}>${
+          <td>${list.address || ""}</td>
+          <td>${list.mobile || ""}</td>
+          <td>${list.remark || ""}</td>
+          <td ${hasDue ? "style='background-color: #ff000050'" : ""}>${
       list.dues
     }</td>
         </tr>
       `
   })
 
-  customerList.querySelector('tbody').innerHTML = ''
-  customerList.querySelector('tbody').innerHTML = htmlString
+  customerList.querySelector("tbody").innerHTML = ""
+  customerList.querySelector("tbody").innerHTML = htmlString
 }
 
 enterToNextInput([customerListSearch, customerListGotoPage, customerListSearch])
@@ -159,36 +159,35 @@ enterToNextInput([
   editCustomerListAddress,
   editCustomerListMobile,
   editCustomerListRemark,
-  editCustomerListOk
+  editCustomerListOk,
 ])
 
-intInput(customerListDisplayPerPage)
 intInput(customerListGotoPage)
 mobileInput(editCustomerListMobile)
 
 document
   .querySelector("nav li[data-navitem='customerList']")
-  .closest('li')
-  .addEventListener('click', () => {
+  .closest("li")
+  .addEventListener("click", () => {
     delayFocus(customerListSearch)
     render()
   })
 
-customerListSearch.addEventListener('input', render)
-customerListSortBy.addEventListener('input', render)
-customerListDisplayPerPage.addEventListener('keyup', render)
-customerListGotoPage.addEventListener('keyup', render)
-customerListDisplayPerPage.addEventListener('blur', () => {
+customerListSearch.addEventListener("input", render)
+customerListSortBy.addEventListener("input", render)
+customerListDisplayPerPage.addEventListener("keyup", render)
+customerListGotoPage.addEventListener("keyup", render)
+customerListDisplayPerPage.addEventListener("blur", () => {
   customerListDisplayPerPage.value > 0
-    ? ''
+    ? ""
     : (customerListDisplayPerPage.value = 100)
 })
-customerListGotoPage.addEventListener('blur', () => {
-  customerListGotoPage.value > 0 ? '' : (customerListGotoPage.value = 1)
+customerListGotoPage.addEventListener("blur", () => {
+  customerListGotoPage.value > 0 ? "" : (customerListGotoPage.value = 1)
 })
 
-customerListTbody.addEventListener('click', e => {
-  let tdatas = e.target.closest('tr').querySelectorAll('td')
+customerListTbody.addEventListener("click", e => {
+  let tdatas = e.target.closest("tr").querySelectorAll("td")
   let id = Number(tdatas[0].innerHTML)
   let name = tdatas[1].innerHTML
   let address = tdatas[2].innerHTML
@@ -203,26 +202,26 @@ customerListTbody.addEventListener('click', e => {
   editCustomerList.showModal()
 })
 
-editCustomerListCancel.addEventListener('click', () => {
+editCustomerListCancel.addEventListener("click", () => {
   editCustomerList.close()
 })
 
-editCustomerListOk.addEventListener('click', () => {
+editCustomerListOk.addEventListener("click", () => {
   try {
     updateInto(
-      'Customers',
-      ['name', 'address', 'mobile', 'remark'],
+      "Customers",
+      ["name", "address", "mobile", "remark"],
       [
         editCustomerListName.value.trim(),
         editCustomerListAddress.value.trim(),
         editCustomerListMobile.value.trim(),
-        editCustomerListRemark.value.trim()
+        editCustomerListRemark.value.trim(),
       ],
       `Where id = ${editCustomerListId.value.trim()}`
     )
 
     showMessege(
-      'Successfully Updated',
+      "Successfully Updated",
       `Product Id: ${Number(editCustomerListId.value)}`
     )
 
@@ -230,6 +229,6 @@ editCustomerListOk.addEventListener('click', () => {
     render()
   } catch (err) {
     console.dir(err)
-    showMessege('Cannot Updated', `One or Multiple value are Invalid`)
+    showMessege("Cannot Updated", `One or Multiple value are Invalid`)
   }
 })
