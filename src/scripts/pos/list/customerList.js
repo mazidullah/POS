@@ -1,52 +1,53 @@
-import { padZero } from '../../utils/utils.js'
-import { delayFocus } from '../../utils/utils.js'
-import { intInput } from '../../utils/utils.js'
-import { enterToNextInput } from '../../utils/utils.js'
-import { mobileInput } from '../../utils/utils.js'
-import { updateInto } from '../../utils/database.js'
-import { nextRowId } from '../../utils/database.js'
-import { showMessege } from '../../utils/messege.js'
+import { padZero } from "../../utils/utils.js"
+import { delayFocus } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
+import { mobileInput } from "../../utils/utils.js"
+import { updateInto } from "../../utils/database.js"
+import { nextRowId } from "../../utils/database.js"
+import { getData } from "../../utils/database.js"
+import { showMessege } from "../../utils/messege.js"
 
 function getCustomers(sortBy) {
-  const { DatabaseSync } = require('node:sqlite')
-  let db = new DatabaseSync('database.db')
+  const { DatabaseSync } = require("node:sqlite")
+  let db = new DatabaseSync("database.db")
   let stmt
 
   switch (sortBy) {
-    case 'name':
+    case "name":
       stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(name) ASC`)
       break
-    case 'name_des':
+    case "name_des":
       stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(name) DESC`)
       break
-    case 'id':
+    case "id":
       stmt = db.prepare(`SELECT * from Customers ORDER BY id`)
       break
-    case 'id_des':
+    case "id_des":
       stmt = db.prepare(`SELECT * from Customers ORDER BY id DESC`)
       break
-    case 'mobile':
+    case "mobile":
       stmt = db.prepare(`SELECT * from Customers ORDER BY mobile`)
       break
-    case 'mobile_des':
+    case "mobile_des":
       stmt = db.prepare(`SELECT * from Customers ORDER BY mobile DESC`)
       break
-    case 'address':
+    case "address":
       stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(address)`)
       break
-    case 'address_des':
+    case "address_des":
       stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(address) DESC`)
       break
-    case 'remark':
+    case "remark":
       stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(remark)`)
       break
-    case 'remark_des':
+    case "remark_des":
       stmt = db.prepare(`SELECT * from Customers ORDER BY UPPER(remark) DESC`)
       break
-    case 'due':
+    case "due":
       stmt = db.prepare(`SELECT * from Customers ORDER BY dues`)
       break
-    case 'due_des':
+    case "due_des":
       stmt = db.prepare(`SELECT * from Customers ORDER BY dues DESC`)
       break
 
@@ -68,9 +69,9 @@ function sanitize(searchTerm, customers) {
   const possibleMatch = new Set()
 
   try {
-    niddle = new RegExp(searchTerm, 'i')
+    niddle = new RegExp(searchTerm, "i")
   } catch (err) {
-    niddle = new RegExp('')
+    niddle = new RegExp("")
   }
 
   customers.forEach(customer => {
@@ -129,7 +130,7 @@ export function render() {
   customerListPossiblePage.innerHTML = possiblePage
   customerListGotoPage.value > possiblePage
     ? (customerListGotoPage.value = possiblePage)
-    : ''
+    : ""
 
   let goto_page = Number(customerListGotoPage.value) || 1
   const toRenderData = allSortedData.slice(
@@ -139,7 +140,7 @@ export function render() {
       : goto_page * display_per_page
   )
 
-  let htmlString = ''
+  let htmlString = ""
 
   toRenderData.forEach(list => {
     let hasDue = Number(list.dues) > 0
@@ -151,15 +152,15 @@ export function render() {
           <td>${list.address}</td>
           <td>${list.mobile}</td>
           <td>${list.remark}</td>
-          <td ${hasDue ? "style='background-color: #ff000050'" : ''}>${
+          <td ${hasDue ? "style='background-color: #ff000050'" : ""}>${
       list.dues
     }</td>
         </tr>
       `
   })
 
-  customerList.querySelector('tbody').innerHTML = ''
-  customerList.querySelector('tbody').innerHTML = htmlString
+  customerList.querySelector("tbody").innerHTML = ""
+  customerList.querySelector("tbody").innerHTML = htmlString
 }
 
 enterToNextInput([customerListSearch, customerListGotoPage, customerListSearch])
@@ -168,12 +169,12 @@ enterToNextInput([
   editCustomerListAddress,
   editCustomerListMobile,
   editCustomerListRemark,
-  editCustomerListOk
+  editCustomerListOk,
 ])
 enterToNextInput([
   editCustomerListPay,
   editCustomerListDiscount,
-  editCustomerListOk
+  editCustomerListOk,
 ])
 
 intInput(customerListGotoPage, 1)
@@ -183,81 +184,101 @@ mobileInput(editCustomerListMobile)
 
 document
   .querySelector("nav li[data-navitem='customerList']")
-  .closest('li')
-  .addEventListener('click', () => {
+  .closest("li")
+  .addEventListener("click", () => {
     delayFocus(customerListSearch)
     render()
   })
 
-customerListSearch.addEventListener('input', () => {
+customerListSearch.addEventListener("input", () => {
   customerListGotoPage.value = 1
   render()
 })
 
-customerListSortBy.addEventListener('input', render)
+customerListSortBy.addEventListener("input", render)
 
-customerListDisplayPerPage.addEventListener('input', () => {
+customerListDisplayPerPage.addEventListener("input", () => {
   customerListGotoPage.value = 1
   render()
 })
 
-customerListGotoPage.addEventListener('keyup', render)
+customerListGotoPage.addEventListener("keyup", render)
 
-customerListGotoPage.addEventListener('blur', () => {
-  customerListGotoPage.value > 0 ? '' : (customerListGotoPage.value = 1)
+customerListGotoPage.addEventListener("blur", () => {
+  customerListGotoPage.value > 0 ? "" : (customerListGotoPage.value = 1)
 })
 
-customerListCreate.addEventListener('click', () => {
+customerListCreate.addEventListener("click", () => {
   createCustomer.showModal()
-  createCustomerId.value = nextRowId('Customers')
+  createCustomerId.value = nextRowId("Customers")
   delayFocus(createCustomerName)
 })
 
-customerListTbody.addEventListener('click', e => {
-  let tr = e.target.closest('tr')
-  let id = Number(tr.dataset['id'])
-  let tdatas = tr.querySelectorAll('td')
+customerListTbody.addEventListener("click", e => {
+  let tr = e.target.closest("tr")
+  let id = Number(tr.dataset["id"])
+  let customer = getData("Customers", `WHERE id = ${id}`)
 
-  let name = tdatas[1].innerHTML
-  let address = tdatas[2].innerHTML
-  let mobile = tdatas[3].innerHTML
-  let remark = tdatas[4].innerHTML
-
-  editCustomerListId.value = id
-  editCustomerListName.value = name
-  editCustomerListAddress.value = address
-  editCustomerListMobile.value = mobile
-  editCustomerListRemark.value = remark
+  editCustomerListId.value = customer.id
+  editCustomerListName.value = customer.name
+  editCustomerListAddress.value = customer.address
+  editCustomerListMobile.value = customer.mobile
+  editCustomerListRemark.value = customer.remark
+  editCustomerListDue.value = customer.dues
   editCustomerList.showModal()
 })
 
-editCustomerListCancel.addEventListener('click', () => {
+editCustomerListCancel.addEventListener("click", () => {
+  editCustomerListPay.value = ""
+  editCustomerListDiscount.value = ""
   editCustomerList.close()
 })
 
-editCustomerListOk.addEventListener('click', () => {
-  try {
-    updateInto(
-      'Customers',
-      ['name', 'address', 'mobile', 'remark'],
-      [
-        editCustomerListName.value.trim(),
-        editCustomerListAddress.value.trim(),
-        editCustomerListMobile.value.trim(),
-        editCustomerListRemark.value.trim()
-      ],
-      `Where id = ${editCustomerListId.value.trim()}`
-    )
+editCustomerListOk.addEventListener("click", () => {
+  let id = Number(editCustomerListId.value.trim())
+  let name = editCustomerListName.value.trim()
+  let address = editCustomerListAddress.value.trim()
+  let mobile = editCustomerListMobile.value.trim()
+  let remark = editCustomerListRemark.value.trim()
+  let pay = Number(editCustomerListPay.value.trim())
+  let discount = Number(editCustomerListDiscount.value.trim())
 
-    showMessege(
-      'Successfully Updated',
-      `Product Id: ${Number(editCustomerListId.value)}`
-    )
+  let customer = getData("Customers", `WHERE id = ${id}`)
 
-    editCustomerList.close()
-    render()
-  } catch (err) {
-    console.dir(err)
-    showMessege('Cannot Updated', `One or Multiple value are Invalid`)
+  if (!name.length) {
+    showMessege("Invalid name", "Name must not me empty")
+    return
   }
+
+  if (mobile.length < 12) {
+    showMessege("Invalid mobile no.", "Pls. Enter a valid mobile number")
+    return
+  }
+
+  if (customer.dues < pay + discount) {
+    showMessege("Invalid values", "Pay & discount exceed dues")
+    return
+  }
+
+  const { DatabaseSync } = require("node:sqlite")
+  const db = new DatabaseSync("database.db")
+
+  db.exec("BEGIN TRANSACTION")
+
+  updateInto(
+    "Customers",
+    ["name", "address", "mobile", "remark", "dues"],
+    [name, address, mobile, remark, customer.dues - pay - discount],
+    `Where id = ${id}`
+  )
+
+  db.exec("COMMIT")
+
+  showMessege(
+    "Successfully Updated",
+    `Product Id: ${Number(editCustomerListId.value)}`
+  )
+
+  editCustomerList.close()
+  render()
 })
