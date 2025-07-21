@@ -145,7 +145,6 @@
     width: 30%;
   }
 }
-
 #purchaseList.active {
   th:nth-child(1),
   td:nth-child(1) {
@@ -194,7 +193,11 @@
     display: flex;
     justify-content: flex-end;
     gap: 6px;
-    margin-top: 1rem;
+    margin-top: 4rem;
+
+    button {
+      width: 100px;
+    }
   }
 
   .short {

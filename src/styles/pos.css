@@ -42,10 +42,10 @@ body > nav {
   }
 
   li.active {
-    color: #fff;
-    background-color: var(--link-clr);
+    color: #fff !important;
+    background-color: var(--link-clr) !important;
     svg {
-      fill: #fff;
+      fill: #fff !important;
     }
   }
 
