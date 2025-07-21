@@ -1,8 +1,10 @@
+import { padZero } from "../../utils/utils.js"
 import { delayFocus } from "../../utils/utils.js"
 import { intInput } from "../../utils/utils.js"
 import { enterToNextInput } from "../../utils/utils.js"
 import { mobileInput } from "../../utils/utils.js"
 import { updateInto } from "../../utils/database.js"
+import { nextRowId } from "../../utils/database.js"
 import { showMessege } from "../../utils/messege.js"
 
 function getCustomers(sortBy) {
@@ -60,6 +62,7 @@ function getCustomers(sortBy) {
 
 function sanitize(searchTerm, customers) {
   let niddle
+
   const exactMatch = new Set()
   const startsWith = new Set()
   const possibleMatch = new Set()
@@ -115,16 +118,20 @@ function sanitize(searchTerm, customers) {
   return [...exactMatch, ...startsWith, ...possibleMatch]
 }
 
-function render() {
+export function render() {
   let searchTerm = customerListSearch.value.trim()
   let display_per_page = Number(customerListDisplayPerPage.value)
-  let goto_page = Number(customerListGotoPage.value) || 1
   let sortBy = customerListSortBy.value
 
   const allSortedData = sanitize(searchTerm, getCustomers(sortBy))
   const possiblePage = Math.ceil(allSortedData.length / display_per_page)
-  customerListPossiblePage.innerHTML = possiblePage
 
+  customerListPossiblePage.innerHTML = possiblePage
+  customerListGotoPage.value > possiblePage
+    ? (customerListGotoPage.value = possiblePage)
+    : ""
+
+  let goto_page = Number(customerListGotoPage.value) || 1
   const toRenderData = allSortedData.slice(
     (goto_page - 1) * display_per_page,
     allSortedData.length <= goto_page * display_per_page
@@ -133,15 +140,17 @@ function render() {
   )
 
   let htmlString = ""
+
   toRenderData.forEach(list => {
     let hasDue = Number(list.dues) > 0
+
     htmlString += `
-        <tr>
-          <td>${list.id < 10 ? "0" + list.id : list.id}</td>
+        <tr data-id="${list.id}">
+          <td>${padZero(list.id)}</td>
           <td>${list.name}</td>
-          <td>${list.address || ""}</td>
-          <td>${list.mobile || ""}</td>
-          <td>${list.remark || ""}</td>
+          <td>${list.address}</td>
+          <td>${list.mobile}</td>
+          <td>${list.remark}</td>
           <td ${hasDue ? "style='background-color: #ff000050'" : ""}>${
       list.dues
     }</td>
@@ -162,7 +171,7 @@ enterToNextInput([
   editCustomerListOk,
 ])
 
-intInput(customerListGotoPage)
+intInput(customerListGotoPage, 1)
 mobileInput(editCustomerListMobile)
 
 document
@@ -173,22 +182,35 @@ document
     render()
   })
 
-customerListSearch.addEventListener("input", render)
-customerListSortBy.addEventListener("input", render)
-customerListDisplayPerPage.addEventListener("keyup", render)
-customerListGotoPage.addEventListener("keyup", render)
-customerListDisplayPerPage.addEventListener("blur", () => {
-  customerListDisplayPerPage.value > 0
-    ? ""
-    : (customerListDisplayPerPage.value = 100)
+customerListSearch.addEventListener("input", () => {
+  customerListGotoPage.value = 1
+  render()
 })
+
+customerListSortBy.addEventListener("input", render)
+
+customerListDisplayPerPage.addEventListener("input", () => {
+  customerListGotoPage.value = 1
+  render()
+})
+
+customerListGotoPage.addEventListener("keyup", render)
+
 customerListGotoPage.addEventListener("blur", () => {
   customerListGotoPage.value > 0 ? "" : (customerListGotoPage.value = 1)
 })
 
+customerListCreate.addEventListener("click", () => {
+  createCustomer.showModal()
+  createCustomerId.value = nextRowId("Customers")
+  delayFocus(createCustomerName)
+})
+
 customerListTbody.addEventListener("click", e => {
-  let tdatas = e.target.closest("tr").querySelectorAll("td")
-  let id = Number(tdatas[0].innerHTML)
+  let tr = e.target.closest("tr")
+  let id = Number(tr.dataset["id"])
+  let tdatas = tr.querySelectorAll("td")
+
   let name = tdatas[1].innerHTML
   let address = tdatas[2].innerHTML
   let mobile = tdatas[3].innerHTML

@@ -1,5 +1,9 @@
-import { delayFocus, intInput, enterToNextInput } from "../../utils/utils.js"
+import { padZero } from "../../utils/utils.js"
+import { delayFocus } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
 import { updateInto } from "../../utils/database.js"
+import { nextRowId } from "../../utils/database.js"
 import { showMessege } from "../../utils/messege.js"
 
 function getTypes(sortBy) {
@@ -7,22 +11,24 @@ function getTypes(sortBy) {
   let db = new DatabaseSync("database.db")
   let stmt
 
-  if (sortBy === "name_asc")
+  if (sortBy === "name")
     stmt = db.prepare(`SELECT * from Types ORDER BY UPPER(name)`)
   else if (sortBy === "name_des")
     stmt = db.prepare(`SELECT * from Types ORDER BY UPPER(name) DESC`)
-  else if (sortBy === "id_asc")
-    stmt = db.prepare(`SELECT * from Types ORDER BY id`)
+  else if (sortBy === "id") stmt = db.prepare(`SELECT * from Types ORDER BY id`)
   else if (sortBy === "id_des")
-    stmt = db.prepare(`SELECT * from Types ORDER BY if DESC`)
+    stmt = db.prepare(`SELECT * from Types ORDER BY id DESC`)
 
   const types = stmt.all()
   db.close()
+
   return types
 }
 
 function sanitize(searchTerm, types) {
   let niddle
+
+  const exactMatch = new Set()
   const startsWith = new Set()
   const possibleNameMatch = new Set()
 
@@ -33,8 +39,8 @@ function sanitize(searchTerm, types) {
   }
 
   types.forEach(type => {
-    if (type.id == searchTerm) {
-      startsWith.add(type)
+    if (type.id === Number(searchTerm)) {
+      exactMatch.add(type)
       return
     }
 
@@ -49,21 +55,23 @@ function sanitize(searchTerm, types) {
     }
   })
 
-  const sanitized = [...startsWith, ...possibleNameMatch]
-
-  return sanitized
+  return [...exactMatch, ...startsWith, ...possibleNameMatch]
 }
 
-function render() {
+export function render() {
   let searchTerm = typeListSearch.value.trim()
-  let display_per_page = Number(typeListDisplayPerPage.value) || 100
-  let goto_page = Number(typeListGotoPage.value) || 1
+  let display_per_page = Number(typeListDisplayPerPage.value)
   let sortBy = typeListSortBy.value
 
   const allSortedData = sanitize(searchTerm, getTypes(sortBy))
   const possiblePage = Math.ceil(allSortedData.length / display_per_page)
-  typeListPossiblePage.innerHTML = possiblePage
 
+  typeListPossiblePage.innerHTML = possiblePage
+  typeListGotoPage.value > possiblePage
+    ? (typeListGotoPage.value = possiblePage)
+    : ""
+
+  let goto_page = Number(typeListGotoPage.value) || 1
   const toRenderData = allSortedData.slice(
     (goto_page - 1) * display_per_page,
     allSortedData.length <= goto_page * display_per_page
@@ -72,10 +80,11 @@ function render() {
   )
 
   let htmlString = ""
+
   toRenderData.forEach(list => {
     htmlString += `
-        <tr>
-          <td>${list.id < 10 ? "0" + list.id : list.id}</td>
+        <tr data-id="${list.id}">
+          <td>${padZero(list.id)}</td>
           <td>${list.name}</td>
         </tr>
       `
@@ -86,10 +95,10 @@ function render() {
 }
 
 enterToNextInput([typeListSearch, typeListGotoPage, typeListSearch])
+
 enterToNextInput([editTypeListName, editTypeListOk])
 
-intInput(typeListDisplayPerPage)
-intInput(typeListGotoPage)
+intInput(typeListGotoPage, 1)
 
 document
   .querySelector("nav li[data-navitem='typeList']")
@@ -99,20 +108,35 @@ document
     render()
   })
 
-typeListSearch.addEventListener("input", render)
-typeListSortBy.addEventListener("input", render)
-typeListDisplayPerPage.addEventListener("keyup", render)
-typeListGotoPage.addEventListener("keyup", render)
-typeListDisplayPerPage.addEventListener("blur", () => {
-  typeListDisplayPerPage.value > 0 ? "" : (typeListDisplayPerPage.value = 100)
+typeListSearch.addEventListener("input", () => {
+  typeListGotoPage.value = 1
+  render()
 })
+
+typeListSortBy.addEventListener("input", render)
+
+typeListDisplayPerPage.addEventListener("input", () => {
+  typeListGotoPage.value = 1
+  render()
+})
+
+typeListGotoPage.addEventListener("keyup", render)
+
 typeListGotoPage.addEventListener("blur", () => {
   typeListGotoPage.value > 0 ? "" : (typeListGotoPage.value = 1)
 })
 
+typeListCreate.addEventListener("click", () => {
+  createType.showModal()
+  createTypeId.value = nextRowId("Generics")
+  delayFocus(createTypeName)
+})
+
 typeListTbody.addEventListener("click", e => {
-  let tdatas = e.target.closest("tr").querySelectorAll("td")
-  let id = Number(tdatas[0].innerHTML)
+  let tr = e.target.closest("tr")
+  let id = Number(tr.dataset["id"])
+  let tdatas = tr.querySelectorAll("td")
+
   let name = tdatas[1].innerHTML
 
   editTypeListId.value = id
@@ -136,10 +160,10 @@ editTypeListOk.addEventListener("click", () => {
 
     showMessege(
       "Successfully Updated",
-      `Type Id: ${Number(editTypeListId.value)}`
+      `Types Id: ${Number(editTypeListId.value)}`
     )
 
-    editTypeList.close()
+    editGenericList.close()
     render()
   } catch (err) {
     showMessege("Cannot Updated", `One or Multiple value are Invalid`)

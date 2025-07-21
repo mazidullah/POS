@@ -1,5 +1,9 @@
-import { delayFocus, intInput, enterToNextInput } from "../../utils/utils.js"
+import { padZero } from "../../utils/utils.js"
+import { delayFocus } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
 import { updateInto } from "../../utils/database.js"
+import { nextRowId } from "../../utils/database.js"
 import { showMessege } from "../../utils/messege.js"
 
 function getGenerics(sortBy) {
@@ -7,22 +11,25 @@ function getGenerics(sortBy) {
   let db = new DatabaseSync("database.db")
   let stmt
 
-  if (sortBy === "name_asc")
+  if (sortBy === "name")
     stmt = db.prepare(`SELECT * from Generics ORDER BY UPPER(name)`)
   else if (sortBy === "name_des")
     stmt = db.prepare(`SELECT * from Generics ORDER BY UPPER(name) DESC`)
-  else if (sortBy === "id_asc")
+  else if (sortBy === "id")
     stmt = db.prepare(`SELECT * from Generics ORDER BY id`)
   else if (sortBy === "id_des")
     stmt = db.prepare(`SELECT * from Generics ORDER BY id DESC`)
 
   const generics = stmt.all()
   db.close()
+
   return generics
 }
 
 function sanitize(searchTerm, generics) {
   let niddle
+
+  const exactMatch = new Set()
   const startsWith = new Set()
   const possibleNameMatch = new Set()
 
@@ -33,8 +40,8 @@ function sanitize(searchTerm, generics) {
   }
 
   generics.forEach(generic => {
-    if (generic.id == searchTerm) {
-      startsWith.add(generic)
+    if (generic.id === Number(searchTerm)) {
+      exactMatch.add(generic)
       return
     }
 
@@ -49,21 +56,23 @@ function sanitize(searchTerm, generics) {
     }
   })
 
-  const sanitized = [...startsWith, ...possibleNameMatch]
-
-  return sanitized
+  return [...exactMatch, ...startsWith, ...possibleNameMatch]
 }
 
-function render() {
+export function render() {
   let searchTerm = genericListSearch.value.trim()
-  let display_per_page = Number(genericListDisplayPerPage.value) || 100
-  let goto_page = Number(genericListGotoPage.value) || 1
+  let display_per_page = Number(genericListDisplayPerPage.value)
   let sortBy = genericListSortBy.value
 
   const allSortedData = sanitize(searchTerm, getGenerics(sortBy))
   const possiblePage = Math.ceil(allSortedData.length / display_per_page)
-  genericListPossiblePage.innerHTML = possiblePage
 
+  genericListPossiblePage.innerHTML = possiblePage
+  genericListGotoPage.value > possiblePage
+    ? (genericListGotoPage.value = possiblePage)
+    : ""
+
+  let goto_page = Number(genericListGotoPage.value) || 1
   const toRenderData = allSortedData.slice(
     (goto_page - 1) * display_per_page,
     allSortedData.length <= goto_page * display_per_page
@@ -72,10 +81,11 @@ function render() {
   )
 
   let htmlString = ""
+
   toRenderData.forEach(list => {
     htmlString += `
-        <tr>
-          <td>${list.id < 10 ? "0" + list.id : list.id}</td>
+        <tr data-id="${list.id}">
+          <td>${padZero(list.id)}</td>
           <td>${list.name}</td>
         </tr>
       `
@@ -86,10 +96,10 @@ function render() {
 }
 
 enterToNextInput([genericListSearch, genericListGotoPage, genericListSearch])
+
 enterToNextInput([editGenericListName, editGenericListOk])
 
-intInput(genericListDisplayPerPage)
-intInput(genericListGotoPage)
+intInput(genericListGotoPage, 1)
 
 document
   .querySelector("nav li[data-navitem='genericList']")
@@ -99,22 +109,35 @@ document
     render()
   })
 
-genericListSearch.addEventListener("input", render)
-genericListSortBy.addEventListener("input", render)
-genericListDisplayPerPage.addEventListener("keyup", render)
-genericListGotoPage.addEventListener("keyup", render)
-genericListDisplayPerPage.addEventListener("blur", () => {
-  genericListDisplayPerPage.value > 0
-    ? ""
-    : (genericListDisplayPerPage.value = 100)
+genericListSearch.addEventListener("input", () => {
+  genericListGotoPage.value = 1
+  render()
 })
+
+genericListSortBy.addEventListener("input", render)
+
+genericListDisplayPerPage.addEventListener("input", () => {
+  genericListGotoPage.value = 1
+  render()
+})
+
+genericListGotoPage.addEventListener("keyup", render)
+
 genericListGotoPage.addEventListener("blur", () => {
   genericListGotoPage.value > 0 ? "" : (genericListGotoPage.value = 1)
 })
 
+genericListCreate.addEventListener("click", () => {
+  createGeneric.showModal()
+  createGenericId.value = nextRowId("Generics")
+  delayFocus(createGenericName)
+})
+
 genericListTbody.addEventListener("click", e => {
-  let tdatas = e.target.closest("tr").querySelectorAll("td")
-  let id = Number(tdatas[0].innerHTML)
+  let tr = e.target.closest("tr")
+  let id = Number(tr.dataset["id"])
+  let tdatas = tr.querySelectorAll("td")
+
   let name = tdatas[1].innerHTML
 
   editGenericListId.value = id

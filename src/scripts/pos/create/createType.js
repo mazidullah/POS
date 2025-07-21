@@ -1,33 +1,45 @@
 import { enterToNextInput, delayFocus } from "../../utils/utils.js"
 import { showMessege } from "../../utils/messege.js"
 import { insertInto, nextRowId } from "../../utils/database.js"
+import { render } from "../list/typeList.js"
 
-const navbarName = "createType"
 const tableName = "Types"
 const fieldNames = ["name"]
-const navbar = document.querySelector(`li[data-navitem="${navbarName}"]`)
+const navbars = document.querySelectorAll(`.createType`)
 
-enterToNextInput([newTypeName, createNewType])
+enterToNextInput([createTypeName, createTypeCreate])
 
-navbar.addEventListener("click", () => {
-  newTypeId.value = nextRowId(tableName)
-  delayFocus(newTypeName)
+createTypeClose.addEventListener("click", () => {
+  createType.close()
 })
 
-createNewType.addEventListener("click", () => {
-  const name = newTypeName.value.trim()
+createTypeCancel.addEventListener("click", () => {
+  createType.close()
+})
+
+createTypeCreate.addEventListener("click", () => {
+  const name = createTypeName.value.trim()
 
   if (name.length === 0) {
     showMessege("Invalid name", "Name must not empty!")
-    delayFocus(newTypeName)
+    delayFocus(createTypeName)
     return
   }
 
   insertInto(tableName, fieldNames, [name])
-  showMessege("Successfully Created", `Name: ${newTypeName.value}`)
+  showMessege("Successfully Created", `Name: ${createTypeName.value}`)
 
-  newTypeName.value = ""
+  createTypeName.value = ""
 
-  delayFocus(newTypeName)
-  newTypeId.value = nextRowId(tableName)
+  render()
+  delayFocus(createTypeName)
+  createTypeId.value = nextRowId(tableName)
+})
+
+navbars.forEach(navbar => {
+  navbar.addEventListener("click", () => {
+    createType.showModal()
+    createTypeId.value = nextRowId(tableName)
+    delayFocus(createTypeName)
+  })
 })

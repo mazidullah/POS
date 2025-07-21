@@ -235,6 +235,8 @@ export function suggestionHandler(element, suggetionElement, renderer) {
             "span.suggetionIdSpan"
           ).innerText
           clearSelection()
+
+          element.dispatchEvent(new Event("next"))
         }
       })
     },

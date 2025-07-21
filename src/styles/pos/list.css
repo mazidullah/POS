@@ -25,6 +25,11 @@
     background-color: #ffc078;
   }
 
+  header div:has(button) {
+    align-self: flex-end;
+    margin-left: 1rem;
+  }
+
   main {
     padding: 0;
     overflow-y: auto;
@@ -34,6 +39,141 @@
     thead {
       top: -1px;
     }
+  }
+}
+
+#customerList.active {
+  th:nth-child(1),
+  td:nth-child(1),
+  th:nth-child(6),
+  td:nth-child(6) {
+    width: 80px;
+  }
+
+  td:nth-child(1),
+  td:nth-child(6) {
+    text-align: center;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 250px;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 120px;
+  }
+
+  td:nth-child(4) {
+    font-family: monospace;
+    text-align: center;
+  }
+
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 160px;
+  }
+}
+#companyList.active {
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 80px;
+  }
+
+  td:nth-child(1) {
+    text-align: center;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 120px;
+  }
+
+  td:nth-child(3) {
+    font-family: monospace;
+    text-align: center;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4),
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 120px;
+  }
+
+  th:nth-child(6),
+  td:nth-child(6) {
+    width: 220px;
+  }
+
+  th:nth-child(7),
+  td:nth-child(7) {
+    width: 80px;
+  }
+
+  td:nth-child(7) {
+    text-align: center;
+  }
+}
+#genericList.active,
+#typeList.active {
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 80px;
+  }
+
+  td:nth-child(1) {
+    text-align: center;
+  }
+}
+#productList.active {
+  th:nth-child(1),
+  th:nth-child(2),
+  td:nth-child(1),
+  td:nth-child(2) {
+    width: 80px;
+  }
+
+  td:nth-child(1),
+  td:nth-child(2) {
+    text-align: center;
+  }
+
+  td:nth-child(4),
+  td:nth-child(5) {
+    width: 30%;
+  }
+}
+
+#purchaseList.active {
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 80px;
+    text-align: center;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 160px;
+  }
+
+  th:nth-child(4),
+  th:nth-child(5),
+  th:nth-child(6),
+  th:nth-child(7),
+  td:nth-child(4),
+  td:nth-child(5),
+  td:nth-child(6),
+  td:nth-child(7) {
+    width: 100px;
+    text-align: center;
+  }
+
+  th:nth-child(8),
+  td:nth-child(8) {
+    width: 120px;
+    text-align: center;
   }
 }
 

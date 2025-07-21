@@ -1,46 +1,43 @@
-import {
-  enterToNextInput,
-  delayFocus,
-  suggestionHandler,
-  intInput,
-} from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
+import { delayFocus } from "../../utils/utils.js"
+import { suggestionHandler } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
 import { showMessege } from "../../utils/messege.js"
 import { insertInto, nextRowId, getAllData } from "../../utils/database.js"
+import { render } from "../list/productList.js"
 
-const navbarName = "createProduct"
 const tableName = "Products"
-const fieldNames = ["name", "company_id", "type_id", "generic_id", "min_stock"]
-const navbar = document.querySelector(`li[data-navitem="${navbarName}"]`)
+const fieldNames = ["name", "company_id", "generic_id", "type_id", "min_stock"]
+const navbars = document.querySelectorAll(`.createProduct`)
 
+intInput(createProductMinStock, 0)
 enterToNextInput([
-  newProductName,
-  newProductCompanyName,
-  newProductGenericName,
-  newProductTypeName,
-  newProductMinStock,
-  createNewProduct,
+  createProductName,
+  createProductCompanyName,
+  createProductGenericName,
+  createProductTypeName,
+  createProductMinStock,
+  createProductCreate,
 ])
 
 suggestionHandler(
-  newProductCompanyName,
-  newProductCompanyNameSuggetions,
+  createProductCompanyName,
+  createProductCompanyNameSuggetions,
   renderCompanySuggetions
 )
 suggestionHandler(
-  newProductGenericName,
-  newProductGenericNameSuggetions,
+  createProductGenericName,
+  createProductGenericNameSuggetions,
   renderGenericSuggetions
 )
 suggestionHandler(
-  newProductTypeName,
-  newProductTypeNameSuggetions,
+  createProductTypeName,
+  createProductTypeNameSuggetions,
   renderTypeSuggetions
 )
 
-intInput(newProductMinStock)
-
 function renderCompanySuggetions(searchTerm) {
-  newProductCompanyNameSuggetions.innerHTML = ""
+  createProductCompanyNameSuggetions.innerHTML = ""
 
   if (searchTerm) {
     const companies = getAllData("Companies")
@@ -81,12 +78,12 @@ function renderCompanySuggetions(searchTerm) {
       `
     })
 
-    newProductCompanyNameSuggetions.innerHTML = htmlString
+    createProductCompanyNameSuggetions.innerHTML = htmlString
   }
 }
 
 function renderGenericSuggetions(searchTerm) {
-  newProductGenericNameSuggetions.innerHTML = ""
+  createProductGenericNameSuggetions.innerHTML = ""
 
   if (searchTerm) {
     const generics = getAllData("Generics")
@@ -127,12 +124,12 @@ function renderGenericSuggetions(searchTerm) {
       `
     })
 
-    newProductGenericNameSuggetions.innerHTML = htmlString
+    createProductGenericNameSuggetions.innerHTML = htmlString
   }
 }
 
 function renderTypeSuggetions(searchTerm) {
-  newProductTypeNameSuggetions.innerHTML = ""
+  createProductTypeNameSuggetions.innerHTML = ""
 
   if (searchTerm) {
     const types = getAllData("Types")
@@ -173,44 +170,74 @@ function renderTypeSuggetions(searchTerm) {
       `
     })
 
-    newProductTypeNameSuggetions.innerHTML = htmlString
+    createProductTypeNameSuggetions.innerHTML = htmlString
   }
 }
 
-navbar.addEventListener("click", () => {
-  newProductId.value = nextRowId(tableName)
-  delayFocus(newProductName)
+createProductClose.addEventListener("click", () => {
+  createProduct.close()
 })
 
-createNewProduct.addEventListener("click", () => {
-  const name = newProductName.value.trim()
+createProductCancel.addEventListener("click", () => {
+  createProduct.close()
+})
 
-  const company_id = newProductCompanyNameSuggetions.dataset.id
-  const comapny_name = newProductCompanyName.value.trim()
+createProductCreate.addEventListener("click", () => {
+  const name = createProductName.value.trim()
 
-  const generic_id = newProductGenericNameSuggetions.dataset.id
-  const generic_name = newProductGenericName.value.trim()
+  const company_id = createProductCompanyNameSuggetions.dataset.id
+  const generic_id = createProductGenericNameSuggetions.dataset.id
+  const type_id = createProductTypeNameSuggetions.dataset.id
+  const min_stock = createProductMinStock.value.trim() || 0
 
-  const type_id = newProductTypeNameSuggetions.dataset.id
-  const type_name = newProductTypeName.value.trim()
+  if (name.length === 0) {
+    showMessege("Invalid name", "Product name must not empty!")
+    delayFocus(createProductName)
+    return
+  }
 
-  if (checkIdName(company_id, comapny_name, "Companies"))
-    if (checkIdName(generic_id, generic_name, "Generics"))
-      if (checkIdName(type_id, type_name, "Types"))
-        if (name.length === 0) {
-          showMessege("Invalid name", "Product name must not empty!")
-          delayFocus(newProductName)
-          return
-        }
+  if (company_id === "0") {
+    showMessege("Invalid company name", "Select a valid company!")
+    delayFocus(createProductCompanyName)
+    return
+  }
 
-  insertInto(tableName, fieldNames, [name, address, mobile, dues, remark])
-  showMessege("Successfully Created", `Username: ${newProductName.value}`)
+  if (generic_id === "0") {
+    showMessege("Invalid generic name", "Select a valid generic!")
+    delayFocus(createProductGenericName)
+    return
+  }
 
-  newProductName.value = ""
-  newProductAddress.value = ""
-  newProductMobile.value = ""
-  newProductRemark.value = ""
+  if (type_id === "0") {
+    showMessege("Invalid type name", "Select a valid type!")
+    delayFocus(createProductTypeName)
+    return
+  }
 
-  delayFocus(newProductName)
-  newProductId.value = nextRowId(tableName)
+  insertInto(tableName, fieldNames, [
+    name,
+    company_id,
+    generic_id,
+    type_id,
+    min_stock,
+  ])
+  showMessege("Successfully Created", `Username: ${createProductName.value}`)
+
+  createProductName.value = ""
+  createProductCompanyName.value = ""
+  createProductGenericName.value = ""
+  createProductTypeName.value = ""
+  createProductMinStock.value = ""
+
+  render()
+  delayFocus(createProductName)
+  createProductId.value = nextRowId(tableName)
+})
+
+navbars.forEach(navbar => {
+  navbar.addEventListener("click", () => {
+    createProduct.showModal()
+    createProductId.value = nextRowId(tableName)
+    delayFocus(createProductName)
+  })
 })

@@ -1,33 +1,45 @@
 import { enterToNextInput, delayFocus } from "../../utils/utils.js"
 import { showMessege } from "../../utils/messege.js"
 import { insertInto, nextRowId } from "../../utils/database.js"
+import { render } from "../list/genericList.js"
 
-const navbarName = "createGeneric"
 const tableName = "Generics"
 const fieldNames = ["name"]
-const navbar = document.querySelector(`li[data-navitem="${navbarName}"]`)
+const navbars = document.querySelectorAll(`.createGeneric`)
 
-enterToNextInput([newGenericName, createNewGeneric])
+enterToNextInput([createGenericName, createGenericCreate])
 
-navbar.addEventListener("click", () => {
-  newGenericId.value = nextRowId(tableName)
-  delayFocus(newGenericName)
+createGenericClose.addEventListener("click", () => {
+  createGeneric.close()
 })
 
-createNewGeneric.addEventListener("click", () => {
-  const name = newGenericName.value.trim()
+createGenericCancel.addEventListener("click", () => {
+  createGeneric.close()
+})
+
+createGenericCreate.addEventListener("click", () => {
+  const name = createGenericName.value.trim()
 
   if (name.length === 0) {
     showMessege("Invalid name", "Name must not empty!")
-    delayFocus(newGenericName)
+    delayFocus(createGenericName)
     return
   }
 
   insertInto(tableName, fieldNames, [name])
-  showMessege("Successfully Created", `Name: ${newGenericName.value}`)
+  showMessege("Successfully Created", `Name: ${createGenericName.value}`)
 
-  newGenericName.value = ""
+  createGenericName.value = ""
 
-  delayFocus(newGenericName)
-  newGenericId.value = nextRowId(tableName)
+  render()
+  delayFocus(createGenericName)
+  createGenericId.value = nextRowId(tableName)
+})
+
+navbars.forEach(navbar => {
+  navbar.addEventListener("click", () => {
+    createGeneric.showModal()
+    createGenericId.value = nextRowId(tableName)
+    delayFocus(createGenericName)
+  })
 })

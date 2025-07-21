@@ -3,11 +3,6 @@
 @import url(./pos/customerReturn.css);
 @import url(./pos/purchase.css);
 @import url(./pos/list.css);
-@import url(./pos/voucher.css);
-@import url(./pos/customerList.css);
-@import url(./pos/companyList.css);
-@import url(./pos/genericList.css);
-@import url(./pos/typeList.css);
 @import url(./pos/create.css);
 
 body {
@@ -30,7 +25,7 @@ body > nav {
     fill: var(--link-clr);
   }
 
-  li[data-navitem] {
+  li:not(:has(li)) {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -38,7 +33,7 @@ body > nav {
     border-radius: 4px;
   }
 
-  li[data-navitem]:hover {
+  li:not(:has(li)):hover {
     color: var(--link-ac-clr);
     background-color: #000;
     svg {
@@ -46,7 +41,7 @@ body > nav {
     }
   }
 
-  li[data-navitem].active {
+  li.active {
     color: #fff;
     background-color: var(--link-clr);
     svg {

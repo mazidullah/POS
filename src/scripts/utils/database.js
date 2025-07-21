@@ -144,19 +144,21 @@ export function fillDatabase() {
 
   db.prepare("BEGIN TRANSACTION").run()
   generics.forEach(g => {
-    db.prepare("INSERT INTO Generics(name) Values(?)").run(g)
+    db.prepare("INSERT INTO Generics(name) VALUES(?)").run(g)
   })
   db.prepare("COMMIT").run()
 
   db.prepare("BEGIN TRANSACTION").run()
   companies.forEach(c => {
-    db.prepare("INSERT INTO Companies(name) Values(?)").run(c)
+    db.prepare(
+      "INSERT INTO Companies(name, mobile, remark, dues, order_day, delivery_day) VALUES(?, ?, ?, ?, ?, ?)"
+    ).run(c, "", "", "0", "", "")
   })
   db.prepare("COMMIT").run()
 
   db.prepare("BEGIN TRANSACTION").run()
   types.forEach(t => {
-    db.prepare("INSERT INTO Types(name) Values(?)").run(t)
+    db.prepare("INSERT INTO Types(name) VALUES(?)").run(t)
   })
   db.prepare("COMMIT").run()
 
@@ -171,8 +173,8 @@ export function fillDatabase() {
     let t_id = db.prepare("Select id from Types where name = ?").get(d[4]).id
 
     db.prepare(
-      "insert into Products(name, generic_id, company_id, type_id) values(?, ?, ?, ?)"
-    ).run(`${d[0]} ${d[1]}`, g_id, c_id, t_id)
+      "insert into Products(name, generic_id, company_id, type_id, min_stock) values(?, ?, ?, ?, ?)"
+    ).run(`${d[0]} ${d[1]}`, g_id, c_id, t_id, 0)
   })
   db.prepare("COMMIT").run()
 }

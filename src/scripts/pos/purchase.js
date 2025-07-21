@@ -458,7 +458,6 @@ purchaseSave.addEventListener("click", () => {
   let company_id = Number(purchaseCompanyNameSuggetions.dataset.id).toFixed(0)
   let invoice_no = purchaseInvoiceNo.value.trim()
 
-  let totalBill = Number(purchaseTotalBill.value)
   let payable = Number(purchasePayable.value)
   let discount = Number(purchaseDiscount.value)
   let paid = Number(purchasePaid.value)
@@ -484,7 +483,6 @@ purchaseSave.addEventListener("click", () => {
       "company_id",
       "invoice_no",
       "date",
-      "total_bill",
       "payable",
       "discount",
       "paid",
@@ -495,7 +493,6 @@ purchaseSave.addEventListener("click", () => {
       company_id,
       invoice_no,
       new Date().getTime(),
-      totalBill,
       payable,
       discount,
       paid,

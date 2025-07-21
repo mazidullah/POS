@@ -1,57 +1,65 @@
 import { enterToNextInput, mobileInput, delayFocus } from "../../utils/utils.js"
 import { showMessege } from "../../utils/messege.js"
 import { insertInto, nextRowId } from "../../utils/database.js"
+import { render } from "../list/customerList.js"
 
-const navbarName = "createCustomer"
 const tableName = "Customers"
 const fieldNames = ["name", "address", "mobile", "dues", "remark"]
-const navbar = document.querySelector(`li[data-navitem="${navbarName}"]`)
+const navbars = document.querySelectorAll(`.createCustomer`)
+
+mobileInput(createCustomerMobile)
 
 enterToNextInput([
-  newCustomerName,
-  newCustomerAddress,
-  newCustomerMobile,
-  createNewCustomer,
+  createCustomerName,
+  createCustomerAddress,
+  createCustomerMobile,
+  createCustomerRemark,
+  createCustomerCreate,
 ])
-mobileInput(newCustomerMobile)
 
-navbar.addEventListener("click", () => {
-  newCustomerId.value = nextRowId(tableName)
-  delayFocus(newCustomerName)
+createCustomerClose.addEventListener("click", () => {
+  createCustomer.close()
 })
 
-newCustomerRemark.addEventListener("keyup", e => {
-  if (e.target.value !== "" && e.key === "Enter") createNewCustomer.focus()
+createCustomerCancel.addEventListener("click", () => {
+  createCustomer.close()
 })
-createNewCustomer.addEventListener("click", () => {
-  const name = newCustomerName.value.trim()
-  const address = newCustomerAddress.value.trim()
-  const mobile = newCustomerMobile.value.trim()
-  const dues = "0.0"
-  const remark = newCustomerRemark.value.trim()
+
+createCustomerCreate.addEventListener("click", () => {
+  const name = createCustomerName.value.trim()
+  const address = createCustomerAddress.value.trim()
+  const mobile = createCustomerMobile.value.trim()
+  const dues = "0"
+  const remark = createCustomerRemark.value.trim()
 
   if (name.length === 0) {
     showMessege("Invalid name", "Customer name must not empty!")
-    delayFocus(newCustomerName)
+    delayFocus(createCustomerName)
     return
   }
-  if (mobile.length < 11) {
-    showMessege(
-      "Invalid mobile no.",
-      "Enter a valid mobile number (01xxx-xxxxxx"
-    )
-    delayFocus(newCustomerMobile)
+  if (mobile.length < 12) {
+    showMessege("Invalid mobile no.", "Enter a valid mobile number")
+    delayFocus(createCustomerMobile)
     return
   }
 
   insertInto(tableName, fieldNames, [name, address, mobile, dues, remark])
-  showMessege("Successfully Created", `Username: ${newCustomerName.value}`)
+  showMessege("Successfully Created", `Username: ${createCustomerName.value}`)
 
-  newCustomerName.value = ""
-  newCustomerAddress.value = ""
-  newCustomerMobile.value = ""
-  newCustomerRemark.value = ""
+  createCustomerName.value = ""
+  createCustomerAddress.value = ""
+  createCustomerMobile.value = ""
+  createCustomerRemark.value = ""
 
-  delayFocus(newCustomerName)
-  newCustomerId.value = nextRowId(tableName)
+  render()
+  delayFocus(createCustomerName)
+  createCustomerId.value = nextRowId(tableName)
+})
+
+navbars.forEach(navbar => {
+  navbar.addEventListener("click", () => {
+    createCustomer.showModal()
+    createCustomerId.value = nextRowId(tableName)
+    delayFocus(createCustomerName)
+  })
 })

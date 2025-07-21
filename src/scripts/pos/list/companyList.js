@@ -1,5 +1,9 @@
-import { delayFocus, intInput, enterToNextInput, mobileInput } from "../../utils/utils.js"
-import { updateInto } from "../../utils/database.js"
+import { padZero } from "../../utils/utils.js"
+import { delayFocus } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
+import { mobileInput } from "../../utils/utils.js"
+import { updateInto, nextRowId } from "../../utils/database.js"
 import { showMessege } from "../../utils/messege.js"
 
 function getCompanies(sortBy) {
@@ -7,22 +11,47 @@ function getCompanies(sortBy) {
   let db = new DatabaseSync("database.db")
   let stmt
 
-  if (sortBy === "name_asc")
+  if (sortBy === "name")
     stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(name)`)
   else if (sortBy === "name_des")
     stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(name) DESC`)
-  else if (sortBy === "id_asc")
+  else if (sortBy === "id")
     stmt = db.prepare(`SELECT * from Companies ORDER BY id`)
   else if (sortBy === "id_des")
     stmt = db.prepare(`SELECT * from Companies ORDER BY id DESC`)
+  else if (sortBy === "mobile")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(mobile)`)
+  else if (sortBy === "mobile_des")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(mobile) DESC`)
+  else if (sortBy === "order_day")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(order_day)`)
+  else if (sortBy === "order_day_des")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(order_day) DESC`)
+  else if (sortBy === "delivery_day")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(delivery_day)`)
+  else if (sortBy === "delivery_day_des")
+    stmt = db.prepare(
+      `SELECT * from Companies ORDER BY UPPER(delivery_day) DESC`
+    )
+  else if (sortBy === "remark")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(remark)`)
+  else if (sortBy === "remark_des")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(remark) DESC`)
+  else if (sortBy === "due")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY dues`)
+  else if (sortBy === "due_des")
+    stmt = db.prepare(`SELECT * from Companies ORDER BY dues DESC`)
 
-  const companys = stmt.all()
+  const companies = stmt.all()
   db.close()
-  return companys
+
+  return companies
 }
 
-function sanitize(searchTerm, companys) {
+function sanitize(searchTerm, companies) {
   let niddle
+
+  const exactMatch = new Set()
   const startsWith = new Set()
   const possibleNameMatch = new Set()
 
@@ -32,9 +61,9 @@ function sanitize(searchTerm, companys) {
     niddle = new RegExp("")
   }
 
-  companys.forEach(company => {
-    if (company.id == searchTerm) {
-      startsWith.add(company)
+  companies.forEach(company => {
+    if (company.id === Number(searchTerm)) {
+      exactMatch.add(company)
       return
     }
 
@@ -49,21 +78,23 @@ function sanitize(searchTerm, companys) {
     }
   })
 
-  const sanitized = [...startsWith, ...possibleNameMatch]
-
-  return sanitized
+  return [...exactMatch, ...startsWith, ...possibleNameMatch]
 }
 
-function render() {
+export function render() {
   let searchTerm = companyListSearch.value.trim()
-  let display_per_page = Number(companyListDisplayPerPage.value) || 100
-  let goto_page = Number(companyListGotoPage.value) || 1
+  let display_per_page = Number(companyListDisplayPerPage.value)
   let sortBy = companyListSortBy.value
 
   const allSortedData = sanitize(searchTerm, getCompanies(sortBy))
   const possiblePage = Math.ceil(allSortedData.length / display_per_page)
-  companyListPossiblePage.innerHTML = possiblePage
 
+  companyListPossiblePage.innerHTML = possiblePage
+  companyListGotoPage.value > possiblePage
+    ? (companyListGotoPage.value = possiblePage)
+    : ""
+
+  let goto_page = Number(companyListGotoPage.value) || 1
   const toRenderData = allSortedData.slice(
     (goto_page - 1) * display_per_page,
     allSortedData.length <= goto_page * display_per_page
@@ -72,16 +103,21 @@ function render() {
   )
 
   let htmlString = ""
+
   toRenderData.forEach(list => {
+    let hasDue = Number(list.dues) > 0
+
     htmlString += `
-        <tr>
-          <td>${list.id < 10 ? "0" + list.id : list.id}</td>
+        <tr data-id="${list.id}">
+          <td>${padZero(list.id)}</td>
           <td>${list.name}</td>
-          <td>${list.mobile || ""}</td>
-          <td>${list.order_day || ""}</td>
-          <td>${list.delivery_day || ""}</td>
-          <td>${list.remark || ""}</td>
-          <td>${list.dues || "0.0"}</td>
+          <td>${list.mobile}</td>
+          <td>${list.order_day}</td>
+          <td>${list.delivery_day}</td>
+          <td>${list.remark}</td>
+          <td ${hasDue ? "style='background-color: #ff000050'" : ""}>${
+      list.dues
+    }</td>
         </tr>
       `
   })
@@ -91,11 +127,17 @@ function render() {
 }
 
 enterToNextInput([companyListSearch, companyListGotoPage, companyListSearch])
-enterToNextInput([editCompanyListName, editCompanyListMobile, editCompanyListOrderDay, editCompanyListDeliveryDay, editCompanyListRemark, editCompanyListOk])
+enterToNextInput([
+  editCompanyListName,
+  editCompanyListMobile,
+  editCompanyListOrderDay,
+  editCompanyListDeliveryDay,
+  editCompanyListRemark,
+  editCompanyListOk,
+])
 
+intInput(companyListGotoPage, 1)
 mobileInput(editCompanyListMobile)
-intInput(companyListDisplayPerPage)
-intInput(companyListGotoPage)
 
 document
   .querySelector("nav li[data-navitem='companyList']")
@@ -105,22 +147,35 @@ document
     render()
   })
 
-companyListSearch.addEventListener("input", render)
-companyListSortBy.addEventListener("input", render)
-companyListDisplayPerPage.addEventListener("keyup", render)
-companyListGotoPage.addEventListener("keyup", render)
-companyListDisplayPerPage.addEventListener("blur", () => {
-  companyListDisplayPerPage.value > 0
-    ? ""
-    : (companyListDisplayPerPage.value = 100)
+companyListSearch.addEventListener("input", () => {
+  companyListGotoPage.value = 1
+  render()
 })
+
+companyListSortBy.addEventListener("input", render)
+
+companyListDisplayPerPage.addEventListener("input", () => {
+  companyListGotoPage.value = 1
+  render()
+})
+
+companyListGotoPage.addEventListener("keyup", render)
+
 companyListGotoPage.addEventListener("blur", () => {
   companyListGotoPage.value > 0 ? "" : (companyListGotoPage.value = 1)
 })
 
+companyListCreate.addEventListener("click", () => {
+  createCompany.showModal()
+  createCompanyId.value = nextRowId("Companies")
+  delayFocus(createCompanyName)
+})
+
 companyListTbody.addEventListener("click", e => {
-  let tdatas = e.target.closest("tr").querySelectorAll("td")
-  let id = Number(tdatas[0].innerHTML)
+  let tr = e.target.closest("tr")
+  let id = Number(tr.dataset["id"])
+  let tdatas = tr.querySelectorAll("td")
+
   let name = tdatas[1].innerHTML
   let mobile = tdatas[2].innerHTML
   let order_day = tdatas[3].innerHTML

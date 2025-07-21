@@ -1,5 +1,5 @@
-const { DatabaseSync } = require('node:sqlite')
-const db = new DatabaseSync('database.db')
+const { DatabaseSync } = require("node:sqlite")
+const db = new DatabaseSync("database.db")
 
 db.prepare(
   `CREATE TABLE IF NOT EXISTS StoreInfo (
@@ -7,7 +7,7 @@ db.prepare(
   name TEXT,
   mobile TEXT,
   address TEXT,
-  cash TEXT
+  cash INTEGER
 )`
 ).run()
 
@@ -29,7 +29,7 @@ db.prepare(
   mobile TEXT,
   address TEXT,
   remark TEXT,
-  dues TEXT,
+  dues INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
@@ -40,7 +40,7 @@ db.prepare(
   name TEXT,
   mobile TEXT,
   remark TEXT,
-  dues TEXT,
+  dues INTEGER,
   order_day TEXT,
   delivery_day TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
@@ -94,12 +94,11 @@ db.prepare(
   id INTEGER,
   company_id TEXT,
   invoice_no TEXT,
+  payable INTEGER,
+  discount INTEGER,
+  paid INTEGER,
+  dues INTEGER,
   date INTEGER,
-  total_bill TEXT,
-  payable TEXT,
-  discount TEXT,
-  paid TEXT,
-  dues TEXT,
   data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
@@ -119,11 +118,11 @@ db.prepare(
   `CREATE TABLE IF NOT EXISTS Sells (
   id INTEGER,
   customer_id INTEGER,
+  payable INTEGER, 
+  discount INTEGER, 
+  paid INTEGER,
+  dues INTEGER,
   date INTEGER,
-  discount TEXT, 
-  payable TEXT, 
-  paid TEXT,
-  dues TEXT,
   data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
@@ -133,7 +132,7 @@ db.prepare(
   `CREATE TABLE IF NOT EXISTS SellReturns (
   id INTEGER,
   sell_id INTEGER,
-  paid TEXT,
+  paid INTEGER,
   data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
