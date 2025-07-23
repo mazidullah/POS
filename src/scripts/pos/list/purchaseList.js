@@ -77,6 +77,40 @@ function getPurchases(sortBy) {
         `
       )
       break
+
+    case "date":
+      stmt = db.prepare(
+        `SELECT 
+        Purchases.id, 
+        Purchases.invoice_no,
+        Purchases.payable, 
+        Purchases.discount, 
+        Purchases.paid, 
+        Purchases.dues, 
+        Purchases.date, 
+        Purchases.data, 
+        Companies.name from Purchases
+        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.date
+        `
+      )
+      break
+    case "date_des":
+      stmt = db.prepare(
+        `SELECT 
+        Purchases.id, 
+        Purchases.invoice_no,
+        Purchases.payable, 
+        Purchases.discount, 
+        Purchases.paid, 
+        Purchases.dues, 
+        Purchases.date, 
+        Purchases.data, 
+        Companies.name from Purchases
+        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.date DESC
+        `
+      )
+      break
+
     case "due":
       stmt = db.prepare(
         `SELECT 
