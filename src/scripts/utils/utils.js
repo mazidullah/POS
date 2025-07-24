@@ -385,10 +385,17 @@ export function floatInput(element, min = -Infinity, max = Infinity) {
       return
     }
 
-    if (key === "." && length === 0 && min < 0) {
-      element.value = "."
-      element.selectionStart = 1
-      element.selectionEnd = 1
+    if (key === "." && length === 0 && min <= 0) {
+      element.value = "0."
+      element.selectionStart = 2
+      element.selectionEnd = 2
+      return
+    }
+
+    if (key === "." && length === 0 && min > 0) {
+      element.value = ""
+      element.selectionStart = 0
+      element.selectionEnd = 0
       return
     }
 

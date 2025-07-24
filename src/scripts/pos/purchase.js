@@ -286,9 +286,9 @@ floatInput(purchasePurchasePriceAll, 0)
 floatInput(purchaseVat, 0)
 floatInput(purchaseVatAll, 0)
 intInput(purchaseRackNo, 1)
-intInput(purchaseDiscount)
-intInput(purchasePaid)
-intInput(purchaseDue)
+intInput(purchaseDiscount, 0)
+intInput(purchasePaid, 0)
+intInput(purchaseDue, 0)
 
 purchaseClear.addEventListener("click", clearAll)
 purchaseCompanyName.addEventListener("input", () => {
