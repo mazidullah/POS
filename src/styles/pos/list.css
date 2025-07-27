@@ -75,6 +75,7 @@
     width: 160px;
   }
 }
+
 #companyList.active {
   th:nth-child(1),
   td:nth-child(1) {
@@ -116,6 +117,7 @@
     text-align: center;
   }
 }
+
 #genericList.active,
 #typeList.active {
   th:nth-child(1),
@@ -127,6 +129,7 @@
     text-align: center;
   }
 }
+
 #productList.active {
   th:nth-child(1),
   th:nth-child(2),
@@ -145,6 +148,7 @@
     width: 30%;
   }
 }
+
 #purchaseList.active {
   th:nth-child(1),
   td:nth-child(1) {
@@ -172,6 +176,44 @@
   th:nth-child(8),
   td:nth-child(8) {
     width: 120px;
+    text-align: center;
+  }
+}
+
+#stockList.active {
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 70px;
+    text-align: center;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 70px;
+  }
+
+  th:nth-child(3),
+  th:nth-child(4),
+  th:nth-child(5),
+  td:nth-child(3),
+  td:nth-child(4),
+  td:nth-child(5) {
+    width: auto;
+  }
+
+  th:nth-child(6),
+  th:nth-child(7),
+  th:nth-child(8),
+  td:nth-child(6),
+  td:nth-child(7),
+  td:nth-child(8) {
+    width: 60px;
+    text-align: center;
+  }
+
+  th:nth-child(9),
+  td:nth-child(9) {
+    width: 100px;
     text-align: center;
   }
 }
