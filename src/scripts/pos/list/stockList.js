@@ -1,170 +1,214 @@
-import { padZero } from '../../utils/utils.js'
-import { delayFocus } from '../../utils/utils.js'
-import { intInput } from '../../utils/utils.js'
-import { enterToNextInput } from '../../utils/utils.js'
-import { getDate } from '../../utils/dateTime.js'
+import { padZero } from "../../utils/utils.js"
+import { delayFocus } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
+import { getDate } from "../../utils/dateTime.js"
 
-function getPurchases(sortBy) {
-  const { DatabaseSync } = require('node:sqlite')
-  let db = new DatabaseSync('database.db')
+function getStockes(sortBy) {
+  const { DatabaseSync } = require("node:sqlite")
+  let db = new DatabaseSync("database.db")
   let stmt
 
   switch (sortBy) {
-    case 'company_name':
+    case "product_name":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Company ON Companies.id = Purchases.company_id ORDER BY UPPER(Companies.name)
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date,
+        Stocks.purchase_id as pid,
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY UPPER(Products.name)
         `
       )
       break
-    case 'company_name_des':
+    case "product_name_des":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY UPPER(Companies.name) DESC
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid,
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY UPPER(Products.name) DESC
         `
       )
       break
-    case 'id':
+    case "id":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.id
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid,
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY Stocks.id
         `
       )
       break
-    case 'id_des':
+    case "id_des":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.id DESC
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid, 
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY Stocks.id DESC
         `
       )
       break
-
-    case 'date':
+    case "company_name":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.date
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid,
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY UPPER(Companies.name)
         `
       )
       break
-    case 'date_des':
+    case "company_name_des":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.date DESC
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid, 
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY UPPER(Companies.name) DESC
         `
       )
       break
-
-    case 'due':
+    case "generic_name":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.dues
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid, 
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY UPPER(Generics.name)
         `
       )
       break
-    case 'due_des':
+    case "generic_name_des":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.dues DESC
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid, 
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY UPPER(Generics.name) DESC
         `
       )
       break
-
-    default:
+    case "expire_date":
       stmt = db.prepare(
         `SELECT 
-        Purchases.id, 
-        Purchases.invoice_no,
-        Purchases.payable, 
-        Purchases.discount, 
-        Purchases.paid, 
-        Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
-        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.id
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid, 
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY Stocks.expire_date
         `
       )
+      break
+    case "expire_date_des":
+      stmt = db.prepare(
+        `SELECT 
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date, 
+        Stocks.purchase_id as pid, 
+        Products.name as pn,
+        Companies.name as cn,
+        Generics.name as gn from Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        ORDER BY Stocks.expire_date DESC
+        `
+      )
+      break
   }
 
-  const purchases = stmt.all()
+  const stocks = stmt.all()
   db.close()
 
-  return purchases
+  return stocks
 }
 
-function sanitize(searchTerm, purchases) {
+function sanitize(searchTerm, stocks) {
   let niddle
 
   const exactMatch = new Set()
@@ -172,36 +216,44 @@ function sanitize(searchTerm, purchases) {
   const possibleMatch = new Set()
 
   try {
-    niddle = new RegExp(searchTerm, 'i')
+    niddle = new RegExp(searchTerm, "i")
   } catch (err) {
-    niddle = new RegExp('')
+    niddle = new RegExp("")
   }
 
-  purchases.forEach(purchase => {
-    if (purchase.id === Number(searchTerm)) {
-      exactMatch.add(purchase)
+  stocks.forEach(stock => {
+    if (stock.id === Number(searchTerm)) {
+      exactMatch.add(stock)
       return
     }
 
-    if (purchase.name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
-      startsWith.add(purchase)
+    if (stock.pn.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+      startsWith.add(stock)
       return
     }
 
-    if (
-      purchase.invoice_no.toUpperCase().startsWith(searchTerm.toUpperCase())
-    ) {
-      startsWith.add(purchase)
+    if (stock.gn.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+      startsWith.add(stock)
       return
     }
 
-    if (niddle.test(purchase.name)) {
-      possibleMatch.add(customer)
+    if (stock.cn.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+      startsWith.add(stock)
       return
     }
 
-    if (niddle.test(purchase.invoice_no)) {
-      possibleMatch.add(customer)
+    if (niddle.test(stock.pn)) {
+      possibleMatch.add(stock)
+      return
+    }
+
+    if (niddle.test(stock.gn)) {
+      possibleMatch.add(stock)
+      return
+    }
+
+    if (niddle.test(stock.cn)) {
+      possibleMatch.add(stock)
       return
     }
   })
@@ -210,19 +262,19 @@ function sanitize(searchTerm, purchases) {
 }
 
 export function render() {
-  let searchTerm = purchaseListSearch.value.trim()
-  let display_per_page = Number(purchaseListDisplayPerPage.value)
-  let sortBy = purchaseListSortBy.value
+  let searchTerm = stockListSearch.value.trim()
+  let display_per_page = Number(stockListDisplayPerPage.value)
+  let sortBy = stockListSortBy.value
 
-  const allSortedData = sanitize(searchTerm, getPurchases(sortBy))
+  const allSortedData = sanitize(searchTerm, getStockes(sortBy))
   const possiblePage = Math.ceil(allSortedData.length / display_per_page)
 
-  purchaseListPossiblePage.innerHTML = possiblePage
-  purchaseListGotoPage.value > possiblePage
-    ? (purchaseListGotoPage.value = possiblePage)
-    : ''
+  stockListPossiblePage.innerHTML = possiblePage
+  stockListGotoPage.value > possiblePage
+    ? (stockListGotoPage.value = possiblePage)
+    : ""
 
-  let goto_page = Number(purchaseListGotoPage.value) || 1
+  let goto_page = Number(stockListGotoPage.value) || 1
   const toRenderData = allSortedData.slice(
     (goto_page - 1) * display_per_page,
     allSortedData.length <= goto_page * display_per_page
@@ -230,33 +282,43 @@ export function render() {
       : goto_page * display_per_page
   )
 
-  let htmlString = ''
+  let htmlString = ""
 
   toRenderData.forEach(list => {
-    let hasDue = Number(list.dues) > 0
+    let is_sp_error = list.sell_price < list.purchase_price
+    let is_toExpire = list.expire_date < Date.now() + 90 * 24 * 3600000
+    let is_expired = list.expire_date < Date.now()
+
+    if (is_expired) is_toExpire = false
 
     htmlString += `
         <tr data-id="${list.id}">
           <td>${padZero(list.id)}</td>
-          <td>${list.invoice_no}</td>
-          <td>${list.name}</td>
-          <td>${list.payable}</td>
-          <td>${list.discount}</td>
-          <td>${list.paid}</td>
-          <td ${hasDue ? "style='background-color: #ff000050'" : ''}>
-            ${list.dues}
-          </td>
-
-          <td>${getDate(new Date(list.date))}</td>
+          <td>${padZero(list.pid)}</td>
+          <td>${list.pn}</td>
+          <td>${list.gn}</td>
+          <td>${list.cn}</td>
+          <td>${list.quantity}</td>
+          <td>${list.purchase_price}</td>
+          <td>${list.sell_price}</td>
+          <td ${
+            is_toExpire
+              ? "class='to-expire' title='Will be expired within 90 days'"
+              : ""
+          } ${
+      is_expired
+        ? "class='expired' title='This Item was expired. We should purge the item.'"
+        : ""
+    }>${getDate(new Date(list.expire_date))}</td>
         </tr>
       `
   })
 
-  purchaseList.querySelector('tbody').innerHTML = ''
-  purchaseList.querySelector('tbody').innerHTML = htmlString
+  stockList.querySelector("tbody").innerHTML = ""
+  stockList.querySelector("tbody").innerHTML = htmlString
 }
 
-enterToNextInput([purchaseListSearch, purchaseListGotoPage, purchaseListSearch])
+enterToNextInput([stockListSearch, stockListGotoPage, stockListSearch])
 // enterToNextInput([
 //   editCustomerListName,
 //   editCustomerListAddress,
@@ -265,32 +327,32 @@ enterToNextInput([purchaseListSearch, purchaseListGotoPage, purchaseListSearch])
 //   editCustomerListOk,
 // ])
 
-intInput(purchaseListGotoPage, 1)
+intInput(stockListGotoPage, 1)
 
 document
-  .querySelector("nav li[data-navitem='purchaseList']")
-  .closest('li')
-  .addEventListener('click', () => {
-    delayFocus(purchaseListSearch)
+  .querySelector("nav li[data-navitem='stockList']")
+  .closest("li")
+  .addEventListener("click", () => {
+    delayFocus(stockListSearch)
     render()
   })
 
-purchaseListSearch.addEventListener('input', () => {
-  purchaseListGotoPage.value = 1
+stockListSearch.addEventListener("input", () => {
+  stockListGotoPage.value = 1
   render()
 })
 
-purchaseListSortBy.addEventListener('input', render)
+stockListSortBy.addEventListener("input", render)
 
-purchaseListDisplayPerPage.addEventListener('input', () => {
-  purchaseListGotoPage.value = 1
+stockListDisplayPerPage.addEventListener("input", () => {
+  stockListGotoPage.value = 1
   render()
 })
 
-purchaseListGotoPage.addEventListener('keyup', render)
+stockListGotoPage.addEventListener("keyup", render)
 
-purchaseListGotoPage.addEventListener('blur', () => {
-  purchaseListGotoPage.value > 0 ? '' : (purchaseListGotoPage.value = 1)
+stockListGotoPage.addEventListener("blur", () => {
+  stockListGotoPage.value > 0 ? "" : (stockListGotoPage.value = 1)
 })
 
 // customerListCreate.addEventListener("click", () => {

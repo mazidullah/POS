@@ -1,16 +1,16 @@
-import { padZero } from '../../utils/utils.js'
-import { delayFocus } from '../../utils/utils.js'
-import { intInput } from '../../utils/utils.js'
-import { enterToNextInput } from '../../utils/utils.js'
-import { getDate } from '../../utils/dateTime.js'
+import { padZero } from "../../utils/utils.js"
+import { delayFocus } from "../../utils/utils.js"
+import { intInput } from "../../utils/utils.js"
+import { enterToNextInput } from "../../utils/utils.js"
+import { getDate } from "../../utils/dateTime.js"
 
 function getPurchases(sortBy) {
-  const { DatabaseSync } = require('node:sqlite')
-  let db = new DatabaseSync('database.db')
+  const { DatabaseSync } = require("node:sqlite")
+  let db = new DatabaseSync("database.db")
   let stmt
 
   switch (sortBy) {
-    case 'company_name':
+    case "company_name":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -22,11 +22,11 @@ function getPurchases(sortBy) {
         Purchases.date, 
         Purchases.data, 
         Companies.name from Purchases
-        INNER JOIN Company ON Companies.id = Purchases.company_id ORDER BY UPPER(Companies.name)
+        INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY UPPER(Companies.name)
         `
       )
       break
-    case 'company_name_des':
+    case "company_name_des":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -42,7 +42,7 @@ function getPurchases(sortBy) {
         `
       )
       break
-    case 'id':
+    case "id":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -58,7 +58,7 @@ function getPurchases(sortBy) {
         `
       )
       break
-    case 'id_des':
+    case "id_des":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -75,7 +75,7 @@ function getPurchases(sortBy) {
       )
       break
 
-    case 'date':
+    case "date":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -91,7 +91,7 @@ function getPurchases(sortBy) {
         `
       )
       break
-    case 'date_des':
+    case "date_des":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -108,7 +108,7 @@ function getPurchases(sortBy) {
       )
       break
 
-    case 'due':
+    case "due":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -124,7 +124,7 @@ function getPurchases(sortBy) {
         `
       )
       break
-    case 'due_des':
+    case "due_des":
       stmt = db.prepare(
         `SELECT 
         Purchases.id, 
@@ -172,9 +172,9 @@ function sanitize(searchTerm, purchases) {
   const possibleMatch = new Set()
 
   try {
-    niddle = new RegExp(searchTerm, 'i')
+    niddle = new RegExp(searchTerm, "i")
   } catch (err) {
-    niddle = new RegExp('')
+    niddle = new RegExp("")
   }
 
   purchases.forEach(purchase => {
@@ -196,12 +196,12 @@ function sanitize(searchTerm, purchases) {
     }
 
     if (niddle.test(purchase.name)) {
-      possibleMatch.add(customer)
+      possibleMatch.add(purchase)
       return
     }
 
     if (niddle.test(purchase.invoice_no)) {
-      possibleMatch.add(customer)
+      possibleMatch.add(purchase)
       return
     }
   })
@@ -220,7 +220,7 @@ export function render() {
   purchaseListPossiblePage.innerHTML = possiblePage
   purchaseListGotoPage.value > possiblePage
     ? (purchaseListGotoPage.value = possiblePage)
-    : ''
+    : ""
 
   let goto_page = Number(purchaseListGotoPage.value) || 1
   const toRenderData = allSortedData.slice(
@@ -230,7 +230,7 @@ export function render() {
       : goto_page * display_per_page
   )
 
-  let htmlString = ''
+  let htmlString = ""
 
   toRenderData.forEach(list => {
     let hasDue = Number(list.dues) > 0
@@ -243,7 +243,7 @@ export function render() {
           <td>${list.payable}</td>
           <td>${list.discount}</td>
           <td>${list.paid}</td>
-          <td ${hasDue ? "style='background-color: #ff000050'" : ''}>
+          <td ${hasDue ? "style='background-color: #ff000050'" : ""}>
             ${list.dues}
           </td>
 
@@ -252,8 +252,8 @@ export function render() {
       `
   })
 
-  purchaseList.querySelector('tbody').innerHTML = ''
-  purchaseList.querySelector('tbody').innerHTML = htmlString
+  purchaseList.querySelector("tbody").innerHTML = ""
+  purchaseList.querySelector("tbody").innerHTML = htmlString
 }
 
 enterToNextInput([purchaseListSearch, purchaseListGotoPage, purchaseListSearch])
@@ -269,28 +269,28 @@ intInput(purchaseListGotoPage, 1)
 
 document
   .querySelector("nav li[data-navitem='purchaseList']")
-  .closest('li')
-  .addEventListener('click', () => {
+  .closest("li")
+  .addEventListener("click", () => {
     delayFocus(purchaseListSearch)
     render()
   })
 
-purchaseListSearch.addEventListener('input', () => {
+purchaseListSearch.addEventListener("input", () => {
   purchaseListGotoPage.value = 1
   render()
 })
 
-purchaseListSortBy.addEventListener('input', render)
+purchaseListSortBy.addEventListener("input", render)
 
-purchaseListDisplayPerPage.addEventListener('input', () => {
+purchaseListDisplayPerPage.addEventListener("input", () => {
   purchaseListGotoPage.value = 1
   render()
 })
 
-purchaseListGotoPage.addEventListener('keyup', render)
+purchaseListGotoPage.addEventListener("keyup", render)
 
-purchaseListGotoPage.addEventListener('blur', () => {
-  purchaseListGotoPage.value > 0 ? '' : (purchaseListGotoPage.value = 1)
+purchaseListGotoPage.addEventListener("blur", () => {
+  purchaseListGotoPage.value > 0 ? "" : (purchaseListGotoPage.value = 1)
 })
 
 // customerListCreate.addEventListener("click", () => {

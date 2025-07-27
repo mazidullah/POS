@@ -91,10 +91,6 @@ export function updateCash(toAdd) {
   let storeInfo = getData("StoreInfo", "Where id = 1")
   let cash = Number(storeInfo.cash)
 
-  console.log(cash)
-  console.log(toAdd)
-  console.log(cash + toAdd)
-
   if (cash + toAdd < 0) {
     showMessege("Invalid Operation", "Have not sufficient cash")
     return new Error("Not Sufficient cash")
