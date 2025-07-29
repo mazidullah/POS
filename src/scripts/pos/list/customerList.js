@@ -276,7 +276,7 @@ editCustomerListOk.addEventListener("click", () => {
 
   showMessege(
     "Successfully Updated",
-    `Product Id: ${Number(editCustomerListId.value)}`
+    `Customer Id: ${Number(editCustomerListId.value)}`
   )
 
   editCustomerList.close()

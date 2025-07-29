@@ -221,7 +221,10 @@ createProductCreate.addEventListener("click", () => {
     type_id,
     min_stock,
   ])
-  showMessege("Successfully Created", `Username: ${createProductName.value}`)
+  showMessege(
+    "Successfully Created",
+    `Product name: ${createProductName.value}`
+  )
 
   createProductName.value = ""
   createProductCompanyName.value = ""
