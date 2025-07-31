@@ -87,9 +87,12 @@ create.addEventListener("click", () => {
 
   create.disabled = true
   showMessege("Wait...", "Initializing Database")
-  fillDatabase()
 
-  const { ipcRenderer } = require("electron")
-  ipcRenderer.send("open:loginWindow")
-  window.close()
+  setTimeout(() => {
+    fillDatabase()
+
+    const { ipcRenderer } = require("electron")
+    ipcRenderer.send("open:loginWindow")
+    window.close()
+  })
 })

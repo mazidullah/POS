@@ -1,7 +1,13 @@
-import {getDateTime} from "../utils/dateTime.js"
-import {getSure, showMessege} from "../utils/messege.js"
-import {delayFocus, enterToNextInput, focus} from "../utils/utils.js"
-import {getData, getAllData, insertInto, updateInto, deleteFrom} from "../utils/database.js"
+import { getDateTime } from "../utils/dateTime.js"
+import { getSure, showMessege } from "../utils/messege.js"
+import { delayFocus, enterToNextInput, focus, padZero } from "../utils/utils.js"
+import {
+  getData,
+  getAllData,
+  insertInto,
+  updateInto,
+  deleteFrom,
+} from "../utils/database.js"
 
 enterToNextInput([newUserName, newUserPassword, createNewUser])
 
@@ -12,8 +18,7 @@ const state = {
 const tbody = document.querySelector("#users tbody")
 const navbar = document.querySelector("nav ul > li[data-navitem='users']")
 
-
-const checkUser = (username) => {
+const checkUser = username => {
   state.allUsers = getAllData("Users")
   let hasUser = false
 
@@ -31,7 +36,7 @@ const sameUser = () => {
   return userEditName.value.trim() === userDetails.name
 }
 
-const handleUserEdit = (e) => {
+const handleUserEdit = e => {
   state.currentUserId = Number(e.target.closest("tr").dataset.userid)
   const userDetails = getData("Users", `where id = ${state.currentUserId}`)
 
@@ -44,10 +49,13 @@ const handleUserEdit = (e) => {
   enterToNextInput([userEditName, userEditPassword, userEditOk])
 }
 
-const handleUserDelete = (e) => {
+const handleUserDelete = e => {
   state.currentUserId = Number(e.target.closest("tr").dataset.userid)
   getSure().then(() => {
-    showMessege("Successfully deleted", `name: ${getData("Users", "WHERE id = " + state.currentUserId).name}`)
+    showMessege(
+      "Successfully deleted",
+      `name: ${getData("Users", "WHERE id = " + state.currentUserId).name}`
+    )
     deleteFrom("Users", `WHERE id = ${state.currentUserId}`)
     renderUser()
     focus(newUserName)
@@ -60,9 +68,9 @@ const displayAllUserToTable = () => {
   state.allUsers = getAllData("Users")
 
   state.allUsers.forEach((u, i) => {
-    let idx = i + 1 < 10 ? "0" + (i + 1) : i
+    let idx = padZero(i + 1)
     let role = u.role === "admin" ? u.name + " (admin)" : u.name
-    let last_login = getDateTime(new Date(u.last_login))
+    let last_login = getDateTime(new Date(u.last_login)) || ""
     let deleteBtn =
       u.role === "admin"
         ? ""
@@ -126,20 +134,15 @@ createNewUser.addEventListener("click", () => {
       newUserName.value = ""
       newUserPassword.value = ""
       renderUser()
-      focus(newUserName)
-    } 
-    else {
+      delayFocus(newUserName)
+    } else {
       showMessege("Error", "Username name is already present!")
       delayFocus(newUserName)
     }
-  } 
-  
-  else if(newUserName.value.length === 0) {
+  } else if (newUserName.value.length === 0) {
     showMessege("Invalid username", "You must provide an username.")
     delayFocus(newUserName)
-  }
-
-  else {
+  } else {
     showMessege("Invalid password", "You must provide a password.")
     delayFocus(newUserPassword)
   }
@@ -155,16 +158,18 @@ userEditOk.addEventListener("click", () => {
         `WHERE id = ${state.currentUserId}`
       )
 
-      showMessege("Succssfully updated", `Username: ${userEditName.value}, Password: ${userEditPassword.value}`)
+      showMessege(
+        "Succssfully updated",
+        `Username: ${userEditName.value}, Password: ${userEditPassword.value}`
+      )
       renderUser()
       userEdit.close()
-      focus(newUserName)
-    } 
-    else {
+      delayFocus(newUserName)
+    } else {
       showMessege("Error", "Username name is already present!")
       delayFocus(userEditName)
     }
-  } else if(userEditName.value.length === 0) {
+  } else if (userEditName.value.length === 0) {
     showMessege("Invalid input", "Pls. Enter a name")
     delayFocus(userEditName)
   } else {
@@ -175,8 +180,7 @@ userEditOk.addEventListener("click", () => {
 
 userEditClose.addEventListener("click", () => {
   userEdit.close()
-  focus(newUserName)
+  delayFocus(newUserName)
 })
 
 navbar.addEventListener("click", renderUser())
-

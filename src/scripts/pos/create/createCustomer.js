@@ -22,6 +22,10 @@ createCustomerClose.addEventListener("click", () => {
 })
 
 createCustomerCancel.addEventListener("click", () => {
+  createCustomerName.value = ""
+  createCustomerAddress.value = ""
+  createCustomerMobile.value = ""
+  createCustomerRemark.value = ""
   createCustomer.close()
 })
 

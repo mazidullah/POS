@@ -225,10 +225,17 @@ customerListTbody.addEventListener("click", e => {
   editCustomerListMobile.value = customer.mobile
   editCustomerListRemark.value = customer.remark
   editCustomerListDue.value = customer.dues
+
   editCustomerList.showModal()
 })
 
 editCustomerListCancel.addEventListener("click", () => {
+  editCustomerListPay.value = ""
+  editCustomerListDiscount.value = ""
+  editCustomerList.close()
+})
+
+editCustomerListClose.addEventListener("click", () => {
   editCustomerListPay.value = ""
   editCustomerListDiscount.value = ""
   editCustomerList.close()

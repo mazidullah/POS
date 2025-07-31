@@ -12,7 +12,7 @@ body {
   position: relative;
 
   & > div {
-    width: 300px;
+    width: 330px;
   }
 }
 
@@ -35,6 +35,10 @@ body {
 
 header {
   margin-bottom: 8px;
+
+  h1 {
+    font-size: 1.4rem;
+  }
 }
 
 button {

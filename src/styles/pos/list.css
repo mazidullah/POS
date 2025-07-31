@@ -220,6 +220,30 @@
 }
 
 #editCustomerList {
+  position: relative;
+  header {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #000;
+    h1 {
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    svg {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      fill: #af0000;
+      background-color: #dadada;
+      border-radius: 100%;
+    }
+
+    svg:hover {
+      background-color: transparent;
+      fill: #a00000;
+    }
+  }
+
   main {
     display: grid;
     grid-template-columns: 2fr 1fr;

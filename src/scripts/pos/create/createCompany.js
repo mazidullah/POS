@@ -70,6 +70,26 @@ createCompanyClose.addEventListener("click", () => {
 })
 
 createCompanyCancel.addEventListener("click", () => {
+  createCompanyName.value = ""
+  createCompanyMobile.value = ""
+  createCompanyRemark.value = ""
+
+  createCompanyOrderDaySaturday.checked = false
+  createCompanyOrderDaySunday.checked = false
+  createCompanyOrderDayMonday.checked = false
+  createCompanyOrderDayTuesday.checked = false
+  createCompanyOrderDayWednesday.checked = false
+  createCompanyOrderDayThusday.checked = false
+  createCompanyOrderDayFriday.checked = false
+
+  createCompanyDeliveryDaySaturday.checked = false
+  createCompanyDeliveryDaySunday.checked = false
+  createCompanyDeliveryDayMonday.checked = false
+  createCompanyDeliveryDayTuesday.checked = false
+  createCompanyDeliveryDayWednesday.checked = false
+  createCompanyDeliveryDayThusday.checked = false
+  createCompanyDeliveryDayFriday.checked = false
+
   createCompany.close()
 })
 

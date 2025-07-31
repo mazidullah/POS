@@ -90,7 +90,6 @@ button {
 
 button:focus {
   color: #fff;
-  /* outline-color: var(--outline-clr); */
 }
 
 button:hover {
@@ -402,6 +401,7 @@ div:has(> .suggetion) {
 
   div {
     display: flex;
+    flex-direction: row;
     justify-content: flex-end;
     gap: 10px;
   }
