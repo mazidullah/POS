@@ -285,7 +285,6 @@ export function render() {
   let htmlString = ""
 
   toRenderData.forEach(list => {
-    let is_sp_error = list.sell_price < list.purchase_price
     let is_toExpire = list.expire_date < Date.now() + 90 * 24 * 3600000
     let is_expired = list.expire_date < Date.now()
 
