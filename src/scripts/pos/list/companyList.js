@@ -115,7 +115,7 @@ export function render() {
           <td>${list.order_day}</td>
           <td>${list.delivery_day}</td>
           <td>${list.remark}</td>
-          <td ${hasDue ? "style='background-color: #ff000050'" : ""}>${
+          <td ${hasDue ? "style='background-color: #cc0000c0'" : ""}>${
       list.dues
     }</td>
         </tr>
@@ -133,7 +133,7 @@ enterToNextInput([
   editCompanyListOrderDay,
   editCompanyListDeliveryDay,
   editCompanyListRemark,
-  editCompanyListOk,
+  editCompanyListSave,
 ])
 
 intInput(companyListGotoPage, 1)
@@ -192,11 +192,15 @@ companyListTbody.addEventListener("click", e => {
   editCompanyList.showModal()
 })
 
+editCompanyListClose.addEventListener("click", () => {
+  editCompanyList.close()
+})
+
 editCompanyListCancel.addEventListener("click", () => {
   editCompanyList.close()
 })
 
-editCompanyListOk.addEventListener("click", () => {
+editCompanyListSave.addEventListener("click", () => {
   try {
     updateInto(
       "Companies",

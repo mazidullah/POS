@@ -243,7 +243,7 @@ export function render() {
           <td>${list.payable}</td>
           <td>${list.discount}</td>
           <td>${list.paid}</td>
-          <td ${hasDue ? "style='background-color: #ff000050'" : ""}>
+          <td ${hasDue ? "style='background-color: #cc0000c0'" : ""}>
             ${list.dues}
           </td>
 

@@ -178,8 +178,18 @@ createProductClose.addEventListener("click", () => {
   createProduct.close()
 })
 
-createProductCancel.addEventListener("click", () => {
-  createProduct.close()
+createProductClear.addEventListener("click", () => {
+  createProductName.value = ""
+  createProductCompanyName.value = ""
+  createProductGenericName.value = ""
+  createProductTypeName.value = ""
+  createProductMinStock.value = ""
+
+  createProductCompanyNameSuggetions.dataset.id = 0
+  createProductGenericNameSuggetions.dataset.id = 0
+  createProductTypeNameSuggetions.dataset.id = 0
+
+  delayFocus(createProductName)
 })
 
 createProductCreate.addEventListener("click", () => {
@@ -221,6 +231,7 @@ createProductCreate.addEventListener("click", () => {
     type_id,
     min_stock,
   ])
+
   showMessege(
     "Successfully Created",
     `Product name: ${createProductName.value}`

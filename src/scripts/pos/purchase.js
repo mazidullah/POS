@@ -1,5 +1,6 @@
 import { insertInto } from "../utils/database.js"
 import { nextRowId } from "../utils/database.js"
+import { getData } from "../utils/database.js"
 import { updateCash } from "../utils/database.js"
 import { updateCompanyDue } from "../utils/database.js"
 import { showMessege } from "../utils/messege.js"
@@ -202,9 +203,11 @@ function renderTable() {
         <td>${product.name}</td>
         <td>${padZero(cart.qunatity)}</td>
         <td>${cart.purchasePrice}</td>
-        <td ${cart.sellPrice <= cart.purchasePrice ? "class='error'" : ""}>${
-      cart.sellPrice
-    }</td>
+        <td ${
+          cart.sellPrice <= cart.purchasePrice
+            ? "style='background-color: #cc00009d' title='Sell price is less then purchase price'"
+            : ""
+        }>${cart.sellPrice}</td>
         <td>${(cart.qunatity * cart.purchasePrice).toFixed(1)}</td>
         <td>${getDate(new Date(cart.expire))}</td>
         <td>X</td>
@@ -463,6 +466,8 @@ purchaseSave.addEventListener("click", () => {
   let paid = Number(purchasePaid.value)
   let dues = Number(purchaseDue.value)
 
+  let cash = Number(getData("StoreInfo", "WHERE id = 1").cash) || 0
+
   if (discount > payable) {
     showMessege("Invalid discount value", "Check your discount amount")
     return
@@ -473,9 +478,13 @@ purchaseSave.addEventListener("click", () => {
     return
   }
 
-  const { DatabaseSync } = require("node:sqlite")
-  const db = new DatabaseSync("database.db")
-  db.exec("BEGIN TRANSACTION")
+  if (cash < paid) {
+    showMessege("Have not sufficient cash", `You have ${cash}Taka cash.`)
+    return
+  }
+
+  updateCash(-paid)
+  updateCompanyDue(company_id, dues)
 
   let purchase_insert_info = insertInto(
     "Purchases",
@@ -525,17 +534,13 @@ purchaseSave.addEventListener("click", () => {
     )
   })
 
-  let error = updateCash(-paid)
-  if (!error) updateCompanyDue(company_id, dues)
+  clearAll()
+  showMessege(
+    "Suucessfully Purchases",
+    `Purchase ID: ${purchase_insert_info.lastInsertRowid}`
+  )
 
-  db.exec("COMMIT")
-  db.close()
-
-  if (!error) {
-    clearAll()
-    showMessege(
-      "Suucessfully Purchases",
-      `Purchase ID: ${purchase_insert_info.lastInsertRowid}`
-    )
-  }
+  console.log(
+    getData("Purchases", `WHERE id = ${purchase_insert_info.lastInsertRowid}`)
+  )
 })

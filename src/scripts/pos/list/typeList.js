@@ -96,7 +96,7 @@ export function render() {
 
 enterToNextInput([typeListSearch, typeListGotoPage, typeListSearch])
 
-enterToNextInput([editTypeListName, editTypeListOk])
+enterToNextInput([editTypeListName, editTypeListSave])
 
 intInput(typeListGotoPage, 1)
 
@@ -145,11 +145,15 @@ typeListTbody.addEventListener("click", e => {
   editTypeList.showModal()
 })
 
+editTypeListClose.addEventListener("click", () => {
+  editTypeList.close()
+})
+
 editTypeListCancel.addEventListener("click", () => {
   editTypeList.close()
 })
 
-editTypeListOk.addEventListener("click", () => {
+editTypeListSave.addEventListener("click", () => {
   try {
     updateInto(
       "Types",

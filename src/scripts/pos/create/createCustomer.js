@@ -5,7 +5,7 @@ import { render } from "../list/customerList.js"
 
 const tableName = "Customers"
 const fieldNames = ["name", "address", "mobile", "dues", "remark"]
-const navbars = document.querySelectorAll(`.createCustomer`)
+const createCustomerBtns = document.querySelectorAll(`.createCustomer`)
 
 mobileInput(createCustomerMobile)
 
@@ -21,19 +21,20 @@ createCustomerClose.addEventListener("click", () => {
   createCustomer.close()
 })
 
-createCustomerCancel.addEventListener("click", () => {
+createCustomerClear.addEventListener("click", () => {
   createCustomerName.value = ""
   createCustomerAddress.value = ""
   createCustomerMobile.value = ""
   createCustomerRemark.value = ""
-  createCustomer.close()
+
+  delayFocus(createCustomerName)
 })
 
 createCustomerCreate.addEventListener("click", () => {
   const name = createCustomerName.value.trim()
   const address = createCustomerAddress.value.trim()
   const mobile = createCustomerMobile.value.trim()
-  const dues = "0"
+  const dues = 0
   const remark = createCustomerRemark.value.trim()
 
   if (name.length === 0) {
@@ -60,7 +61,7 @@ createCustomerCreate.addEventListener("click", () => {
   createCustomerId.value = nextRowId(tableName)
 })
 
-navbars.forEach(navbar => {
+createCustomerBtns.forEach(navbar => {
   navbar.addEventListener("click", () => {
     createCustomer.showModal()
     createCustomerId.value = nextRowId(tableName)

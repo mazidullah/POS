@@ -90,19 +90,13 @@ export function deleteFrom(tableName, conditions) {
 export function updateCash(toAdd) {
   let storeInfo = getData("StoreInfo", "Where id = 1")
   let cash = Number(storeInfo.cash)
-
-  if (cash + toAdd < 0) {
-    showMessege("Invalid Operation", "Have not sufficient cash")
-    return new Error("Not Sufficient cash")
-  } else {
-    updateInto("StoreInfo", ["cash"], [String(cash + toAdd)], "where id = 1")
-  }
+  updateInto("StoreInfo", ["cash"], [cash + toAdd], "where id = 1")
 }
 
 export function updateCompanyDue(id, toAdd) {
   let company = getData("companies", `where id = ${id}`)
-  let dues = company.dues
-  updateInto("companies", ["dues"], [String(dues + toAdd)], `where id = ${id}`)
+  let dues = Number(company.dues)
+  updateInto("companies", ["dues"], [dues + toAdd], `where id = ${id}`)
 }
 
 export function fillDatabase() {

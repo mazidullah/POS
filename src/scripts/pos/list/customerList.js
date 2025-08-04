@@ -152,7 +152,7 @@ export function render() {
           <td>${list.address}</td>
           <td>${list.mobile}</td>
           <td>${list.remark}</td>
-          <td ${hasDue ? "style='background-color: #ff000050'" : ""}>${
+          <td ${hasDue ? "style='background-color: #cc0000c0'" : ""}>${
       list.dues
     }</td>
         </tr>
@@ -169,12 +169,12 @@ enterToNextInput([
   editCustomerListAddress,
   editCustomerListMobile,
   editCustomerListRemark,
-  editCustomerListOk,
+  editCustomerListSave,
 ])
 enterToNextInput([
   editCustomerListPay,
   editCustomerListDiscount,
-  editCustomerListOk,
+  editCustomerListSave,
 ])
 
 intInput(customerListGotoPage, 1)
@@ -229,19 +229,19 @@ customerListTbody.addEventListener("click", e => {
   editCustomerList.showModal()
 })
 
-editCustomerListCancel.addEventListener("click", () => {
-  editCustomerListPay.value = ""
-  editCustomerListDiscount.value = ""
-  editCustomerList.close()
-})
-
 editCustomerListClose.addEventListener("click", () => {
   editCustomerListPay.value = ""
   editCustomerListDiscount.value = ""
   editCustomerList.close()
 })
 
-editCustomerListOk.addEventListener("click", () => {
+editCustomerListCancel.addEventListener("click", () => {
+  editCustomerListPay.value = ""
+  editCustomerListDiscount.value = ""
+  editCustomerList.close()
+})
+
+editCustomerListSave.addEventListener("click", () => {
   let id = Number(editCustomerListId.value.trim())
   let name = editCustomerListName.value.trim()
   let address = editCustomerListAddress.value.trim()

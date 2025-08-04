@@ -12,7 +12,7 @@ const fieldNames = [
   "order_day",
   "delivery_day",
 ]
-const navbars = document.querySelectorAll(`.createCompany`)
+const createCompanyBtns = document.querySelectorAll(`.createCompany`)
 
 mobileInput(createCompanyMobile)
 enterToNextInput([
@@ -69,7 +69,7 @@ createCompanyClose.addEventListener("click", () => {
   createCompany.close()
 })
 
-createCompanyCancel.addEventListener("click", () => {
+createCompanyClear.addEventListener("click", () => {
   createCompanyName.value = ""
   createCompanyMobile.value = ""
   createCompanyRemark.value = ""
@@ -90,7 +90,7 @@ createCompanyCancel.addEventListener("click", () => {
   createCompanyDeliveryDayThusday.checked = false
   createCompanyDeliveryDayFriday.checked = false
 
-  createCompany.close()
+  delayFocus(createCompanyName)
 })
 
 createCompanyCreate.addEventListener("click", () => {
@@ -134,7 +134,7 @@ createCompanyCreate.addEventListener("click", () => {
   createCompanyId.value = nextRowId(tableName)
 })
 
-navbars.forEach(navbar => {
+createCompanyBtns.forEach(navbar => {
   navbar.addEventListener("click", () => {
     createCompany.showModal()
     createCompanyId.value = nextRowId(tableName)

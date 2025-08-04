@@ -97,7 +97,7 @@ export function render() {
 
 enterToNextInput([genericListSearch, genericListGotoPage, genericListSearch])
 
-enterToNextInput([editGenericListName, editGenericListOk])
+enterToNextInput([editGenericListName, editGenericListSave])
 
 intInput(genericListGotoPage, 1)
 
@@ -146,11 +146,15 @@ genericListTbody.addEventListener("click", e => {
   editGenericList.showModal()
 })
 
+editGenericListClose.addEventListener("click", () => {
+  editGenericList.close()
+})
+
 editGenericListCancel.addEventListener("click", () => {
   editGenericList.close()
 })
 
-editGenericListOk.addEventListener("click", () => {
+editGenericListSave.addEventListener("click", () => {
   try {
     updateInto(
       "Generics",

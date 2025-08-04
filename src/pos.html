@@ -1075,8 +1075,8 @@
             <select id="stockListSortBy">
               <option value="product_name" selected>Product Name</option>
               <option value="product_name_des">Product Name (Rev)</option>
-              <option value="id">ID</option>
-              <option value="id_des">ID (Rev)</option>
+              <option value="pid">PID</option>
+              <option value="pid_des">PID (Rev)</option>
               <option value="company_name">Company Name</option>
               <option value="company_name_des">Company Name (Rev)</option>
               <option value="generic_name">Generic Name</option>
@@ -1108,8 +1108,9 @@
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>No.</th>
                 <th>PID</th>
+                <th>Type</th>
                 <th>Name</th>
                 <th>Generic</th>
                 <th>Company</th>
@@ -1234,7 +1235,7 @@
         </div>
 
         <div class="btn-group">
-          <button id="createCustomerCancel" class="outline-btn">Cancel</button>
+          <button id="createCustomerClear" class="outline-btn">Clear</button>
           <button id="createCustomerCreate">Create</button>
         </div>
       </div>
@@ -1347,7 +1348,7 @@
           <input type="text" id="createCompanyRemark" placeholder="Remark" />
         </div>
         <div class="btn-group">
-          <button id="createCompanyCancel" class="outline-btn">Cancel</button>
+          <button id="createCompanyClear" class="outline-btn">Clear</button>
           <button id="createCompanyCreate">Create</button>
         </div>
       </div>
@@ -1496,7 +1497,7 @@
         </div>
 
         <div class="btn-group">
-          <button id="createProductCancel" class="outline-btn">Create</button>
+          <button id="createProductClear" class="outline-btn">Clear</button>
           <button id="createProductCreate">Create</button>
         </div>
       </div>
@@ -1569,147 +1570,235 @@
           </div>
         </div>
       </main>
-
       <footer>
         <button id="editCustomerListCancel" class="outline-btn">Cancel</button>
-        <button id="editCustomerListOk">Ok</button>
+        <button id="editCustomerListSave">Save</button>
       </footer>
     </dialog>
 
     <dialog id="editCompanyList">
-      <div>
-        <div class="input input_id">
-          <label for="editCompanyListId">Company Id</label>
-          <input type="text" id="editCompanyListId" disabled />
-        </div>
+      <header>
+        <h1>Company Info</h1>
+        <span>
+          <svg
+            id="editCompanyListClose"
+            xmlns="http://www.w3.org/2000/svg"
+            height="18px"
+            viewBox="0 -960 960 960"
+            width="18px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <main>
+        <div>
+          <div class="input short">
+            <label for="editCompanyListId">Company Id</label>
+            <input type="text" id="editCompanyListId" disabled />
+          </div>
 
+          <div class="input">
+            <label for="editCompanyListName">Company Name</label>
+            <input type="text" id="editCompanyListName" />
+          </div>
+
+          <div class="input">
+            <label for="editCompanyListMobile">Mobile No.</label>
+            <input
+              type="text"
+              id="editCompanyListMobile"
+              placeholder="01xxx-xxxxxx" />
+          </div>
+
+          <div class="input">
+            <label for="editCompanyListOrderDay">Order Day</label>
+            <input
+              type="text"
+              id="editCompanyListOrderDay"
+              placeholder="Sat, Sun,...." />
+          </div>
+
+          <div class="input">
+            <label for="editCompanyListDeliveryDay">Delivery Day</label>
+            <input
+              type="text"
+              id="editCompanyListDeliveryDay"
+              placeholder="Sat, Sun,...." />
+          </div>
+
+          <div class="input">
+            <label for="editCompanyListRemark">Remark</label>
+            <input
+              type="text"
+              id="editCompanyListRemark"
+              placeholder="Remark" />
+          </div>
+        </div>
+      </main>
+      <footer>
         <div class="input">
-          <label for="editCompanyListName">Company Name</label>
-          <input type="text" id="editCompanyListName" />
-        </div>
-
-        <div class="input">
-          <label for="editCompanyListMobile">Mobile No.</label>
-          <input
-            type="text"
-            id="editCompanyListMobile"
-            placeholder="01xxx-xxxxxx" />
-        </div>
-
-        <div class="input">
-          <label for="editCompanyListOrderDay">Order Day</label>
-          <input
-            type="text"
-            id="editCompanyListOrderDay"
-            placeholder="Sat, Sun,...." />
-        </div>
-
-        <div class="input">
-          <label for="editCompanyListDeliveryDay">Delivery Day</label>
-          <input
-            type="text"
-            id="editCompanyListDeliveryDay"
-            placeholder="Sat, Sun,...." />
-        </div>
-
-        <div class="input">
-          <label for="editCompanyListRemark">Remark</label>
-          <input type="text" id="editCompanyListRemark" placeholder="Remark" />
-        </div>
-
-        <div class="input input_action_btns">
           <button id="editCompanyListCancel" class="outline-btn">Cancel</button>
-          <button id="editCompanyListOk">Ok</button>
+          <button id="editCompanyListSave">Save</button>
         </div>
-      </div>
+      </footer>
     </dialog>
 
     <dialog id="editGenericList">
-      <div>
-        <div class="input input_id">
-          <label for="editGenericListId">Id</label>
-          <input type="text" id="editGenericListId" disabled />
-        </div>
+      <header>
+        <h1>Generic Info</h1>
+        <span>
+          <svg
+            id="editGenericListClose"
+            xmlns="http://www.w3.org/2000/svg"
+            height="18px"
+            viewBox="0 -960 960 960"
+            width="18px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <main>
+        <div>
+          <div class="input short">
+            <label for="editGenericListId">Id</label>
+            <input type="text" id="editGenericListId" disabled />
+          </div>
 
+          <div class="input">
+            <label for="editGenericListName">Generic name</label>
+            <input type="text" id="editGenericListName" />
+          </div>
+        </div>
+      </main>
+      <footer>
         <div class="input">
-          <label for="editGenericListName">Customer Id</label>
-          <input type="text" id="editGenericListName" />
-        </div>
-
-        <div class="input input_action_btns">
           <button id="editGenericListCancel" class="outline-btn">Cancel</button>
-          <button id="editGenericListOk">Ok</button>
+          <button id="editGenericListSave">Save</button>
         </div>
-      </div>
+      </footer>
     </dialog>
 
     <dialog id="editTypeList">
-      <div>
-        <div class="input input_id">
-          <label for="editTypeListId">Customer Id</label>
-          <input type="text" id="editTypeListId" disabled />
-        </div>
+      <header>
+        <h1>Type Info</h1>
+        <span>
+          <svg
+            id="editTypeListClose"
+            xmlns="http://www.w3.org/2000/svg"
+            height="18px"
+            viewBox="0 -960 960 960"
+            width="18px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <main>
+        <div>
+          <div class="input short">
+            <label for="editTypeListId">Id</label>
+            <input type="text" id="editTypeListId" disabled />
+          </div>
 
+          <div class="input">
+            <label for="editTypeListName">Type name</label>
+            <input type="text" id="editTypeListName" />
+          </div>
+        </div>
+      </main>
+      <footer>
         <div class="input">
-          <label for="editTypeListName">Customer Id</label>
-          <input type="text" id="editTypeListName" />
-        </div>
-
-        <div class="input input_action_btns">
           <button id="editTypeListCancel" class="outline-btn">Cancel</button>
-          <button id="editTypeListOk">Ok</button>
+          <button id="editTypeListSave">Save</button>
         </div>
-      </div>
+      </footer>
     </dialog>
 
     <dialog id="editProductList">
-      <div>
-        <div class="input input_id">
-          <label for="editProductListId">Product Id</label>
-          <input type="text" id="editProductListId" disabled />
-        </div>
+      <header>
+        <h1>Product Info</h1>
+        <span>
+          <svg
+            id="editProductListClose"
+            xmlns="http://www.w3.org/2000/svg"
+            height="18px"
+            viewBox="0 -960 960 960"
+            width="18px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <main>
+        <div>
+          <div class="input short">
+            <label for="editProductListId">Product Id</label>
+            <input type="text" id="editProductListId" disabled />
+          </div>
 
+          <div class="input">
+            <label for="editProductListName">Product Name</label>
+            <input type="text" id="editProductListName" />
+          </div>
+
+          <div class="input">
+            <label for="editProductListGenericId">Generic Id</label>
+            <input type="text" id="editProductListGenericId" />
+          </div>
+
+          <div class="input">
+            <label for="editProductListTypeId">Type Id</label>
+            <input type="text" id="editProductListTypeId" />
+          </div>
+
+          <div class="input">
+            <label for="editProductListCompanyId">Company Id</label>
+            <input type="text" id="editProductListCompanyId" />
+          </div>
+        </div>
+      </main>
+
+      <footer>
         <div class="input">
-          <label for="editProductListName">Product Name</label>
-          <input type="text" id="editProductListName" />
-        </div>
-
-        <div class="input">
-          <label for="editProductListGenericId">Generic Id</label>
-          <input type="text" id="editProductListGenericId" />
-        </div>
-
-        <div class="input">
-          <label for="editProductListTypeId">Type Id</label>
-          <input type="text" id="editProductListTypeId" />
-        </div>
-
-        <div class="input">
-          <label for="editProductListCompanyId">Company Id</label>
-          <input type="text" id="editProductListCompanyId" />
-        </div>
-
-        <div class="input input_action_btns">
           <button id="editProductListCancel" class="outline-btn">Cancel</button>
-          <button id="editProductListOk">Ok</button>
+          <button id="editProductListSave">Save</button>
         </div>
-      </div>
+      </footer>
     </dialog>
 
     <dialog id="editPurchaseList">
-      <div>
-        <div class="input input_id">
-          <label for="editPurchaseListId">Purchase Id</label>
-          <input type="text" id="editPurchaseListId" disabled />
+      <header>
+        <h1>Purchase Info</h1>
+        <span>
+          <svg
+            id="editPurchaseListClose"
+            xmlns="http://www.w3.org/2000/svg"
+            height="18px"
+            viewBox="0 -960 960 960"
+            width="18px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <main>
+        <div>
+          <div class="input short">
+            <label for="editPurchaseListId">Purchase Id</label>
+            <input type="text" id="editPurchaseListId" disabled />
+          </div>
         </div>
-
-        <div class="input input_action_btns">
+      </main>
+      <footer>
+        <div class="input">
           <button id="editPurchaseListCancel" class="outline-btn">
             Cancel
           </button>
-          <button id="editPurchaseListOk">Ok</button>
+          <button id="editPurchaseListSave">Save</button>
         </div>
-      </div>
+      </footer>
     </dialog>
 
     <dialog id="editCustomerReturnList">
