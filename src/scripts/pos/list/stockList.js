@@ -4,7 +4,41 @@ import { intInput } from "../../utils/utils.js"
 import { enterToNextInput } from "../../utils/utils.js"
 import { getDate } from "../../utils/dateTime.js"
 
-function combineSimilerProduct(stock) {
+function getStocks() {
+  const { DatabaseSync } = require("node:sqlite")
+  let db = new DatabaseSync("database.db")
+  let stmt = db.prepare(
+    `SELECT 
+        Stocks.id, 
+        Stocks.quantity,
+        Stocks.purchase_price, 
+        Stocks.sell_price, 
+        Stocks.expire_date,
+        Stocks.purchase_id,
+        Stocks.product_id,
+        Products.name as prod_name,
+        Companies.id as com_id,
+        Companies.name as com_name,
+        Generics.id as gen_id,
+        Generics.name as gen_name,
+        Types.id as type_id,
+        Types.name as type_name FROM Stocks
+        INNER JOIN Products ON Stocks.product_id = Products.id
+        INNER JOIN Companies On Products.company_id = Companies.id
+        INNER JOIN Generics On Products.generic_id = Generics.id
+        INNER JOIN Types On Products.type_id = Types.id
+        ORDER BY Products.id
+        `
+  )
+
+  const stocks = stmt.all()
+  db.close()
+
+  return stocks
+}
+
+function combineSimilerProduct() {
+  let stock = getStocks()
   let combined = {}
 
   stock.forEach(s => {
@@ -47,267 +81,32 @@ function combineSimilerProduct(stock) {
   return combined_list
 }
 
-function getStockes(sortBy) {
-  const { DatabaseSync } = require("node:sqlite")
-  let db = new DatabaseSync("database.db")
-  let stmt
-
+function sortStock(stocks, sortBy) {
   switch (sortBy) {
     case "product_name":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY UPPER(Products.name)
-        `
-      )
+      stocks.sort((a, b) => a.prodName.localeCompare(b.prodName))
       break
     case "product_name_des":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY UPPER(Products.name) DESC
-        `
-      )
-      break
-    case "pid":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY Stocks.purchase_id
-        `
-      )
-      break
-    case "pid_des":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY Stocks.purchase_id DESC
-        `
-      )
-      break
-    case "company_name":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY UPPER(Companies.name)
-        `
-      )
-      break
-    case "company_name_des":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY UPPER(Companies.name) DESC
-        `
-      )
+      stocks.sort((a, b) => b.prodName.localeCompare(a.prodName))
       break
     case "generic_name":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY UPPER(Generics.name)
-        `
-      )
+      stocks.sort((a, b) => a.prodGenName.localeCompare(b.prodGenName))
       break
     case "generic_name_des":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY UPPER(Generics.name) DESC
-        `
-      )
+      stocks.sort((a, b) => b.prodGenName.localeCompare(a.prodGenName))
       break
-    case "expire_date":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY Stocks.expire_date
-        `
-      )
+    case "company_name":
+      stocks.sort((a, b) => a.prodComName.localeCompare(b.prodComName))
       break
-    case "expire_date_des":
-      stmt = db.prepare(
-        `SELECT 
-        Stocks.id, 
-        Stocks.quantity,
-        Stocks.purchase_price, 
-        Stocks.sell_price, 
-        Stocks.expire_date,
-        Stocks.purchase_id,
-        Stocks.product_id,
-        Products.name as prod_name,
-        Companies.id as com_id,
-        Companies.name as com_name,
-        Generics.id as gen_id,
-        Generics.name as gen_name,
-        Types.id as type_id,
-        Types.name as type_name FROM Stocks
-        INNER JOIN Products ON Stocks.product_id = Products.id
-        INNER JOIN Companies On Products.company_id = Companies.id
-        INNER JOIN Generics On Products.generic_id = Generics.id
-        INNER JOIN Types On Products.type_id = Types.id
-        ORDER BY Stocks.expire_date DESC
-        `
-      )
+    case "company_name_des":
+      stocks.sort((a, b) => b.prodComName.localeCompare(a.prodComName))
+      break
+    default:
+      stocks.sort((a, b) => a.prodName.localeCompare(b.prodName))
       break
   }
 
-  const stocks = stmt.all()
-  db.close()
-
+  console.log(stocks)
   return stocks
 }
 
@@ -330,32 +129,32 @@ function sanitize(searchTerm, stocks) {
       return
     }
 
-    if (stock.prod_name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (stock.prodName.toUpperCase().startsWith(searchTerm.toUpperCase())) {
       startsWith.add(stock)
       return
     }
 
-    if (stock.gen_name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (stock.prodComName.toUpperCase().startsWith(searchTerm.toUpperCase())) {
       startsWith.add(stock)
       return
     }
 
-    if (stock.com_name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (stock.prodGenName.toUpperCase().startsWith(searchTerm.toUpperCase())) {
       startsWith.add(stock)
       return
     }
 
-    if (niddle.test(stock.prod_name)) {
+    if (niddle.test(stock.prodName)) {
       possibleMatch.add(stock)
       return
     }
 
-    if (niddle.test(stock.gen_name)) {
+    if (niddle.test(stock.prodComName)) {
       possibleMatch.add(stock)
       return
     }
 
-    if (niddle.test(stock.com_name)) {
+    if (niddle.test(stock.prodGenName)) {
       possibleMatch.add(stock)
       return
     }
@@ -369,12 +168,11 @@ export function render() {
   let display_per_page = Number(stockListDisplayPerPage.value)
   let sortBy = stockListSortBy.value
 
-  const allSortedData = sanitize(searchTerm, getStockes(sortBy))
-  const combinedProduct = combineSimilerProduct(allSortedData)
-  const possiblePage = Math.ceil(combinedProduct.length / display_per_page)
+  const combinedProduct = combineSimilerProduct()
+  const sanitizeProduct = sanitize(searchTerm, combinedProduct)
+  const sortedStock = sortStock(sanitizeProduct, sortBy)
 
-  console.log(allSortedData)
-  console.log(combinedProduct)
+  const possiblePage = Math.ceil(sortedStock.length / display_per_page)
 
   stockListPossiblePage.innerHTML = possiblePage
   stockListGotoPage.value > possiblePage
@@ -382,10 +180,10 @@ export function render() {
     : ""
 
   let goto_page = Number(stockListGotoPage.value) || 1
-  const toRenderData = combinedProduct.slice(
+  const toRenderData = sortedStock.slice(
     (goto_page - 1) * display_per_page,
-    combinedProduct.length <= goto_page * display_per_page
-      ? combinedProduct.length
+    sortedStock.length <= goto_page * display_per_page
+      ? sortedStock.length
       : goto_page * display_per_page
   )
 
@@ -415,15 +213,19 @@ export function render() {
           <td>${list.prodList[0].quantity}</td>
           <td>${list.prodList[0].purchasePrice}</td>
           <td>${list.prodList[0].sellPrice}</td>
-          <td ${
+          <td
+          ${
             is_toExpire
               ? "style='background-color: #948500f1' title='Product will be expire within 90 days'"
               : ""
-          } ${
-        is_expired
-          ? "style='background-color: #cc0000c0' title='Product is expired. Pls purge this product by simply click on the row.'"
-          : ""
-      }>${getDate(new Date(list.prodList[0].expireDate))}</td>
+          } 
+          ${
+            is_expired
+              ? "style='background-color: #cc0000c0' title='Product is expired. Pls purge this product by simply click on the row.'"
+              : ""
+          }>
+            ${getDate(new Date(list.prodList[0].expireDate))}
+            </td>
         </tr>
       `
     } else {
@@ -455,15 +257,19 @@ export function render() {
           <td>${list.prodList[i].quantity}</td>
           <td>${list.prodList[i].purchasePrice}</td>
           <td>${list.prodList[i].sellPrice}</td>
-          <td ${
+          <td style="text-align: center" 
+          ${
             is_toExpire
               ? "style='background-color: #948500f1' title='Product will be expire within 90 days'"
               : ""
-          } ${
-          is_expired
-            ? "style='background-color: #cc0000c0' title='Product is expired. Pls purge this product by simply click on the row.'"
-            : ""
-        }>${getDate(new Date(list.prodList[i].expireDate))}</td>
+          } 
+          ${
+            is_expired
+              ? "style='background-color: #cc0000c0' title='Product is expired. Pls purge this product by simply click on the row.'"
+              : ""
+          }>
+            ${getDate(new Date(list.prodList[i].expireDate))}
+          </td>
         </tr>
       `
       }
