@@ -1,12 +1,12 @@
-import { padZero } from "../../utils/utils.js"
-import { delayFocus } from "../../utils/utils.js"
-import { intInput } from "../../utils/utils.js"
-import { enterToNextInput } from "../../utils/utils.js"
-import { getDate } from "../../utils/dateTime.js"
+import { padZero } from '../../utils/utils.js'
+import { delayFocus } from '../../utils/utils.js'
+import { intInput } from '../../utils/utils.js'
+import { enterToNextInput } from '../../utils/utils.js'
+import { getDate } from '../../utils/dateTime.js'
 
 function getStocks() {
-  const { DatabaseSync } = require("node:sqlite")
-  let db = new DatabaseSync("database.db")
+  const { DatabaseSync } = require('node:sqlite')
+  let db = new DatabaseSync('database.db')
   let stmt = db.prepare(
     `SELECT 
         Stocks.id, 
@@ -49,7 +49,7 @@ function combineSimilerProduct() {
         purchasePrice: s.purchase_price,
         sellPrice: s.sell_price,
         expireDate: s.expire_date,
-        quantity: s.quantity,
+        quantity: s.quantity
       })
     } else {
       combined[s.product_id] = {
@@ -67,10 +67,10 @@ function combineSimilerProduct() {
             purchasePrice: s.purchase_price,
             sellPrice: s.sell_price,
             expireDate: s.expire_date,
-            quantity: s.quantity,
-          },
+            quantity: s.quantity
+          }
         ],
-        totalQantity: s.quantity,
+        totalQantity: s.quantity
       }
     }
   })
@@ -83,22 +83,22 @@ function combineSimilerProduct() {
 
 function sortStock(stocks, sortBy) {
   switch (sortBy) {
-    case "product_name":
+    case 'product_name':
       stocks.sort((a, b) => a.prodName.localeCompare(b.prodName))
       break
-    case "product_name_des":
+    case 'product_name_des':
       stocks.sort((a, b) => b.prodName.localeCompare(a.prodName))
       break
-    case "generic_name":
+    case 'generic_name':
       stocks.sort((a, b) => a.prodGenName.localeCompare(b.prodGenName))
       break
-    case "generic_name_des":
+    case 'generic_name_des':
       stocks.sort((a, b) => b.prodGenName.localeCompare(a.prodGenName))
       break
-    case "company_name":
+    case 'company_name':
       stocks.sort((a, b) => a.prodComName.localeCompare(b.prodComName))
       break
-    case "company_name_des":
+    case 'company_name_des':
       stocks.sort((a, b) => b.prodComName.localeCompare(a.prodComName))
       break
     default:
@@ -118,9 +118,9 @@ function sanitize(searchTerm, stocks) {
   const possibleMatch = new Set()
 
   try {
-    niddle = new RegExp(searchTerm, "i")
+    niddle = new RegExp(searchTerm, 'i')
   } catch (err) {
-    niddle = new RegExp("")
+    niddle = new RegExp('')
   }
 
   stocks.forEach(stock => {
@@ -177,7 +177,7 @@ export function render() {
   stockListPossiblePage.innerHTML = possiblePage
   stockListGotoPage.value > possiblePage
     ? (stockListGotoPage.value = possiblePage)
-    : ""
+    : ''
 
   let goto_page = Number(stockListGotoPage.value) || 1
   const toRenderData = sortedStock.slice(
@@ -187,7 +187,7 @@ export function render() {
       : goto_page * display_per_page
   )
 
-  let htmlString = ""
+  let htmlString = ''
 
   toRenderData.forEach((list, i) => {
     if (list.totalQantity <= 0) return
@@ -210,6 +210,7 @@ export function render() {
           <td>${list.prodName}</td>
           <td>${list.prodGenName}</td>
           <td>${list.prodComName}</td>
+          <td></td>
           <td>${list.prodList[0].quantity}</td>
           <td>${list.prodList[0].purchasePrice}</td>
           <td>${list.prodList[0].sellPrice}</td>
@@ -217,12 +218,12 @@ export function render() {
           ${
             is_toExpire
               ? "style='background-color: #948500f1' title='Product will be expire within 90 days'"
-              : ""
+              : ''
           } 
           ${
             is_expired
               ? "style='background-color: #cc0000c0' title='Product is expired. Pls purge this product by simply click on the row.'"
-              : ""
+              : ''
           }>
             ${getDate(new Date(list.prodList[0].expireDate))}
             </td>
@@ -232,15 +233,16 @@ export function render() {
       htmlString += `
         <tr data-productId="${list.prodId}">
           <td rowspan=${list.prodList.length + 1}>${padZero(id)}</td>
-          <td></td>
+          <td>....</td>
           <td rowspan=${list.prodList.length + 1}>${list.prodTypeName}</td>
           <td rowspan=${list.prodList.length + 1}>${list.prodName}</td>
           <td rowspan=${list.prodList.length + 1}>${list.prodGenName}</td>
           <td rowspan=${list.prodList.length + 1}>${list.prodComName}</td>
-          <td>${list.totalQantity}</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td rowspan=${list.prodList.length + 1}>${list.totalQantity}</td>
+          <td>....</td>
+          <td>....</td>
+          <td>....</td>
+          <td>....</td>
         </tr>
       `
 
@@ -256,17 +258,19 @@ export function render() {
           <td>${padZero(list.prodList[i].purchaseId)}</td>
           <td>${list.prodList[i].quantity}</td>
           <td>${list.prodList[i].purchasePrice}</td>
-          <td>${list.prodList[i].sellPrice}</td>
-          <td style="text-align: center" 
+          <td style="text-align: center; width: auto">${
+            list.prodList[i].sellPrice
+          }</td>
+          <td style="text-align: center; width: 80px"
           ${
             is_toExpire
               ? "style='background-color: #948500f1' title='Product will be expire within 90 days'"
-              : ""
+              : ''
           } 
           ${
             is_expired
               ? "style='background-color: #cc0000c0' title='Product is expired. Pls purge this product by simply click on the row.'"
-              : ""
+              : ''
           }>
             ${getDate(new Date(list.prodList[i].expireDate))}
           </td>
@@ -276,8 +280,8 @@ export function render() {
     }
   })
 
-  stockList.querySelector("tbody").innerHTML = ""
-  stockList.querySelector("tbody").innerHTML = htmlString
+  stockList.querySelector('tbody').innerHTML = ''
+  stockList.querySelector('tbody').innerHTML = htmlString
 }
 
 enterToNextInput([stockListSearch, stockListGotoPage, stockListSearch])
@@ -286,26 +290,26 @@ intInput(stockListGotoPage, 1)
 
 document
   .querySelector("nav li[data-navitem='stockList']")
-  .closest("li")
-  .addEventListener("click", () => {
+  .closest('li')
+  .addEventListener('click', () => {
     delayFocus(stockListSearch)
     render()
   })
 
-stockListSearch.addEventListener("input", () => {
+stockListSearch.addEventListener('input', () => {
   stockListGotoPage.value = 1
   render()
 })
 
-stockListSortBy.addEventListener("input", render)
+stockListSortBy.addEventListener('input', render)
 
-stockListDisplayPerPage.addEventListener("input", () => {
+stockListDisplayPerPage.addEventListener('input', () => {
   stockListGotoPage.value = 1
   render()
 })
 
-stockListGotoPage.addEventListener("keyup", render)
+stockListGotoPage.addEventListener('keyup', render)
 
-stockListGotoPage.addEventListener("blur", () => {
-  stockListGotoPage.value > 0 ? "" : (stockListGotoPage.value = 1)
+stockListGotoPage.addEventListener('blur', () => {
+  stockListGotoPage.value > 0 ? '' : (stockListGotoPage.value = 1)
 })

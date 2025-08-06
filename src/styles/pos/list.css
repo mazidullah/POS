@@ -182,45 +182,46 @@
 
 #stockList.active {
   th:nth-child(1),
-  td:nth-child(1) {
-    width: 70px;
-    text-align: center;
-  }
-
+  td:nth-child(1),
   th:nth-child(2),
   td:nth-child(2) {
-    width: 70px;
+    width: 60px;
     text-align: center;
   }
 
   th:nth-child(3),
   td:nth-child(3) {
-    width: 100px;
+    width: 70px;
     text-align: center;
   }
 
   th:nth-child(4),
+  td:nth-child(4) {
+    width: 180px;
+  }
+
   th:nth-child(5),
   th:nth-child(6),
-  td:nth-child(4),
   td:nth-child(5),
   td:nth-child(6) {
-    width: auto;
+    width: 180px;
   }
 
   th:nth-child(7),
   th:nth-child(8),
-  th:nth-child(9),
   td:nth-child(7),
   td:nth-child(8),
-  td:nth-child(9) {
+  th:nth-child(9),
+  td:nth-child(9),
+  th:nth-child(10),
+  td:nth-child(10) {
     width: 60px;
     text-align: center;
   }
 
-  th:nth-child(10),
-  td:nth-child(10) {
-    width: 100px;
+  th:nth-child(11),
+  td:nth-child(11) {
+    width: 80px;
     text-align: center;
   }
 }
