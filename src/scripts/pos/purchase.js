@@ -4,16 +4,16 @@ import { getData } from "../utils/database.js"
 import { updateCash } from "../utils/database.js"
 import { updateCompanyDue } from "../utils/database.js"
 import { showMessege } from "../utils/messege.js"
-import { getDate } from "../utils/dateTime.js"
+import { getDate, setDate } from "../utils/dateTime.js"
 import { floatInput, padZero } from "../utils/utils.js"
 import { intInput } from "../utils/utils.js"
-import { delayFocus } from "../utils/utils.js"
+import { delayFocus, focus } from "../utils/utils.js"
 import { enterToNextInput } from "../utils/utils.js"
 import { suggestionHandler } from "../utils/utils.js"
 
 let carts = []
 
-function clearAddProduct() {
+function resetInput() {
   purchaseProductName.value = ""
   purchaseProductQnt.value = ""
   purchasePurchasePrice.value = ""
@@ -22,13 +22,12 @@ function clearAddProduct() {
   purchaseVatAll.value = ""
   purchaseSellPrice.value = ""
   purchaseRackNo.value = ""
-  purchaseExpireDate.value = plusOneYear()
-
+  setDate(purchaseExpireDate, new Date(Date.now() + 365 * 24 * 3600000))
   purchaseProductNameSuggetions.dataset.id = "0"
 }
 
-function clearAll() {
-  clearAddProduct()
+function clear() {
+  resetInput()
   purchaseTbody.innerHTML = ""
   purchaseCompanyName.value = ""
   purchaseInvoiceNo.value = ""
@@ -39,15 +38,6 @@ function clearAll() {
   purchaseDiscount.value = "0"
   purchasePaid.value = "0"
   purchaseDue.value = "0"
-}
-
-function plusOneYear(date = Date.now()) {
-  let oneYear = 365 * 24 * 3600 * 1000
-  let nextYear = new Date(date + oneYear)
-
-  return `${nextYear.getFullYear()}-${padZero(
-    nextYear.getMonth() + 1
-  )}-${padZero(nextYear.getDate())}`
 }
 
 function getCompanies() {
@@ -188,28 +178,68 @@ function productNameSuggetionRenderer() {
 }
 
 function renderTable() {
-  let { DatabaseSync } = require("node:sqlite")
-  let db = new DatabaseSync("database.db")
-  purchaseTbody.innerHTML = ""
   let txt = ""
+  purchaseTbody.innerHTML = ""
 
   carts.forEach((cart, i) => {
-    let product = db
-      .prepare(`select * from Products where id = ${cart.id}`)
-      .get()
+    let currentDate = Date.now()
+    let shortDated = currentDate + 90 * 24 * 3600000
+    let expireDate = getDate(new Date(cart.expireDate))
+
+    let expired = false
+    let toExpire = false
+
+    let expireMsg = ""
+    let expireClassName = ""
+    let sellMsg = ""
+    let sellClassName = ""
+
+    if (cart.expireDate < currentDate) expired = true
+    if (cart.expireDate < shortDated) toExpire = true
+
+    if (toExpire) {
+      expireMsg = "Product Will be expired within 90 days."
+      expireClassName = "warning"
+    }
+
+    if (expired) {
+      expireMsg = "Product was expired."
+      expireClassName = "error"
+    }
+
+    if (Number(cart.sellPrice) <= Number(cart.tradePrice)) {
+      sellMsg = "Check your sell price again"
+      sellClassName = "error"
+    }
+
     txt += `
-      <tr data-id=${cart.id}>
+      <tr data-row-no="${i + 1}" 
+          data-product-id="${cart.productID}" 
+          data-product-name="${cart.productName}" 
+          data-product-type="${cart.productType}" 
+          data-quantity="${cart.qunatity}" 
+          data-pp="${cart.pp}" 
+          data-pp-all="${cart.ppAll}" 
+          data-vat="${cart.vat}" 
+          data-vat-all="${cart.vatAll}" 
+          data-trade-price="${cart.tradePrice}" 
+          data-trade-price-all="${cart.tradePriceAll}" 
+          data-sell-price="${cart.sellPrice}" 
+          data-rack-no="${cart.rackNo}" 
+          data-expire-date="${cart.expireDate}" 
+        >
         <td>${padZero(i + 1)}</td>
-        <td>${product.name}</td>
+        <td>[${cart.productType}] ${cart.productName}</td>
         <td>${padZero(cart.qunatity)}</td>
-        <td>${cart.purchasePrice}</td>
-        <td ${
-          cart.sellPrice <= cart.purchasePrice
-            ? "style='background-color: #cc00009d' title='Sell price is less then purchase price'"
-            : ""
-        }>${cart.sellPrice}</td>
-        <td>${(cart.qunatity * cart.purchasePrice).toFixed(1)}</td>
-        <td>${getDate(new Date(cart.expire))}</td>
+        <td>${cart.pp}</td>
+        <td>${cart.vat}</td>
+        <td>${cart.ppAll}</td>
+        <td>${cart.vatAll}</td>
+        <td>${cart.tradePrice}</td>
+        <td>${cart.tradePriceAll}</td>
+        <td class="${sellClassName}" title="${sellMsg}">${cart.sellPrice}</td>
+        <td>${cart.rackNo}</td>
+        <td class="${expireClassName}" title="${expireMsg}">${expireDate}</td>
         <td>X</td>
       </tr>
     `
@@ -223,12 +253,12 @@ function updateBill() {
   let totalBill = 0
 
   carts.forEach(cart => {
-    totalBill += cart.qunatity * cart.purchasePrice
+    totalBill += Number(cart.tradePriceAll)
   })
 
   let payable = totalBill - discount
 
-  purchaseTotalBill.value = totalBill.toFixed(1)
+  purchaseTotalBill.value = totalBill.toFixed(2)
   purchasePayable.value = payable.toFixed(0)
 
   purchaseDue.value = (
@@ -236,15 +266,8 @@ function updateBill() {
   ).toFixed(0)
 }
 
-function deleteProductFromList(row) {
-  let allRows = purchaseTbody.querySelectorAll("tr")
-  let rowNo = -1
-
-  allRows.forEach((r, i) => {
-    if (r === row) rowNo = i
-  })
-
-  carts.splice(rowNo, 1)
+function deleteProductFromList(prodIndex) {
+  carts.splice(prodIndex, 1)
   renderTable()
   updateBill()
 }
@@ -253,15 +276,12 @@ enterToNextInput([purchaseCompanyName, purchaseInvoiceNo, purchaseProductName])
 enterToNextInput([
   purchaseProductName,
   purchaseProductQnt,
-  purchasePurchasePrice,
-  purchaseVat,
-  purchasePurchasePriceAll,
-  purchaseVatAll,
-  purchaseSellPrice,
-  purchaseRackNo,
   purchaseExpireDate,
-  purchaseAddProduct,
+  purchasePurchasePrice,
 ])
+enterToNextInput([purchaseVat, purchaseSellPrice])
+enterToNextInput([purchasePurchasePriceAll, purchaseVatAll, purchaseSellPrice])
+enterToNextInput([purchaseSellPrice, purchaseRackNo, purchaseAddProduct])
 enterToNextInput([
   purchaseTotalBill,
   purchaseDiscount,
@@ -269,6 +289,16 @@ enterToNextInput([
   purchaseDue,
   purchaseSave,
 ])
+
+purchasePurchasePrice.addEventListener("keyup", e => {
+  if (e.key === "Enter") {
+    let value = e.target.value.trim()
+
+    if (value === "" || value === "0") focus(purchasePurchasePriceAll)
+    else focus(purchaseVat)
+  }
+})
+
 suggestionHandler(
   purchaseCompanyName,
   purchaseCompanyNameSuggetions,
@@ -280,151 +310,185 @@ suggestionHandler(
   productNameSuggetionRenderer
 )
 
-delayFocus(purchaseCompanyName, 1000)
-purchaseID.value = padZero(nextRowId("purchases"))
-purchaseExpireDate.value = plusOneYear()
-intInput(purchaseProductQnt, 1)
-floatInput(purchasePurchasePrice, 0)
-floatInput(purchasePurchasePriceAll, 0)
-floatInput(purchaseVat, 0)
-floatInput(purchaseVatAll, 0)
-intInput(purchaseRackNo, 1)
-intInput(purchaseDiscount, 0)
-intInput(purchasePaid, 0)
-intInput(purchaseDue, 0)
+purchaseClear.addEventListener("click", clear)
 
-purchaseClear.addEventListener("click", clearAll)
 purchaseCompanyName.addEventListener("input", () => {
   companyNameSuggetionRenderer()
-  clearAddProduct()
+  resetInput()
   purchaseTbody.innerHTML = ""
 })
 
 purchaseAddProduct.addEventListener("click", () => {
-  if (purchaseProductNameSuggetions.dataset.id <= 0) {
-    showMessege("Error", "Invalid product name")
-    delayFocus(purchaseProductName, 300)
+  let companyID = Number(purchaseCompanyNameSuggetions.dataset.id)
+  let productID = Number(purchaseProductNameSuggetions.dataset.id)
+  let qunatity = Number(purchaseProductQnt.value.trim())
+
+  let pp = Number(purchasePurchasePrice.value.trim()).toFixed(2)
+  let ppAll = Number(purchasePurchasePriceAll.value.trim()).toFixed(2)
+  let vat = Number(purchaseVat.value.trim()).toFixed(2)
+  let vatAll = Number(purchaseVatAll.value.trim()).toFixed(2)
+
+  let tradePrice = Number(Number(pp) + Number(vat)).toFixed(2)
+  let tradePriceAll = Number(Number(tradePrice) * qunatity).toFixed(2)
+  let sellPrice = Number(purchaseSellPrice.value.trim()).toFixed(2)
+  let rackNo = Number(purchaseRackNo.value.trim())
+
+  let expireDate = purchaseExpireDate.valueAsNumber
+
+  if (companyID <= 0) {
+    showMessege("Invaild company name", "Select a company")
+    delayFocus(purchaseCompanyName)
     return
   }
 
-  if (Number(purchaseProductQnt.value) < 1) {
-    showMessege("Error", "Invalid product qunatity")
-    delayFocus(purchaseProductQnt, 300)
-    return
-  }
-
-  if (
-    Number(purchasePurchasePrice.value) <= 0 &&
-    Number(purchasePurchasePriceAll.value) <= 0
-  ) {
-    showMessege("Error", "Invalid purchase price")
-    delayFocus(purchasePurchasePrice, 300)
-    return
-  }
-
-  if (Number(purchaseSellPrice.value) < 1) {
-    showMessege("Error", "Invalid sell price")
-    delayFocus(purchaseSellPrice, 300)
-    return
-  }
-
-  if (new Date(purchaseExpireDate.valueAsNumber).getTime() < Date.now()) {
-    showMessege("Error", "Invalid expire date")
-    delayFocus(purchaseExpireDate, 300)
-    return
-  }
-
-  try {
-    let productID = purchaseProductNameSuggetions.dataset.id
-    let { DatabaseSync } = require("node:sqlite")
-    let db = new DatabaseSync("database.db")
-    let product = db
-      .prepare(`select * from Products where id = ${productID}`)
-      .get()
-    db.close()
-
-    let qunatity = Number(purchaseProductQnt.value)
-
-    let purchasePrice =
-      Number(purchasePurchasePrice.value) > 0
-        ? Number(purchasePurchasePrice.value) * qunatity
-        : Number(purchasePurchasePriceAll.value)
-
-    let vat =
-      Number(purchaseVat.value) > 0
-        ? Number(purchaseVat.value) * qunatity
-        : Number(purchaseVatAll.value)
-
-    let totalPurchasePrice = Number(
-      ((purchasePrice + vat) / qunatity).toFixed(2)
-    )
-    let sellPrice = Number(Number(purchaseSellPrice.value).toFixed(2))
-    let rackNo = purchaseRackNo.value
-
-    carts.push({
-      id: product.id,
-      qunatity: qunatity,
-      purchasePrice: totalPurchasePrice,
-      sellPrice: sellPrice,
-      rackNo: rackNo,
-      expire: purchaseExpireDate.valueAsNumber,
-    })
-
-    clearAddProduct()
-    renderTable()
-    updateBill()
-    delayFocus(purchaseProductName, 300)
-  } catch (err) {
-    showMessege("Error", "Does not find the product. Pls Create new product")
+  if (productID <= 0) {
+    showMessege("Invalid product name", "Select a product")
     delayFocus(purchaseProductName)
+    return
   }
+
+  if (qunatity < 1) {
+    showMessege("Invalid product qunatity", "Enter product qunatity")
+    delayFocus(purchaseProductQnt)
+    return
+  }
+
+  if (pp <= 0) {
+    showMessege("Invalid purchase price", "Enter product purchase price")
+    delayFocus(purchasePurchasePrice)
+    return
+  }
+
+  if (sellPrice <= 0) {
+    showMessege("Invalid sell price", "Enter product sell price")
+    delayFocus(purchaseSellPrice)
+    return
+  }
+
+  let { DatabaseSync } = require("node:sqlite")
+  let db = new DatabaseSync("database.db")
+  let getProductStmt = `select * from Products where id = ${productID}`
+  let product = db.prepare(getProductStmt).get()
+  let getTypeStmt = `select * from Types where id = ${product.type_id}`
+  let type = db.prepare(getTypeStmt).get()
+  db.close()
+
+  let productName = product.name
+  let productType = type.name
+
+  carts.push({
+    productID,
+    productName,
+    productType,
+    qunatity,
+    pp,
+    ppAll,
+    vat,
+    vatAll,
+    tradePrice,
+    tradePriceAll,
+    sellPrice,
+    rackNo,
+    expireDate,
+  })
+
+  resetInput()
+  renderTable()
+  updateBill()
+  delayFocus(purchaseProductName, 300)
 })
+
+purchaseProductQnt.addEventListener("keyup", e => {
+  let qunatity = Number(purchaseProductQnt.value.trim())
+  let pricePerPiece = Number(purchasePurchasePrice.value.trim())
+  let varPerPiece = Number(purchaseVat.value.trim())
+
+  if (qunatity === 0) qunatity = 1
+
+  if (purchasePurchasePrice.value.trim() !== "")
+    purchasePurchasePriceAll.value = pricePerPiece * qunatity
+  if (purchaseVat.value.trim() !== "")
+    purchaseVatAll.value = varPerPiece * qunatity
+})
+
+purchasePurchasePrice.addEventListener("keyup", e => {
+  if (purchasePurchasePrice.value.trim() === "" && e.key === "Enter")
+    purchasePurchasePrice.value = 0
+  let pricePerPiece = Number(purchasePurchasePrice.value.trim())
+  let qunatity = Number(purchaseProductQnt.value.trim())
+
+  if (qunatity === 0) qunatity = 1
+
+  purchasePurchasePriceAll.value = Number((pricePerPiece * qunatity).toFixed(2))
+})
+
+purchaseVat.addEventListener("keyup", e => {
+  if (purchaseVat.value.trim() === "" && e.key === "Enter")
+    purchaseVat.value = 0
+  let vatPerPiece = Number(purchaseVat.value.trim())
+  let qunatity = Number(purchaseProductQnt.value.trim())
+
+  if (qunatity === 0) qunatity = 1
+
+  purchaseVatAll.value = Number((vatPerPiece * qunatity).toFixed(2))
+})
+
+purchasePurchasePriceAll.addEventListener("keyup", e => {
+  if (purchasePurchasePriceAll.value.trim() === "" && e.key === "Enter")
+    purchasePurchasePriceAll.value = 0
+
+  let totalPrice = Number(purchasePurchasePriceAll.value.trim())
+  let qunatity = Number(purchaseProductQnt.value.trim())
+
+  if (qunatity === 0) qunatity = 1
+
+  purchasePurchasePrice.value = Number((totalPrice / qunatity).toFixed(2))
+})
+
+purchaseVatAll.addEventListener("keyup", e => {
+  if (purchaseVatAll.value.trim() === "" && e.key === "Enter")
+    purchaseVatAll.value = 0
+  let totalVat = Number(purchaseVatAll.value.trim())
+  let qunatity = Number(purchaseProductQnt.value.trim())
+
+  if (qunatity === 0) qunatity = 1
+
+  purchaseVat.value = Number((totalVat / qunatity).toFixed(2))
+})
+
 purchaseTbody.addEventListener("click", e => {
   let row = e.target.closest("tr")
-  let productId = row.dataset.id
+  let closeBtn = row.querySelector("& > td:last-child")
 
-  if (e.target === row.querySelector("& > td:last-of-type")) {
-    deleteProductFromList(row)
-  } else {
-    let { DatabaseSync } = require("node:sqlite")
-    let db = new DatabaseSync("database.db")
+  let rowNo = row.dataset.rowNo
+  let productID = row.dataset.productId
+  let productName = row.dataset.productName
+  let productType = row.dataset.productType
+  let quantity = row.dataset.quantity
+  let pp = row.dataset.pp
+  let ppAll = row.dataset.ppAll
+  let vat = row.dataset.vat
+  let vatAll = row.dataset.vatAll
+  let tradePrice = row.dataset.tradePrice
+  let tradePriceAll = row.dataset.tradePriceAll
+  let sellPrice = row.dataset.sellPrice
+  let rackNo = row.dataset.rackNo
+  let expireDate = row.dataset.expireDate
 
-    let product = db
-      .prepare("select * from Products where id = ?")
-      .get(productId)
-    let type = db
-      .prepare("select * from Types where id = ?")
-      .get(product.type_id)
+  deleteProductFromList(rowNo - 1)
 
-    db.close()
+  if (e.target === closeBtn) return
 
-    purchaseProductNameSuggetions.dataset.id = productId
-    purchaseProductName.value = `[${type.name}] > ${product.name}`
-    purchaseProductQnt.value = row
-      .querySelector("& > td:nth-child(3)")
-      .innerHTML.trim()
-
-    purchasePurchasePrice.value = row
-      .querySelector("& > td:nth-child(4)")
-      .innerHTML.trim()
-
-    purchasePurchasePriceAll.value = ""
-    purchaseVat.value = ""
-    purchaseVatAll.value = ""
-
-    purchaseSellPrice.value = row
-      .querySelector("& > td:nth-child(5)")
-      .innerHTML.trim()
-
-    let dateArray = row
-      .querySelector("& > td:nth-child(7)")
-      .innerHTML.trim()
-      .split("/")
-
-    purchaseExpireDate.value = `${dateArray[2]}-${dateArray[1]}-${dateArray[0]}`
-
-    deleteProductFromList(row)
-  }
+  purchaseProductNameSuggetions.dataset.id = productID
+  purchaseProductName.value = `[${productType}] ${productName}`
+  purchaseProductQnt.value = quantity
+  purchasePurchasePrice.value = pp
+  purchaseVat.value = vat
+  purchasePurchasePriceAll.value = ppAll
+  purchaseVatAll.value = vatAll
+  purchaseSellPrice.value = sellPrice
+  purchaseRackNo.value = rackNo
+  setDate(purchaseExpireDate, new Date(Number(expireDate)))
 })
 
 purchaseDiscount.addEventListener("keyup", updateBill)
@@ -448,33 +512,43 @@ purchaseDue.addEventListener("keyup", () => {
 })
 
 purchaseSave.addEventListener("click", () => {
-  if (carts.length === 0) {
-    showMessege("Opps...", "Pls. Select some product to save")
-    return
-  }
+  let cash = Number(getData("StoreInfo", "WHERE id = 1").cash) || 0
+  let companyID = Number(purchaseCompanyNameSuggetions.dataset.id)
+  let invoiceNo = purchaseInvoiceNo.value.trim()
 
-  if (Number(purchaseCompanyNameSuggetions.dataset.id) <= 0) {
-    showMessege("Invalid Company Name", "Pls. Select a company")
-    return
-  }
-
-  let company_id = Number(purchaseCompanyNameSuggetions.dataset.id).toFixed(0)
-  let invoice_no = purchaseInvoiceNo.value.trim()
-
+  let totalBill = purchaseTotalBill.value
   let payable = Number(purchasePayable.value)
   let discount = Number(purchaseDiscount.value)
   let paid = Number(purchasePaid.value)
   let dues = Number(purchaseDue.value)
 
-  let cash = Number(getData("StoreInfo", "WHERE id = 1").cash) || 0
+  if (carts.length === 0) {
+    showMessege("Could not add produt", "Select some product to add")
+    delayFocus(purchaseProductName)
+    return
+  }
+
+  if (purchaseID <= 0) {
+    showMessege("Invalid Company Name", "Select a company")
+    delayFocus(purchaseCompanyName)
+    return
+  }
+
+  if (invoiceNo === "") {
+    showMessege("Invalid invoice no", "")
+    delayFocus(purchaseInvoiceNo)
+    return
+  }
 
   if (discount > payable) {
     showMessege("Invalid discount value", "Check your discount amount")
+    delayFocus(purchaseDiscount)
     return
   }
 
   if (paid > payable) {
     showMessege("Invalid paid value", "Check your paid  amount")
+    delayFocus(purchasePaid)
     return
   }
 
@@ -484,24 +558,27 @@ purchaseSave.addEventListener("click", () => {
   }
 
   updateCash(-paid)
-  updateCompanyDue(company_id, dues)
+  updateCompanyDue(companyID, dues)
 
   let purchase_insert_info = insertInto(
     "Purchases",
     [
       "company_id",
       "invoice_no",
-      "date",
-      "payable",
+      "total_bill",
+      "payable_total_bill",
       "discount",
+      "payable",
       "paid",
       "dues",
+      "date",
       "data",
+      "payment_data",
     ],
     [
       company_id,
       invoice_no,
-      new Date().getTime(),
+
       payable,
       discount,
       paid,
@@ -534,7 +611,7 @@ purchaseSave.addEventListener("click", () => {
     )
   })
 
-  clearAll()
+  clear()
   showMessege(
     "Suucessfully Purchases",
     `Purchase ID: ${purchase_insert_info.lastInsertRowid}`
@@ -544,3 +621,18 @@ purchaseSave.addEventListener("click", () => {
     getData("Purchases", `WHERE id = ${purchase_insert_info.lastInsertRowid}`)
   )
 })
+
+purchaseID.value = padZero(nextRowId("purchases"))
+setDate(purchaseExpireDate, new Date(Date.now() + 365 * 24 * 3600000))
+
+intInput(purchaseProductQnt, 1)
+floatInput(purchasePurchasePrice, 0)
+floatInput(purchasePurchasePriceAll, 0)
+floatInput(purchaseVat, 0)
+floatInput(purchaseVatAll, 0)
+floatInput(purchaseSellPrice, 0)
+
+intInput(purchaseRackNo, 1)
+intInput(purchaseDiscount, 0)
+intInput(purchasePaid, 0)
+intInput(purchaseDue, 0)

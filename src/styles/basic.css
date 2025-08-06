@@ -275,20 +275,17 @@ div:has(> .suggetion) {
 }
 
 .error {
-  color: var(--error-text-color) !important;
-  background-color: var(--error-bg-color) !important;
+  color: #fff !important;
+  background-color: #a52a2a !important;
+}
+
+.warning {
+  color: #fff !important;
+  background-color: #b99e00 !important;
 }
 
 .relative {
   position: relative;
-}
-
-.to-expire {
-  background-color: #ffc078;
-}
-
-.expired {
-  background-color: var(--error-bg);
 }
 
 .suggetion {

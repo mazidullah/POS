@@ -78,6 +78,7 @@ db.prepare(
 db.prepare(
   `CREATE TABLE IF NOT EXISTS Stocks (
   id INTEGER,
+  tag TEXT,
   product_id INTEGER,
   purchase_id INTEGER,
   quantity INTEGER,
@@ -92,14 +93,17 @@ db.prepare(
 db.prepare(
   `CREATE TABLE IF NOT EXISTS Purchases (
   id INTEGER,
-  company_id TEXT,
+  company_id INTEGER,
   invoice_no TEXT,
-  payable INTEGER,
+  total_bill TEXT,
+  payable_total_bill INTEGER,
   discount INTEGER,
+  payable INTEGER,
   paid INTEGER,
   dues INTEGER,
   date INTEGER,
   data TEXT,
+  payment_data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()

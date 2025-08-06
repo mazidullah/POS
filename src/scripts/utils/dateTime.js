@@ -1,27 +1,50 @@
-import { padZero } from './utils.js'
-
-export function getDateTime(dateObj) {
-  let date = padZero(dateObj.getDate())
-  let month = padZero(dateObj.getMonth() + 1)
-  let year = dateObj.getFullYear()
-
-  let hours = padZero(dateObj.getHours())
-  let minutes = padZero(dateObj.getMinutes())
-
-  return `${hours}:${minutes} on ${date}/${month}/${year}`
+function padZeroDate(num) {
+  if (num < 10) return "0" + num
+  else return "" + num
 }
 
-export function getTime(dateObj) {
-  let hours = padZero(dateObj.getHours())
-  let minutes = padZero(dateObj.getMinutes())
+function padZeroMonth(num) {
+  if (num < 10) return "0" + (num + 1)
+  else return "" + (num + 1)
+}
+
+function padZeroYear(num) {
+  if (num >= 1000) return "" + num
+  else if (num >= 100) return "0" + num
+  else if (num >= 10) return "00" + num
+  else if (num >= 0) return "000" + num
+}
+
+export function getDateTime(date = new Date()) {
+  let dd = padZeroDate(date.getDate())
+  let mm = padZeroMonth(date.getMonth())
+  let yy = padZeroYear(date.getFullYear())
+
+  let hours = padZeroDate(date.getHours())
+  let minutes = padZeroDate(date.getMinutes())
+
+  return `${hours}:${minutes} on ${dd}/${mm}/${yy}`
+}
+
+export function getTime(date) {
+  let hours = padZeroDate(date.getHours())
+  let minutes = padZeroDate(date.getMinutes())
 
   return `${hours}:${minutes}`
 }
 
-export function getDate(dateObj) {
-  let date = padZero(dateObj.getDate())
-  let month = padZero(dateObj.getMonth() + 1)
-  let year = dateObj.getFullYear()
+export function getDate(date) {
+  let dd = padZeroDate(date.getDate())
+  let mm = padZeroMonth(date.getMonth())
+  let yy = padZeroYear(date.getFullYear())
 
-  return `${date}/${month}/${year}`
+  return `${dd}/${mm}/${yy}`
+}
+
+export function setDate(element, date = new Date(0)) {
+  let dd = padZeroDate(date.getDate())
+  let mm = padZeroMonth(date.getMonth())
+  let yy = padZeroYear(date.getFullYear())
+
+  element.value = `${yy}-${mm}-${dd}`
 }

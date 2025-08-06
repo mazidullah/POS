@@ -194,7 +194,7 @@ export function suggestionHandler(element, suggetionElement, renderer) {
 
       suggetionElement.dataset.id =
         suggetionElement.querySelector("div.selected span.suggetionIdSpan")
-          ?.innerText || e.target.dataset.id
+          ?.innerText || suggetionElement.dataset.id
 
       clearSelection()
       currentSelection = -1
