@@ -154,22 +154,18 @@ editTypeListCancel.addEventListener("click", () => {
 })
 
 editTypeListSave.addEventListener("click", () => {
-  try {
-    updateInto(
-      "Types",
-      ["name"],
-      [editTypeListName.value.trim()],
-      `Where id = ${editTypeListId.value.trim()}`
-    )
+  updateInto(
+    "Types",
+    ["name"],
+    [editTypeListName.value.trim()],
+    `Where id = ${editTypeListId.value.trim()}`
+  )
 
-    showMessege(
-      "Successfully Updated",
-      `Types Id: ${Number(editTypeListId.value)}`
-    )
+  showMessege(
+    "Successfully Updated",
+    `Types Id: ${Number(editTypeListId.value)}`
+  )
 
-    editGenericList.close()
-    render()
-  } catch (err) {
-    showMessege("Cannot Updated", `One or Multiple value are Invalid`)
-  }
+  editTypeList.close()
+  render()
 })

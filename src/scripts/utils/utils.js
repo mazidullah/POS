@@ -17,10 +17,6 @@ function isAlphaDegit(char) {
   return isAlphabet(char) || isDegit(char)
 }
 
-function isAlphaNumeric(char) {
-  return isAlphabet(char) || isNumeric(char)
-}
-
 function isSpace(char) {
   return char === " " || char === "\t" || char === "\v"
 }
@@ -50,6 +46,21 @@ export function delayFocus(element, delay = 300) {
   setTimeout(() => {
     focus(element)
   }, delay)
+}
+
+export function focusToSelectAll(elements) {
+  elements.forEach(element => {
+    element.addEventListener("focus", () => {
+      let type = element.type
+
+      if ("date" === type) element.focus()
+      else {
+        element.selectionStart = 0
+        element.selectionEnd = element.value.length
+        element.focus()
+      }
+    })
+  })
 }
 
 export function enterToNextInput(inputList) {

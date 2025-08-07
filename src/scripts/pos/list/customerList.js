@@ -1,4 +1,3 @@
-import { padZero } from "../../utils/utils.js"
 import { delayFocus } from "../../utils/utils.js"
 import { intInput } from "../../utils/utils.js"
 import { enterToNextInput } from "../../utils/utils.js"
@@ -142,12 +141,13 @@ export function render() {
 
   let htmlString = ""
 
-  toRenderData.forEach(list => {
+  toRenderData.forEach((list, i) => {
     let hasDue = Number(list.dues) > 0
 
     htmlString += `
         <tr data-id="${list.id}">
-          <td>${padZero(list.id)}</td>
+          <td>${i + 1}</td>
+          <td>${list.id}</td>
           <td>${list.name}</td>
           <td>${list.address}</td>
           <td>${list.mobile}</td>

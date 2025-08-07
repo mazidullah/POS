@@ -15,13 +15,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY UPPER(Companies.name)
         `
       )
@@ -31,13 +34,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY UPPER(Companies.name) DESC
         `
       )
@@ -47,13 +53,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.id
         `
       )
@@ -63,13 +72,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.id DESC
         `
       )
@@ -80,13 +92,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.date
         `
       )
@@ -96,13 +111,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.date DESC
         `
       )
@@ -113,13 +131,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.dues
         `
       )
@@ -129,13 +150,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.dues DESC
         `
       )
@@ -146,13 +170,16 @@ function getPurchases(sortBy) {
         `SELECT 
         Purchases.id, 
         Purchases.invoice_no,
-        Purchases.payable, 
+        Purchases.invoice_date,
+        Purchases.total_bill, 
+        Purchases.payable_bill, 
         Purchases.discount, 
+        Purchases.to_pay, 
         Purchases.paid, 
         Purchases.dues, 
-        Purchases.date, 
-        Purchases.data, 
-        Companies.name from Purchases
+        Purchases.product_data, 
+        Purchases.payment_data, 
+        Companies.name as company_name from Purchases
         INNER JOIN Companies ON Companies.id = Purchases.company_id ORDER BY Purchases.id
         `
       )
@@ -183,7 +210,9 @@ function sanitize(searchTerm, purchases) {
       return
     }
 
-    if (purchase.name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (
+      purchase.company_name.toUpperCase().startsWith(searchTerm.toUpperCase())
+    ) {
       startsWith.add(purchase)
       return
     }
@@ -195,7 +224,7 @@ function sanitize(searchTerm, purchases) {
       return
     }
 
-    if (niddle.test(purchase.name)) {
+    if (niddle.test(purchase.company_name)) {
       possibleMatch.add(purchase)
       return
     }
@@ -232,22 +261,25 @@ export function render() {
 
   let htmlString = ""
 
-  toRenderData.forEach(list => {
+  toRenderData.forEach((list, i) => {
     let hasDue = Number(list.dues) > 0
 
     htmlString += `
         <tr data-id="${list.id}">
-          <td>${padZero(list.id)}</td>
+          <td>${i + 1}</td>
+          <td>${list.id}</td>
           <td>${list.invoice_no}</td>
-          <td>${list.name}</td>
-          <td>${list.payable}</td>
+          <td>${list.company_name}</td>
+          <td>${list.total_bill}</td>
+          <td>${list.payable_bill}</td>
           <td>${list.discount}</td>
+          <td>${list.to_pay}</td>
           <td>${list.paid}</td>
           <td ${hasDue ? "style='background-color: #cc0000c0'" : ""}>
             ${list.dues}
           </td>
 
-          <td>${getDate(new Date(list.date))}</td>
+          <td>${getDate(new Date(list.invoice_date))}</td>
         </tr>
       `
   })
@@ -257,14 +289,6 @@ export function render() {
 }
 
 enterToNextInput([purchaseListSearch, purchaseListGotoPage, purchaseListSearch])
-// enterToNextInput([
-//   editCustomerListName,
-//   editCustomerListAddress,
-//   editCustomerListMobile,
-//   editCustomerListRemark,
-//   editCustomerListOk,
-// ])
-
 intInput(purchaseListGotoPage, 1)
 
 document

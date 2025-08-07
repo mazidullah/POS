@@ -1,4 +1,3 @@
-import { padZero } from "../../utils/utils.js"
 import { delayFocus } from "../../utils/utils.js"
 import { intInput } from "../../utils/utils.js"
 import { enterToNextInput } from "../../utils/utils.js"
@@ -15,8 +14,13 @@ function getProducts(sortBy) {
 
   if (sortBy === "name")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -24,8 +28,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "name_des")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -33,8 +42,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "id")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -42,8 +56,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "id_des")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -51,8 +70,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "generic")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -60,8 +84,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "generic_des")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -69,8 +98,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "type")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -78,8 +112,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "type_des")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -87,8 +126,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "company")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -96,8 +140,13 @@ function getProducts(sortBy) {
     )
   else if (sortBy === "company_des")
     stmt = db.prepare(
-      `SELECT Products.id, Products.name, Types.name as tn, Generics.name as gn, Companies.name as cn 
-      from Products
+      `SELECT 
+      Products.id as productID, 
+      Products.name as productName, 
+      Products.min_stock as minStock, 
+      Types.name as typeName, 
+      Generics.name as genericName, 
+      Companies.name as companyName from Products 
       INNER JOIN Types ON Types.id = Products.type_id 
       INNER JOIN Generics ON Generics.id = Products.generic_id 
       INNER JOIN Companies ON Companies.id = Products.company_id 
@@ -123,47 +172,53 @@ function sanitize(searchTerm, products) {
   }
 
   products.forEach(product => {
-    if (product.id === Number(searchTerm)) {
+    if (product.productID === Number(searchTerm)) {
       exactMatch.add(product)
       return
     }
 
-    if (product.name.toUpperCase() === searchTerm.toUpperCase()) {
+    if (product.productName.toUpperCase() === searchTerm.toUpperCase()) {
       exactMatch.add(product)
       return
     }
 
-    if (product.gn.toUpperCase() === searchTerm.toUpperCase()) {
+    if (product.genericName.toUpperCase() === searchTerm.toUpperCase()) {
       exactMatch.add(product)
       return
     }
 
-    if (product.tn.toUpperCase() === searchTerm.toUpperCase()) {
+    if (product.typeName.toUpperCase() === searchTerm.toUpperCase()) {
       exactMatch.add(product)
       return
     }
 
-    if (product.cn.toUpperCase() === searchTerm.toUpperCase()) {
+    if (product.companyName.toUpperCase() === searchTerm.toUpperCase()) {
       exactMatch.add(product)
       return
     }
 
-    if (product.name.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (
+      product.productName.toUpperCase().startsWith(searchTerm.toUpperCase())
+    ) {
       startsWith.add(product)
       return
     }
 
-    if (product.gn.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (
+      product.genericName.toUpperCase().startsWith(searchTerm.toUpperCase())
+    ) {
       startsWith.add(product)
       return
     }
 
-    if (product.tn.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (product.typeName.toUpperCase().startsWith(searchTerm.toUpperCase())) {
       startsWith.add(product)
       return
     }
 
-    if (product.cn.toUpperCase().startsWith(searchTerm.toUpperCase())) {
+    if (
+      product.companyName.toUpperCase().startsWith(searchTerm.toUpperCase())
+    ) {
       startsWith.add(product)
       return
     }
@@ -214,14 +269,16 @@ export function render() {
   )
 
   let htmlString = ""
-  toRenderData.forEach(list => {
+  toRenderData.forEach((list, i) => {
     htmlString += `
-        <tr data-id="${list.id}">
-          <td>${padZero(list.id)}</td>
-          <td>${list.tn}</td>
-          <td>${list.name}</td>
-          <td>${list.gn}</td>
-          <td>${list.cn}</td>
+        <tr data-id="${list.productID}">
+          <td>${i + 1}</td>
+          <td>${list.productID}</td>
+          <td>${list.typeName}</td>
+          <td>${list.productName}</td>
+          <td>${list.genericName}</td>
+          <td>${list.companyName}</td>
+          <td>${list.minStock}</td>
         </tr>
       `
   })
