@@ -1,5 +1,5 @@
-const { DatabaseSync } = require("node:sqlite")
-const db = new DatabaseSync("database.db")
+const { DatabaseSync } = require('node:sqlite')
+const db = new DatabaseSync('database.db')
 
 db.prepare(
   `CREATE TABLE IF NOT EXISTS StoreInfo (
@@ -96,14 +96,12 @@ db.prepare(
   company_id INTEGER,
   invoice_no TEXT,
   total_bill TEXT,
-  payable_total_bill INTEGER,
   discount INTEGER,
   payable INTEGER,
   paid INTEGER,
   dues INTEGER,
   date INTEGER,
   data TEXT,
-  payment_data TEXT,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
