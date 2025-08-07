@@ -17,27 +17,31 @@ function resetInput() {
   purchaseProductName.value = ''
   purchaseProductQuantity.value = ''
   purchasePurchasePrice.value = ''
-  purchaseVat.value = ''
   purchaseTotalPurchasePrice.value = ''
+  purchaseVat.value = ''
   purchaseTotalVat.value = ''
+  puechaseTradePrice.value = ''
+  purchaseTotalTradePrice.value = ''
   purchaseSellPrice.value = ''
   purchaseRackNo.value = ''
+
   setDate(purchaseExpireDate, new Date(Date.now() + 365 * 24 * 3600000))
   purchaseProductNameSuggetions.dataset.id = '0'
 }
 
 function clear() {
   resetInput()
-  purchaseTbody.innerHTML = ''
   purchaseCompanyName.value = ''
   purchaseInvoiceNo.value = ''
-  purchaseCompanyNameSuggetions.dataset.id = '0'
+  purchaseInvoiceDate
+  purchaseTbody.innerHTML = ''
   carts = []
   purchaseBill.value = '0.0'
   purchasePayable.value = '0'
   purchaseDiscount.value = '0'
   purchasePaid.value = '0'
   purchaseDue.value = '0'
+  purchaseCompanyNameSuggetions.dataset.id = '0'
 }
 
 function getCompanies() {
@@ -624,11 +628,9 @@ purchaseSave.addEventListener('click', () => {
   )
 })
 
-let now = Date.now()
 purchaseID.value = padZero(nextRowId('purchases'))
-purchaseInvoiceDate.dataset.value = now
-purchaseInvoiceDate.value = getDate(new Date(now))
-
+purchaseInvoiceDate.dataset.value = Date.now()
+purchaseInvoiceDate.value = getDate(new Date(purchaseInvoiceDate.dataset.value))
 setDate(purchaseExpireDate, new Date(Date.now() + 365 * 24 * 3600000))
 
 intInput(purchaseProductQuantity, 1)
