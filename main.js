@@ -11,6 +11,7 @@ const initializeWindow = () => {
     width: 450,
     height: 600,
     webPreferences: {
+      // devTools: false,
       nodeIntegration: true,
       contextIsolation: false,
       sandbox: false,
@@ -25,6 +26,7 @@ const initializeWindow = () => {
 const loginWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
+      // devTools: false,
       nodeIntegration: true,
       contextIsolation: false,
       sandbox: false,
@@ -40,6 +42,7 @@ const loginWindow = () => {
 const adminWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
+      // devTools: false,
       nodeIntegration: true,
       contextIsolation: false,
       sandbox: false,
@@ -55,6 +58,7 @@ const adminWindow = () => {
 const posWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
+      // devTools: false,
       nodeIntegration: true,
       contextIsolation: false,
       sandbox: false,

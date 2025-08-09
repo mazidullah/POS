@@ -1,11 +1,9 @@
 import { showMessege } from "./utils/messege.js"
-import { insertInto, fillDatabase } from "./utils/database.js"
-import {
-  mobileInput,
-  enterToNextInput,
-  focus,
-  delayFocus,
-} from "./utils/utils.js"
+import { insertInto } from "./utils/database.js"
+import { focus } from "./utils/utils.js"
+import { delayFocus } from "./utils/utils.js"
+import { mobileInput } from "./utils/utils.js"
+import { enterToNextInput } from "./utils/utils.js"
 
 focus(storeName)
 mobileInput(storeMobile)
@@ -56,11 +54,13 @@ create.addEventListener("click", () => {
     delayFocus(adminName)
     return
   }
+
   if (!adminPassword.value.length) {
     showMessege("Invalid input", "Give your admin password")
     delayFocus(adminPassword)
     return
   }
+
   if (adminPassword.value !== adminPasswordRepeat.value) {
     showMessege("Error", "Password does not match")
     delayFocus(adminPasswordRepeat)
@@ -75,7 +75,7 @@ create.addEventListener("click", () => {
       storeName.value.trim(),
       storeMobile.value.trim(),
       storeAddress.value.trim(),
-      "0.0",
+      0,
     ]
   )
 
@@ -85,14 +85,7 @@ create.addEventListener("click", () => {
     [1, adminName.value.trim(), adminPassword.value.trim(), "admin", 0]
   )
 
-  create.disabled = true
-  showMessege("Wait...", "Initializing Database")
-
-  setTimeout(() => {
-    fillDatabase()
-
-    const { ipcRenderer } = require("electron")
-    ipcRenderer.send("open:loginWindow")
-    window.close()
-  })
+  const { ipcRenderer } = require("electron")
+  ipcRenderer.send("open:loginWindow")
+  window.close()
 })

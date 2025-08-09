@@ -56,10 +56,6 @@
   background-color: var(--selection-clr);
 }
 
-::backdrop {
-  background-color: #00000044;
-}
-
 *,
 *::before,
 *::after {
@@ -71,6 +67,62 @@ body {
   font-size: 14px;
   font-family: lato;
   user-select: none;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 1.3rem;
+  font-family: lato;
+  font-weight: 900;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table,
+td,
+th {
+  border: 1px solid #777;
+}
+
+thead {
+  position: sticky;
+  top: var(--table-container-padding, 0);
+  th {
+    color: var(--bg-clr-lt);
+    background-color: var(--bg-clr-drk);
+    padding: 4px;
+  }
+}
+
+tbody {
+  td {
+    padding: 4px;
+  }
+
+  tr:nth-child(odd) {
+    background-color: #fff;
+  }
+
+  tr:nth-child(even) {
+    background-color: #eee;
+  }
+
+  tr:hover {
+    background-color: var(--selection-clr) !important;
+  }
 }
 
 button {
@@ -149,61 +201,6 @@ label {
   color: #252525;
   font-size: 14px;
   white-space: nowrap;
-}
-
-h1,
-p {
-  margin: 0;
-}
-
-h1 {
-  font-size: 1rem;
-  font-family: poppins;
-}
-
-ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-table,
-td,
-th {
-  border: 1px solid #777;
-}
-
-thead {
-  position: sticky;
-  top: var(--table-container-padding, 0);
-  th {
-    color: var(--bg-clr-lt);
-    background-color: var(--bg-clr-drk);
-    padding: 4px;
-  }
-}
-
-tbody {
-  td {
-    padding: 4px;
-  }
-
-  tr:nth-child(odd) {
-    background-color: #fff;
-  }
-
-  tr:nth-child(even) {
-    background-color: #eee;
-  }
-
-  tr:hover {
-    background-color: var(--selection-clr) !important;
-  }
 }
 
 dialog:open {

@@ -1,24 +1,20 @@
-import { showMessege } from "./messege.js"
-
 const { DatabaseSync } = require("node:sqlite")
 
 export function nextRowId(tableName) {
   const db = new DatabaseSync("database.db")
   const sql = `SELECT * FROM ${tableName}`
-
   const result = db.prepare(sql).all().length
-
   db.close()
+
   return result + 1
 }
 
 export function currentRowId(tableName) {
   const db = new DatabaseSync("database.db")
   const sql = `SELECT * FROM ${tableName}`
-
   const result = db.prepare(sql).all().length
-
   db.close()
+
   return result
 }
 
