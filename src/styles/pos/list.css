@@ -244,6 +244,26 @@
   }
 }
 
+#expenseList.active {
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 70px;
+    text-align: center;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 90px;
+    text-align: center;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 140px;
+    text-align: center;
+  }
+}
+
 #editCustomerList,
 #editProductList,
 #editCompanyList,

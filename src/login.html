@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'" />
+      content="default-src 'self'; script-src 'self'"
+    />
     <meta
       http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'" />
+      content="default-src 'self'; script-src 'self'"
+    />
 
     <title>Awesome PoS</title>
     <link rel="stylesheet" href="./styles/login.css" />
@@ -42,30 +44,34 @@
 
     <!--messeging-->
     <dialog id="confirmation">
-      <h1>Are your sure?</h1>
       <div>
-        <button>OK</button>
-        <button>Cancel</button>
+        <h1 class="header">Are your sure?</h1>
+        <div>
+          <button class="ok">OK</button>
+          <button class="cancel">Cancel</button>
+        </div>
       </div>
     </dialog>
 
-    <div id="messege">
-      <div>
-        <h1 id="messegeHeader"></h1>
+    <dialog id="messege">
+      <header>
+        <h1 class="header"></h1>
         <span>
           <svg
-            id="messegeClose"
+            class="close"
             xmlns="http://www.w3.org/2000/svg"
             height="15px"
             viewBox="0 -960 960 960"
-            width="15px">
+            width="15px"
+          >
             <path
-              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+            />
           </svg>
         </span>
-      </div>
-      <p id="messegeText"></p>
-    </div>
+      </header>
+      <p class="text"></p>
+    </dialog>
     <!--messeging-->
   </body>
 </html>

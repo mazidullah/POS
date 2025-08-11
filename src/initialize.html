@@ -42,9 +42,11 @@
           height="20px"
           viewBox="0 -960 960 960"
           width="20px"
-          fill="#000">
+          fill="#000"
+        >
           <path
-            d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+            d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"
+          />
         </svg>
       </div>
 
@@ -67,7 +69,8 @@
         <input
           type="password"
           id="adminPasswordRepeat"
-          placeholder="Repeat Password" />
+          placeholder="Repeat Password"
+        />
       </div>
 
       <div class="input">
@@ -82,30 +85,34 @@
 
     <!--messeging-->
     <dialog id="confirmation">
-      <h1>Are your sure?</h1>
       <div>
-        <button>OK</button>
-        <button>Cancel</button>
+        <h1 class="header">Are your sure?</h1>
+        <div>
+          <button class="ok">OK</button>
+          <button class="cancel">Cancel</button>
+        </div>
       </div>
     </dialog>
 
-    <div id="messege">
-      <div>
-        <h1 id="messegeHeader"></h1>
+    <dialog id="messege">
+      <header>
+        <h1 class="header"></h1>
         <span>
           <svg
-            id="messegeClose"
+            class="close"
             xmlns="http://www.w3.org/2000/svg"
             height="15px"
             viewBox="0 -960 960 960"
-            width="15px">
+            width="15px"
+          >
             <path
-              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+            />
           </svg>
         </span>
-      </div>
-      <p id="messegeText"></p>
-    </div>
+      </header>
+      <p class="text"></p>
+    </dialog>
     <!--messeging-->
   </body>
 </html>
