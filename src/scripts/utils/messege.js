@@ -1,34 +1,46 @@
 let nextTimeoutID = -1
+let close = messege.querySelector('.close')
 
 function closeMessege() {
   clearTimeout(nextTimeoutID)
-  messege.classList.remove("open")
+  messege.classList.remove('open')
+  messege.close()
 }
 
-export function getSure(messege = "Are you sure?") {
-  let h1 = confirmation.querySelector("h1")
-  let ok = confirmation.querySelector("button:first-child")
-  let cancel = confirmation.querySelector("button:last-child")
+export function getSure(messege = 'Are you sure?') {
+  let header = confirmation.querySelector('.header')
+  let ok = confirmation.querySelector('.ok')
+  let cancel = confirmation.querySelector('.cancel')
 
-  h1.innerText = messege
+  header.innerText = messege
   confirmation.showModal()
-  
+
   return new Promise((res, rej) => {
-    ok.addEventListener("click", () => {confirmation.close(); res()})
-    cancel.addEventListener("click", () => {confirmation.close(); rej()})
+    ok.addEventListener('click', () => {
+      confirmation.close()
+      res()
+    })
+
+    cancel.addEventListener('click', () => {
+      confirmation.close()
+      rej()
+    })
   })
 }
 
 export function showMessege(mheader, mtext) {
-  const isOpen = messege.classList.contains("open")
-
+  const isOpen = messege.classList.contains('open')
   if (isOpen) closeMessege()
-  
-  messegeHeader.innerText = mheader
-  messegeText.innerText = mtext
-  messege.classList.add("open")
+
+  let header = messege.querySelector('.header')
+  let text = messege.querySelector('.text')
+
+  header.innerText = mheader
+  text.innerText = mtext
+  messege.classList.add('open')
+  messege.show()
 
   nextTimeoutID = setTimeout(closeMessege, 4000)
 }
 
-messegeClose.addEventListener("click", closeMessege)
+close.addEventListener('click', closeMessege)

@@ -4,18 +4,8 @@
 }
 
 @font-face {
-  font-family: latoBold;
-  src: url(../assets/fonts/Lato-Bold.ttf);
-}
-
-@font-face {
   font-family: poppins;
   src: url(../assets/fonts/Poppins-Regular.ttf);
-}
-
-@font-face {
-  font-family: poppinsBold;
-  src: url(../assets/fonts/Poppins-Bold.ttf);
 }
 
 @font-face {
@@ -48,8 +38,6 @@
 
   --outline-clr: #a37800;
   --selection-clr: #46cf68d2;
-
-  --input-height: 30px;
 }
 
 ::selection {
@@ -64,7 +52,6 @@
 
 body {
   margin: 0;
-  font-size: 14px;
   font-family: lato;
   user-select: none;
 }
@@ -76,8 +63,8 @@ p {
 
 h1 {
   font-size: 1.3rem;
-  font-family: lato;
   font-weight: 900;
+  font-family: sans-serif;
 }
 
 ul {
@@ -127,7 +114,7 @@ tbody {
 
 button {
   width: 100%;
-  height: var(--input-height);
+  height: 30px;
 
   padding: 0 1.4rem;
   color: var(--clr-lt);
@@ -165,16 +152,16 @@ button:disabled {
   background-color: var(--clr-gray);
 }
 
-input[type="text"],
-input[type="number"],
-input[type="password"],
-input[type="date"],
+input[type='text'],
+input[type='number'],
+input[type='password'],
+input[type='date'],
 select {
   width: 100%;
-  height: var(--input-height);
+  height: 30px;
 
   padding: 0 6px;
-  font-family: "Segoe UI", sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   font-weight: 600;
 
   border: 1px solid #525252;
@@ -183,10 +170,10 @@ select {
   transition: all 70ms ease-in-out;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="password"]:focus,
-input[type="date"]:focus,
+input[type='text']:focus,
+input[type='number']:focus,
+input[type='password']:focus,
+input[type='date']:focus,
 select:focus {
   background-color: var(--input-ac-clr);
   border-color: var(--btn-clr);
@@ -198,14 +185,15 @@ input:disabled {
 }
 
 label {
-  color: #252525;
-  font-size: 14px;
+  font-size: 15px;
   white-space: nowrap;
 }
 
 dialog:open {
-  width: 500px;
+  width: 90%;
+  height: 90%;
   background-color: #f0f0f0;
+  box-shadow: 0 0 5px #000;
   border: 1px solid #000;
   border-radius: 10px;
   user-select: none;
@@ -222,8 +210,8 @@ dialog:open {
     }
   }
 
-  input[type="text"],
-  input[type="select"] {
+  input[type='text'],
+  input[type='select'] {
     border: 1px solid rgb(136, 136, 136);
   }
 }
@@ -327,33 +315,15 @@ div:has(> .suggetion) {
   }
 }
 
-#messege {
-  display: none;
-  min-width: 250px;
-  max-width: 300px;
-  padding: 0.5rem 1.2rem;
-  border: 1px solid var(--clr-lt-gray);
-  border-radius: 10px;
-  color: var(--clr-lt);
-  background-color: #3f3f3fe7;
-  backdrop-filter: blur(5px);
+#messege:open {
+  width: 300px;
+  height: auto;
   position: absolute;
   right: 1.2rem;
   bottom: 1rem;
-  animation: open-messege 450ms forwards;
+  background-color: #242424;
 
-  div:first-child {
-    display: flex;
-    gap: 2rem;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--clr-lt);
-    position: relative;
-
-    margin-bottom: 6px;
-  }
-
-  #messegeClose {
+  .close {
     position: absolute;
     right: -0.8rem;
     top: 0;
@@ -362,33 +332,13 @@ div:has(> .suggetion) {
     fill: #8a0101;
   }
 
-  #messegeClose:hover {
+  .close:hover {
     fill: var(--error-text);
     background-color: #ff5b5b;
   }
 }
 
-#messege.open {
-  display: block;
-}
-
-@keyframes open-messege {
-  0% {
-    scale: 0;
-    bottom: -100%;
-  }
-  100% {
-    scale: 1;
-    bottom: 1rem;
-  }
-}
-
 #confirmation {
-  width: 300px;
-  padding: 1rem;
-  border-radius: 10px;
-  border: 1px solid gray;
-
   h1 {
     margin-bottom: 10px;
   }
