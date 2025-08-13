@@ -44,6 +44,10 @@
   background-color: var(--selection-clr);
 }
 
+::backdrop {
+  background-color: #0000004b;
+}
+
 *,
 *::before,
 *::after {
@@ -152,16 +156,16 @@ button:disabled {
   background-color: var(--clr-gray);
 }
 
-input[type='text'],
-input[type='number'],
-input[type='password'],
-input[type='date'],
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
 select {
   width: 100%;
   height: 30px;
 
   padding: 0 6px;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   font-weight: 600;
 
   border: 1px solid #525252;
@@ -170,10 +174,10 @@ select {
   transition: all 70ms ease-in-out;
 }
 
-input[type='text']:focus,
-input[type='number']:focus,
-input[type='password']:focus,
-input[type='date']:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
 select:focus {
   background-color: var(--input-ac-clr);
   border-color: var(--btn-clr);
@@ -192,32 +196,11 @@ label {
 dialog:open {
   width: 90%;
   height: 90%;
-  background-color: #f0f0f0;
-  box-shadow: 0 0 5px #000;
+  background-color: #ffffffec;
+  box-shadow: 0 0 5px #bbffff62;
   border: 1px solid #000;
   border-radius: 10px;
   user-select: none;
-
-  & > div {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-
-    & > div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  input[type='text'],
-  input[type='select'] {
-    border: 1px solid rgb(136, 136, 136);
-  }
-}
-
-div:has(> .suggetion) {
-  position: relative;
 }
 
 .hidden,
@@ -273,6 +256,26 @@ div:has(> .suggetion) {
   position: relative;
 }
 
+.close-btn {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  background-color: #d3d3d3;
+  border-radius: 10px;
+  fill: #b30101;
+
+  transition: all 70ms ease-out;
+}
+
+.close-btn:hover {
+  fill: #ffffff;
+  background-color: #810000;
+}
+
+div:has(> .suggetion) {
+  position: relative;
+}
+
 .suggetion {
   width: 100%;
   max-height: 240px;
@@ -316,29 +319,25 @@ div:has(> .suggetion) {
 }
 
 #messege:open {
-  width: 300px;
+  width: 310px;
   height: auto;
-  position: absolute;
-  right: 1.2rem;
-  bottom: 1rem;
-  background-color: #242424;
-
-  .close {
-    position: absolute;
-    right: -0.8rem;
-    top: 0;
-    background-color: #ff9393;
-    border-radius: 10px;
-    fill: #8a0101;
-  }
-
-  .close:hover {
-    fill: var(--error-text);
-    background-color: #ff5b5b;
-  }
+  margin: 0;
+  padding: 8px 16px;
+  position: fixed;
+  top: 100%;
+  left: 100%;
+  transform: translate(calc(-100% - 10px), calc(-100% - 10px));
+  background-color: #ffffff75;
+  backdrop-filter: blur(4px);
 }
 
-#confirmation {
+#confirmation:open {
+  width: 300px;
+  height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   h1 {
     margin-bottom: 10px;
   }

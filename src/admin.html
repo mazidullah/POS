@@ -55,7 +55,7 @@
         </div>
         <div>
           <div class="input">
-            <h1>Create new user</h1>
+            <h1>CREATE NEW USER</h1>
           </div>
           <div class="input">
             <label for="newUserName">Username</label>
@@ -78,45 +78,12 @@
     </main>
 
     <dialog id="userEdit">
-      <div>
-
-        <div>
-          <span>Edit User</span>
-          <svg id="userEditClose" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
-        </div>
-
-        <div class="input">
-          <label for="userEditName">Username</label>
-          <input type="text" id="userEditName" placeholder="Username">
-        </div>
-  
-        <div class="input">
-          <label for="userEditPassword">Password</label>
-          <input type="text" id="userEditPassword" placeholder="Password">
-        </div>
-  
-        <div class="input">
-          <button id="userEditOk">Done</button>
-        </div>
-      </div>
-
-    </dialog>
-
-    <!--messeging-->
-    <dialog id="confirmation">
-      <h1>Are your sure?</h1>
-      <div>
-        <button>OK</button>
-        <button>Cancel</button>
-      </div>
-    </dialog>
-
-    <div id="messege">
-      <div>
-        <h1 id="messegeHeader"></h1>
+      <header>
+        <h1>EDIT USER</h1>
         <span>
           <svg
-            id="messegeClose"
+            id="userEditClose" 
+            class="close-btn"
             xmlns="http://www.w3.org/2000/svg"
             height="15px"
             viewBox="0 -960 960 960"
@@ -125,8 +92,50 @@
               d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
           </svg>
         </span>
+      </header>
+      <hr>
+      
+      <div class="input">
+        <label for="userEditName">Username</label>
+        <input type="text" id="userEditName" placeholder="Username">
       </div>
-      <p id="messegeText"></p>
-    </div>
+  
+      <div class="input">
+        <label for="userEditPassword">Password</label>
+        <input type="text" id="userEditPassword" placeholder="Password">
+      </div>
+  
+      <div class="input">
+        <button id="userEditOk">Done</button>
+      </div>
+    </dialog>
+
+     <!--messeging-->
+    <dialog id="confirmation">
+      <h1 class="header">Are your sure?</h1>
+      <div>
+        <button class="ok">OK</button>
+        <button class="cancel">Cancel</button>
+      </div>
+    </dialog>
+
+    <dialog id="messege">
+      <header>
+        <h1 class="header"></h1>
+        <span>
+          <svg
+            class="close-btn"
+            xmlns="http://www.w3.org/2000/svg"
+            height="16px"
+            viewBox="0 -960 960 960"
+            width="16px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <hr />
+      <p class="text"></p>
+    </dialog>
     <!--messeging-->
 </html>

@@ -8,11 +8,6 @@ function isDegit(char) {
   return arr.some(a => a === char)
 }
 
-function isNumeric(char) {
-  let arr = [..."0123456789.-"]
-  return arr.some(a => a === char)
-}
-
 function isAlphaDegit(char) {
   return isAlphabet(char) || isDegit(char)
 }

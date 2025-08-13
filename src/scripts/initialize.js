@@ -4,11 +4,20 @@ import { focus } from "./utils/utils.js"
 import { delayFocus } from "./utils/utils.js"
 import { mobileInput } from "./utils/utils.js"
 import { enterToNextInput } from "./utils/utils.js"
+import { focusToSelectAll } from "./utils/utils.js"
 
 focus(storeName)
 mobileInput(storeMobile)
 enterToNextInput([storeName, storeAddress, storeMobile, next])
 enterToNextInput([adminName, adminPassword, adminPasswordRepeat, create])
+focusToSelectAll([
+  storeName,
+  storeAddress,
+  storeMobile,
+  adminName,
+  adminPassword,
+  adminPasswordRepeat,
+])
 
 back.addEventListener("click", () => {
   storeInfo.classList.remove("hidden")
