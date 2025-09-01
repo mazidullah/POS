@@ -4,7 +4,6 @@
 #createGeneric,
 #createCompany {
   position: relative;
-  top: -15%;
   overflow-y: hidden;
 
   svg {

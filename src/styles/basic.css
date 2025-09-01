@@ -196,7 +196,7 @@ label {
 dialog:open {
   width: 90%;
   height: 90%;
-  background-color: #ffffffec;
+  background-color: #f0f0f0;
   box-shadow: 0 0 5px #bbffff62;
   border: 1px solid #000;
   border-radius: 10px;
@@ -327,8 +327,9 @@ div:has(> .suggetion) {
   top: 100%;
   left: 100%;
   transform: translate(calc(-100% - 10px), calc(-100% - 10px));
-  background-color: #ffffff75;
+  background-color: #e7e7e775;
   backdrop-filter: blur(4px);
+  position: relative;
 }
 
 #confirmation:open {
