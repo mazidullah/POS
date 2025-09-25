@@ -1,0 +1,120 @@
+button {
+  --color: #ccc;
+  --bg-color: #181818;
+  --border-color: #888;
+
+  width: 100%;
+  height: 30px;
+  padding: 0 1.4rem;
+
+  color: var(--color);
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  white-space: nowrap;
+
+  outline: none;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  --color: #ddd;
+  --bg-color: #333;
+  --border-color: #aaa;
+}
+
+button:focus:not(:disabled) {
+  --color: #fff;
+  --bg-color: #111111;
+  --border-color: #bbb;
+  --outline-color: #e2e2e2;
+  outline: 1px dotted var(--outline-color);
+  outline-offset: -4px;
+}
+
+button:focus-visible:not(:disabled) {
+  --color: #fff;
+  --bg-color: #111111;
+  --border-color: #bbb;
+  --outline-color: #e2e2e2;
+
+  outline: 1px dotted var(--outline-color);
+  outline-offset: -4px;
+}
+
+button:active:not(:disabled) {
+  --color: #ccc;
+  --bg-color: #444;
+  --border-color: #888;
+
+  scale: 0.97;
+  translate: 0 2px;
+}
+
+button.btn-primary {
+  --bg-color: #0b6dff;
+}
+button.btn-primary:hover:not(:disabled) {
+  --bg-color: #045bdd;
+}
+button.btn-primary:focus:not(:disabled) {
+  --bg-color: #0043a7;
+}
+button.btn-primary:focus-visible:not(:disabled) {
+  --bg-color: #0043a7;
+}
+button.btn-primary:active:not(:disabled) {
+  --bg-color: #0b6dff;
+}
+
+button.btn-success {
+  --bg-color: #00a156;
+}
+button.btn-success:hover:not(:disabled) {
+  --bg-color: #006837;
+}
+button.btn-success:focus:not(:disabled) {
+  --bg-color: #006837;
+}
+button.btn-success:focus-visible:not(:disabled) {
+  --bg-color: #006837;
+}
+button.btn-success:active:not(:disabled) {
+  --bg-color: #00a156;
+}
+
+button.btn-warning {
+  --bg-color: #aa7400;
+}
+button.btn-warning:hover:not(:disabled) {
+  --bg-color: #634300;
+}
+button.btn-warning:focus:not(:disabled) {
+  --bg-color: #634300;
+}
+button.btn-warning:focus-visible:not(:disabled) {
+  --bg-color: #634300;
+}
+button.btn-warning:active:not(:disabled) {
+  --bg-color: #aa7400;
+}
+
+button.btn-error {
+  --bg-color: #800;
+}
+button.btn-error:hover:not(:disabled) {
+  --bg-color: #d00;
+}
+button.btn-error:focus:not(:disabled) {
+  --bg-color: #d00;
+}
+button.btn-error:focus-visible:not(:disabled) {
+  --bg-color: #d00;
+}
+button.btn-error:active:not(:disabled) {
+  --bg-color: #800;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

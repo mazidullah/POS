@@ -1,0 +1,158 @@
+@import url(./utils/basic.css);
+
+@import url(./modules/sell.css);
+@import url(./modules/customerReturn.css);
+@import url(./modules/purchase.css);
+@import url(./modules/list.css);
+
+#login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  & > .container {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    top: -4rem;
+  }
+}
+
+#modules {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+}
+
+#modules > nav {
+  overflow-y: auto;
+  padding: 10px;
+  color: #00993b;
+  background-color: #202020b9;
+
+  svg {
+    fill: #00993b;
+  }
+
+  li:not(:has(li)) {
+    display: flex;
+    gap: 10px;
+    padding: 4px;
+  }
+
+  li:not(:has(li)):hover {
+    color: #32eb78;
+    background-color: #000;
+    svg {
+      fill: #32eb78;
+    }
+  }
+
+  li.active {
+    color: #fff;
+    background-color: #000;
+    svg {
+      fill: #fff;
+    }
+  }
+
+  li > div {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px;
+
+    svg {
+      fill: #858585;
+    }
+
+    + ul {
+      display: none;
+      padding-left: 10px;
+      padding-top: 2px;
+
+      li {
+        padding-left: 8px;
+      }
+    }
+  }
+
+  li.expended > div {
+    color: #c7c7c7;
+    svg {
+      fill: rgb(196, 196, 196);
+      rotate: 180deg;
+    }
+    + ul {
+      display: block;
+    }
+  }
+
+  li > div:hover,
+  li.expended > div {
+    color: #aaaaaa;
+    background-color: #424242;
+    svg {
+      fill: rgb(175, 175, 175);
+    }
+  }
+}
+
+#modules > nav > ul > li {
+  margin-bottom: 2px;
+}
+
+nav li[data-navitem="logout"] {
+  color: #a10000 !important;
+  svg {
+    fill: #a10000 !important;
+  }
+}
+
+nav li[data-navitem="logout"]:hover {
+  color: #ff0000 !important;
+  svg {
+    fill: #ff0000 !important;
+  }
+}
+
+#modules > main {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  & > div {
+    display: none;
+  }
+
+  & > div.active {
+    display: grid;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    padding: 8px;
+    gap: 10px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  #modules {
+    grid-template-columns: 1fr;
+  }
+
+  #modules > nav {
+    display: none;
+  }
+
+  #modules > main {
+    & > div.active {
+      padding: 2px;
+    }
+  }
+}

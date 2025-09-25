@@ -1,0 +1,73 @@
+.dialog {
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background-color: #0000005b;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  & > .wrapper {
+    width: 80%;
+    height: 90%;
+    border: 1px solid #95baff79;
+    background: #161616;
+    backdrop-filter: blur(10px);
+
+    position: relative;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    display: grid;
+    grid-template-rows: 30px 1fr auto;
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0 0 8px;
+      background-color: #111111;
+      border-bottom: 1px solid #555555;
+      -webkit-app-region: drag;
+
+      span:nth-child(1) {
+        font-size: 15px;
+      }
+
+      span:nth-child(2) {
+        width: 40px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #800;
+        svg {
+          fill: #fff;
+        }
+      }
+
+      span:nth-child(2):hover {
+        background-color: #d00;
+        svg {
+          fill: #fff;
+        }
+      }
+    }
+
+    main {
+      padding: 4px;
+    }
+
+    footer {
+      padding: 4px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 4px;
+
+      button {
+        max-width: fit-content;
+      }
+    }
+  }
+}
