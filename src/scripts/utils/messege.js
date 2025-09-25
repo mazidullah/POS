@@ -1,10 +1,9 @@
 let nextTimeoutID = -1
 let close = messege.querySelector(".close-btn")
 
-function closeMessege() {
+export function closeMessege() {
   clearTimeout(nextTimeoutID)
   messege.classList.remove("open")
-  messege.close()
 }
 
 export function getSure(messege = "Are you sure?") {
@@ -13,16 +12,16 @@ export function getSure(messege = "Are you sure?") {
   let cancel = confirmation.querySelector(".cancel")
 
   header.innerText = messege
-  confirmation.showModal()
+  confirmation.classList.add("open")
 
   return new Promise((res, rej) => {
     ok.addEventListener("click", () => {
-      confirmation.close()
+      confirmation.classList.remove("open")
       res()
     })
 
     cancel.addEventListener("click", () => {
-      confirmation.close()
+      confirmation.classList.remove("open")
       rej()
     })
   })
@@ -38,9 +37,7 @@ export function showMessege(mheader, mtext) {
   header.innerText = mheader
   text.innerText = mtext
   messege.classList.add("open")
-  messege.show()
-
-  nextTimeoutID = setTimeout(closeMessege, 4000)
+  nextTimeoutID = setTimeout(closeMessege, 15000)
 }
 
 close.addEventListener("click", closeMessege)

@@ -3,66 +3,187 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Awesome PoS</title>
-    <link rel="stylesheet" href="./styles/initialize.css" />
-    <script src="./scripts/initialize.js" type="module"></script>
+    <style>
+      @import url(./styles/utils/basic.css);
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        & > div {
+          width: 450px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+    </style>
+
+    <script type="module">
+      import { showMessege } from "./scripts/utils/messege.js"
+      import { insertInto } from "./scripts/utils/database.js"
+      import {
+        focus,
+        delayFocus,
+        mobileInput,
+        enterToNextInput,
+        focusToSelectAll,
+      } from "./scripts/utils/utils.js"
+
+      focus(storeName)
+      mobileInput(storeMobile)
+      enterToNextInput([
+        storeName,
+        storeAddress,
+        storeMobile,
+        adminName,
+        adminPassword,
+        adminPasswordRepeat,
+        create,
+      ])
+
+      focusToSelectAll([
+        storeName,
+        storeAddress,
+        storeMobile,
+        adminName,
+        adminPassword,
+        adminPasswordRepeat,
+      ])
+
+      togglePassword.addEventListener("input", e => {
+        if (e.target.checked) {
+          adminPassword.type = "text"
+          adminPasswordRepeat.type = "text"
+          return
+        }
+        adminPassword.type = "password"
+        adminPasswordRepeat.type = "password"
+      })
+
+      create.addEventListener("click", () => {
+        if (!storeName.value.length) {
+          showMessege("error", "Invalid input", "You Must provide a store name")
+          delayFocus(storeName)
+          return
+        }
+
+        if (!storeAddress.value.length) {
+          showMessege(
+            "error",
+            "Invalid input",
+            "You Must provide a store address"
+          )
+          delayFocus(storeAddress)
+          return
+        }
+
+        if (!storeMobile.value.length) {
+          showMessege(
+            "error",
+            "Invalid input",
+            "You Must provide a store mobile no."
+          )
+          delayFocus(storeMobile)
+          return
+        }
+
+        if (!adminName.value.length) {
+          showMessege("error", "Invalid input", "You Must provide a admin name")
+          delayFocus(adminName)
+          return
+        }
+
+        if (!adminPassword.value.length) {
+          showMessege("error", "Invalid input", "Give your admin password")
+          delayFocus(adminPassword)
+          return
+        }
+
+        if (adminPassword.value !== adminPasswordRepeat.value) {
+          showMessege("error", "Error", "Password does not match")
+          delayFocus(adminPasswordRepeat)
+          return
+        }
+
+        insertInto(
+          "StoreInfo",
+          ["id", "name", "mobile", "address", "cash"],
+          [
+            1,
+            storeName.value.trim(),
+            storeMobile.value.trim(),
+            storeAddress.value.trim(),
+            0,
+          ]
+        )
+
+        insertInto(
+          "Users",
+          ["id", "name", "password", "role", "access_modules", "last_login"],
+          [
+            1,
+            adminName.value.trim(),
+            adminPassword.value.trim(),
+            "admin",
+            JSON.stringify([
+              "sell",
+              "purchase",
+              "customer_return",
+              "company_return",
+              "create_customer",
+              "create_company",
+              "create_product",
+              "create_generic",
+              "create_type",
+              "user",
+              "employee",
+              "setting",
+            ]),
+            0,
+          ]
+        )
+
+        const { ipcRenderer } = require("electron")
+        ipcRenderer.send("open:window")
+        window.close()
+      })
+    </script>
   </head>
   <body>
-    <div id="storeInfo">
-      <header>
-        <h1>CREATE NEW STORE</h1>
-      </header>
+    <div class="container">
+      <h1>CREATE NEW STORE</h1>
 
-      <div class="input">
+      <div class="input-inline">
         <label for="storeName">Store name</label>
         <input type="text" id="storeName" placeholder="Store name" />
       </div>
 
-      <div class="input">
+      <div class="input-inline">
         <label for="storeAddress">Store address</label>
         <input type="text" id="storeAddress" placeholder="Store address" />
       </div>
 
-      <div class="input">
+      <div class="input-inline">
         <label for="storeMobile">Mobile no.</label>
         <input type="text" id="storeMobile" placeholder="01xxx-xxxxxx" />
       </div>
 
-      <div class="input">
-        <button id="next">Next</button>
-      </div>
-    </div>
-
-    <div id="adminInfo" class="hidden">
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          id="back"
-          height="20px"
-          viewBox="0 -960 960 960"
-          width="20px"
-          fill="#000">
-          <path
-            d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-        </svg>
-      </div>
-
-      <header>
-        <h1>CREATE ADMIN</h1>
-      </header>
-
-      <div class="input">
+      <hr />
+      <div class="input-inline">
         <label for="adminName">Admin name</label>
         <input type="text" id="adminName" placeholder="Admin name" />
       </div>
 
-      <div class="input">
+      <div class="input-inline">
         <label for="adminPassword">Password</label>
         <input type="password" id="adminPassword" placeholder="Password" />
       </div>
 
-      <div class="input">
+      <div class="input-inline">
         <label for="adminPasswordRepeat">Repeat password</label>
         <input
           type="password"
@@ -70,43 +191,47 @@
           placeholder="Repeat Password" />
       </div>
 
-      <div class="input">
+      <div class="input-inline-checkbox">
         <input type="checkbox" id="togglePassword" />
         <label for="togglePassword">Show password</label>
       </div>
 
-      <div class="input">
-        <button id="create">Create</button>
+      <div class="input-button-group input-last-child">
+        <button>I have database</button>
+        <button class="btn-primary" id="create">Create</button>
       </div>
     </div>
 
     <!--messeging-->
-    <dialog id="confirmation">
-      <h1 class="header">Are your sure?</h1>
-      <div>
-        <button class="ok">OK</button>
-        <button class="cancel">Cancel</button>
+    <div id="confirmation">
+      <div class="wrapper">
+        <h1 class="header">Are your sure?</h1>
+        <div>
+          <button class="ok">OK</button>
+          <button class="cancel">Cancel</button>
+        </div>
       </div>
-    </dialog>
+    </div>
 
-    <dialog id="messege">
-      <header>
-        <h1 class="header"></h1>
-        <span>
-          <svg
-            class="close-btn"
-            xmlns="http://www.w3.org/2000/svg"
-            height="15px"
-            viewBox="0 -960 960 960"
-            width="15px">
-            <path
-              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-          </svg>
-        </span>
-      </header>
-      <hr />
-      <p class="text"></p>
-    </dialog>
+    <div id="messege">
+      <div class="wrapper">
+        <header>
+          <h1 class="header"></h1>
+          <span>
+            <svg
+              class="close-btn"
+              xmlns="http://www.w3.org/2000/svg"
+              height="16px"
+              viewBox="0 -960 960 960"
+              width="16px">
+              <path
+                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+            </svg>
+          </span>
+        </header>
+        <p class="text"></p>
+      </div>
+    </div>
     <!--messeging-->
   </body>
 </html>

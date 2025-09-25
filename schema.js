@@ -17,6 +17,7 @@ db.prepare(
   name TEXT,
   password TEXT,
   role TEXT,
+  access_modules TEXT,
   last_login INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT)
 )`

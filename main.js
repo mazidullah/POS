@@ -8,8 +8,6 @@ if (require("electron-squirrel-startup")) {
 
 const initializeWindow = () => {
   const window = new BrowserWindow({
-    width: 450,
-    height: 600,
     webPreferences: {
       // devTools: false,
       nodeIntegration: true,
@@ -19,27 +17,12 @@ const initializeWindow = () => {
   })
 
   window.loadFile(path.join(__dirname, "src/initialize.html"))
-  window.webContents.openDevTools() // Disable this
-  // Menu.setApplicationMenu(null)
-}
-
-const loginWindow = () => {
-  const window = new BrowserWindow({
-    webPreferences: {
-      // devTools: false,
-      nodeIntegration: true,
-      contextIsolation: false,
-      sandbox: false,
-    },
-  })
-
-  window.loadFile(path.join(__dirname, "src/login.html"))
   window.maximize()
   window.webContents.openDevTools() // Disable this
   // Menu.setApplicationMenu(null)
 }
 
-const adminWindow = () => {
+const window = () => {
   const window = new BrowserWindow({
     webPreferences: {
       // devTools: false,
@@ -49,23 +32,7 @@ const adminWindow = () => {
     },
   })
 
-  window.loadFile(path.join(__dirname, "src/admin.html"))
-  window.maximize()
-  window.webContents.openDevTools() // Disable this
-  // Menu.setApplicationMenu(null)
-}
-
-const posWindow = () => {
-  const window = new BrowserWindow({
-    webPreferences: {
-      // devTools: false,
-      nodeIntegration: true,
-      contextIsolation: false,
-      sandbox: false,
-    },
-  })
-
-  window.loadFile(path.join(__dirname, "src/pos.html"))
+  window.loadFile(path.join(__dirname, "src/index.html"))
   window.maximize()
   window.webContents.openDevTools() // Disable this
   // Menu.setApplicationMenu(null)
@@ -78,24 +45,16 @@ app.whenReady().then(() => {
   db.close()
 
   if (!hasStore) initializeWindow()
-  else loginWindow()
+  else window()
 
-  ipcMain.on("open:loginWindow", () => {
-    loginWindow()
-  })
-
-  ipcMain.on("open:adminWindow", () => {
-    adminWindow()
-  })
-
-  ipcMain.on("open:posWindow", () => {
-    posWindow()
+  ipcMain.on("open:window", () => {
+    window()
   })
 })
 
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    loginWindow()
+    posWindow()
   }
 })
 

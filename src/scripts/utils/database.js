@@ -20,7 +20,7 @@ export function currentRowId(tableName) {
 
 export function hasData(tableName, columnName, data) {
   let hasData = false
-  const datas = getDatasFrom(tableName)
+  const datas = getAllData(tableName)
 
   for (let i = 0; i < datas.length; i++) {
     if (datas[i][columnName] === data) {

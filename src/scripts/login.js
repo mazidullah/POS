@@ -1,47 +1,32 @@
-import { focus } from "./utils/utils.js"
-import { delayFocus } from "./utils/utils.js"
-import { enterToNextInput } from "./utils/utils.js"
-import { focusToSelectAll } from "./utils/utils.js"
-import { showMessege } from "./utils/messege.js"
-import { getAllData } from "./utils/database.js"
-import { updateInto } from "./utils/database.js"
+import { hasData, updateInto, getAllData } from "./utils/database.js"
+import { enterToNextInput, focus } from "./utils/utils.js"
+import { showMessege, closeMessege } from "./utils/messege.js"
 
-focus(username)
-enterToNextInput([username, password, loginButton])
-focusToSelectAll([username, password, loginButton])
+enterToNextInput([username, password, loginBtn])
 
-togglePassword.addEventListener("input", e => {
-  if (e.target.checked) password.type = "text"
-  else password.type = "password"
-})
+function showMessegeAndFocus() {
+  showMessege("Invalid credential", "Check your username & password")
+  focus(username)
+}
 
-loginButton.addEventListener("click", () => {
-  let uname = username.value.trim()
-  let pass = password.value.trim()
-  let users = getAllData("Users")
+loginBtn.addEventListener("click", () => {
+  if (hasData("Users", "name", username.value.trim())) {
+    if (hasData("Users", "password", password.value.trim())) {
+      window.__pos = {}
+      window.__pos.username = username.value.trim()
 
-  let haveNotUser = true
-
-  users.forEach(user => {
-    if (user.name === uname && user.password === pass) {
-      haveNotUser = false
+      let data = getAllData("Users", `where name = ${username.value.trim()}`)
       updateInto(
         "Users",
         ["last_login"],
-        [new Date().getTime()],
-        `WHERE id = ${user.id}`
+        [Date.now()],
+        `where id = ${data[0].id}`
       )
+      closeMessege()
+      // enable modules
 
-      const { ipcRenderer } = require("electron")
-      if (user.role === "admin") ipcRenderer.send("open:adminWindow")
-      else ipcRenderer.send("open:posWindow")
-
-      window.close()
-    }
-  })
-
-  if (haveNotUser) {
-    showMessege("Could not login", "Username or password does not matched.")
-    delayFocus(username)
-  }
+      login.classList.add("hidden")
+      modules.classList.remove("hidden")
+    } else showMessegeAndFocus()
+  } else showMessegeAndFocus()
 })
