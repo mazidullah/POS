@@ -50,6 +50,7 @@ export function focusToSelectAll(elements) {
 
       if ("date" === type) element.focus()
       else if ("file" === type) element.focus()
+      else if (element.)
       else {
         element.selectionStart = 0
         element.selectionEnd = element.value.length
