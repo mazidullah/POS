@@ -4,154 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Awesome PoS</title>
-    <style>
-      @import url(./styles/utils/basic.css);
-
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-        & > div {
-          width: 450px;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-      }
-    </style>
-
-    <script type="module">
-      import { showMessege } from "./scripts/utils/messege.js"
-      import { insertInto } from "./scripts/utils/database.js"
-      import {
-        focus,
-        delayFocus,
-        mobileInput,
-        enterToNextInput,
-        focusToSelectAll,
-      } from "./scripts/utils/utils.js"
-
-      focus(storeName)
-      mobileInput(storeMobile)
-      enterToNextInput([
-        storeName,
-        storeAddress,
-        storeMobile,
-        adminName,
-        adminPassword,
-        adminPasswordRepeat,
-        create,
-      ])
-
-      focusToSelectAll([
-        storeName,
-        storeAddress,
-        storeMobile,
-        adminName,
-        adminPassword,
-        adminPasswordRepeat,
-      ])
-
-      togglePassword.addEventListener("input", e => {
-        if (e.target.checked) {
-          adminPassword.type = "text"
-          adminPasswordRepeat.type = "text"
-          return
-        }
-        adminPassword.type = "password"
-        adminPasswordRepeat.type = "password"
-      })
-
-      create.addEventListener("click", () => {
-        if (!storeName.value.length) {
-          showMessege("error", "Invalid input", "You Must provide a store name")
-          delayFocus(storeName)
-          return
-        }
-
-        if (!storeAddress.value.length) {
-          showMessege(
-            "error",
-            "Invalid input",
-            "You Must provide a store address"
-          )
-          delayFocus(storeAddress)
-          return
-        }
-
-        if (!storeMobile.value.length) {
-          showMessege(
-            "error",
-            "Invalid input",
-            "You Must provide a store mobile no."
-          )
-          delayFocus(storeMobile)
-          return
-        }
-
-        if (!adminName.value.length) {
-          showMessege("error", "Invalid input", "You Must provide a admin name")
-          delayFocus(adminName)
-          return
-        }
-
-        if (!adminPassword.value.length) {
-          showMessege("error", "Invalid input", "Give your admin password")
-          delayFocus(adminPassword)
-          return
-        }
-
-        if (adminPassword.value !== adminPasswordRepeat.value) {
-          showMessege("error", "Error", "Password does not match")
-          delayFocus(adminPasswordRepeat)
-          return
-        }
-
-        insertInto(
-          "StoreInfo",
-          ["id", "name", "mobile", "address", "cash"],
-          [
-            1,
-            storeName.value.trim(),
-            storeMobile.value.trim(),
-            storeAddress.value.trim(),
-            0,
-          ]
-        )
-
-        insertInto(
-          "Users",
-          ["id", "name", "password", "role", "access_modules", "last_login"],
-          [
-            1,
-            adminName.value.trim(),
-            adminPassword.value.trim(),
-            "admin",
-            JSON.stringify([
-              "sell",
-              "purchase",
-              "customer_return",
-              "company_return",
-              "create_customer",
-              "create_company",
-              "create_product",
-              "create_generic",
-              "create_type",
-              "user",
-              "employee",
-              "setting",
-            ]),
-            0,
-          ]
-        )
-
-        const { ipcRenderer } = require("electron")
-        ipcRenderer.send("open:window")
-        window.close()
-      })
-    </script>
+    <link rel="stylesheet" href="./styles/initilize.css" />
+    <script src="./scripts/initilize.js" type="module" defer></script>
   </head>
   <body>
     <div class="container">
@@ -214,23 +68,22 @@
     </div>
 
     <div id="messege">
-      <div class="wrapper">
-        <header>
-          <h1 class="header"></h1>
-          <span>
-            <svg
-              class="close-btn"
-              xmlns="http://www.w3.org/2000/svg"
-              height="16px"
-              viewBox="0 -960 960 960"
-              width="16px">
-              <path
-                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-            </svg>
-          </span>
-        </header>
-        <p class="text"></p>
-      </div>
+      <header>
+        <span class="header"></span>
+        <span class="close-btn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="16px"
+            viewBox="0 -960 960 960"
+            width="16px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <main>
+        <span class="text"></span>
+      </main>
     </div>
     <!--messeging-->
   </body>

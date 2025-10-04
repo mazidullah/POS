@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Login</title>
+    <link rel="stylesheet" href="./styles/login.css" />
+    <script src="./scripts/login.js" type="module" defer></script>
+  </head>
+  <body>
+    <div id="login" class="container">
+      <header>
+        <h1>LOGIN</h1>
+      </header>
+
+      <main>
+        <div class="input">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Username" />
+        </div>
+
+        <div class="input">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="password" />
+        </div>
+
+        <div class="input-checkbox">
+          <input type="checkbox" id="togglePassword" />
+          <label for="togglePassword">Show password</label>
+        </div>
+      </main>
+
+      <footer>
+        <div>
+          <button class="btn-primary" id="loginButton">Login</button>
+        </div>
+      </footer>
+    </div>
+
+    <!--messeging-->
+    <div id="confirmation">
+      <div class="wrapper">
+        <h1 class="header">Are your sure?</h1>
+        <div>
+          <button class="ok">OK</button>
+          <button class="cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="messege">
+      <header>
+        <span class="header"></span>
+        <span class="close-btn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="16px"
+            viewBox="0 -960 960 960"
+            width="16px">
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+          </svg>
+        </span>
+      </header>
+      <main>
+        <span class="text"></span>
+      </main>
+    </div>
+    <!--messeging-->
+  </body>
+</html>

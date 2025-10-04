@@ -7,17 +7,12 @@ select {
   height: 30px;
   padding-left: 4px;
 
-  color: #00bad3;
+  color: #00cce7;
   background-color: #313131;
-
-  font-size: 17px;
   font-weight: 600;
-  line-height: 1;
-
   border: 1px solid #494949;
   border-radius: 0;
   outline: none;
-  transition: all 70ms ease-in-out;
 }
 
 input[type="text"]::placeholder,
@@ -25,9 +20,7 @@ input[type="number"]::placeholder,
 input[type="password"]::placeholder,
 input[type="date"]::placeholder,
 select::placeholder {
-  color: #686868;
-  font-size: 15px;
-  font-weight: 500;
+  color: #747474;
 }
 
 input[type="text"]:focus,
@@ -37,7 +30,7 @@ input[type="date"]:focus,
 select:focus {
   color: #252525;
   background-color: #cfcfcf;
-  border-color: #5e5e5e;
+  border-color: #00cce7;
 }
 
 input[type="text"]:focus::placeholder,
@@ -45,30 +38,31 @@ input[type="number"]:focus::placeholder,
 input[type="password"]:focus::placeholder,
 input[type="date"]:focus::placeholder,
 select:focus::placeholder {
-  color: #363636;
+  color: #5e5e5e;
+}
+
+input[type="file"] {
+  opacity: 0;
 }
 
 input:disabled {
-  color: #2472a7;
-  background-color: #111;
+  color: #00cce7;
+  background-color: #111111;
   cursor: not-allowed;
 }
 
 .input {
-  display: inline-flex;
-  flex-direction: row;
+  display: flex;
   height: 30px;
-  justify-content: flex-start;
-  align-items: center;
+  width: 220px;
 
   & label {
+    min-width: 80px;
+    padding-inline: 6px;
+
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-width: fit-content;
     white-space: nowrap;
-    height: 30px;
-    padding-inline: 10px;
 
     color: #a5a5a5;
     background-color: #111111;
@@ -81,7 +75,18 @@ input:disabled {
   }
 }
 
+.input.page {
+  & label {
+    min-width: 100px;
+    font-size: 12px;
+  }
+}
+
 .input-checkbox {
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   label,
   input {
     border: none;
@@ -99,8 +104,4 @@ input:disabled {
   input:first-of-type {
     border-right-color: #0e0e0e;
   }
-}
-
-.input-last-child {
-  margin-top: 2.5rem;
 }

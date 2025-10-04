@@ -37,7 +37,7 @@ export function focus(element) {
   }
 }
 
-export function delayFocus(element, delay = 300) {
+export function delayFocus(element, delay = 150) {
   setTimeout(() => {
     focus(element)
   }, delay)
@@ -49,6 +49,7 @@ export function focusToSelectAll(elements) {
       let type = element.type
 
       if ("date" === type) element.focus()
+      else if ("file" === type) element.focus()
       else {
         element.selectionStart = 0
         element.selectionEnd = element.value.length

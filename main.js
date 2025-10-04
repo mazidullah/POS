@@ -1,5 +1,5 @@
 const path = require("node:path")
-const { app, BrowserWindow, ipcMain } = require("electron")
+const { app, BrowserWindow, ipcMain, Menu } = require("electron")
 require("./schema.js")
 
 if (require("electron-squirrel-startup")) {
@@ -22,7 +22,7 @@ const initializeWindow = () => {
   // Menu.setApplicationMenu(null)
 }
 
-const window = () => {
+const loginWindow = () => {
   const window = new BrowserWindow({
     webPreferences: {
       // devTools: false,
@@ -32,9 +32,28 @@ const window = () => {
     },
   })
 
-  window.loadFile(path.join(__dirname, "src/index.html"))
+  window.loadFile(path.join(__dirname, "src/login.html"))
   window.maximize()
   window.webContents.openDevTools() // Disable this
+  // Menu.setApplicationMenu(null)
+}
+
+const posWindow = id => {
+  const posWindow = new BrowserWindow({
+    webPreferences: {
+      // devTools: false,
+      nodeIntegration: true,
+      contextIsolation: false,
+      sandbox: false,
+    },
+  })
+  posWindow.loadFile(path.join(__dirname, "src/index.html"))
+  posWindow.maximize()
+  posWindow.webContents.openDevTools() // Disable this
+
+  setTimeout(() => {
+    posWindow.send("user:id", id)
+  }, 1000)
   // Menu.setApplicationMenu(null)
 }
 
@@ -45,10 +64,14 @@ app.whenReady().then(() => {
   db.close()
 
   if (!hasStore) initializeWindow()
-  else window()
+  else loginWindow()
 
-  ipcMain.on("open:window", () => {
-    window()
+  ipcMain.on("open:loginWindow", () => {
+    loginWindow()
+  })
+
+  ipcMain.on("open:posWindow", (e, user) => {
+    posWindow(user.id)
   })
 })
 

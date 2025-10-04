@@ -42,9 +42,9 @@ export function getData(tableName, conditions) {
   return result
 }
 
-export function getAllData(tableName) {
+export function getAllData(tableName, conditions = "") {
   const db = new DatabaseSync("database.db")
-  const sql = `SELECT * FROM ${tableName}`
+  const sql = `SELECT * FROM ${tableName} ${conditions}`
 
   const result = db.prepare(sql).all()
 

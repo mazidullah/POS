@@ -1,0 +1,74 @@
+#editStoreInfo {
+  .wrapper {
+    & > main {
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 4px;
+      justify-content: start;
+      align-items: start;
+      overflow: hidden;
+
+      .left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .row {
+          flex: 1;
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+
+          .input {
+            flex: 1;
+          }
+        }
+
+        .row:nth-child(2) {
+          .input:nth-child(2) {
+            flex: unset;
+          }
+        }
+      }
+
+      .right {
+        width: 150px;
+        height: 150px;
+        position: relative;
+
+        .row {
+          position: absolute;
+          inset: 0;
+          border: 1px solid gray;
+
+          div,
+          input,
+          img {
+            position: absolute;
+            inset: 0;
+          }
+
+          div {
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            z-index: 2;
+          }
+
+          input {
+            z-index: 3;
+            background-color: red;
+          }
+
+          img {
+            width: 150px;
+            height: 150px;
+            z-index: 1;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}

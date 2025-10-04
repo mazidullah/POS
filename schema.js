@@ -7,7 +7,8 @@ db.prepare(
   name TEXT,
   mobile TEXT,
   address TEXT,
-  cash INTEGER
+  cash INTEGER,
+  logo BLOB
 )`
 ).run()
 
@@ -98,9 +99,8 @@ db.prepare(
   invoice_no TEXT,
   invoice_date INTEGER,
   total_bill TEXT,
-  payable_bill INTEGER,
   discount INTEGER,
-  to_pay INTEGER,
+  payable_bill INTEGER,
   paid INTEGER,
   dues INTEGER,
   product_data TEXT,
@@ -139,6 +139,28 @@ db.prepare(
   sell_id INTEGER,
   paid INTEGER,
   data TEXT,
+  PRIMARY KEY("id" AUTOINCREMENT)
+)`
+).run()
+
+db.prepare(
+  `CREATE TABLE IF NOT EXISTS Ledgers (
+  id INTEGER,
+  type TEXT,
+  table_name TEXT,
+  table_id_name TEXT,
+  table_id INTEGER,
+  amount INTEGER,
+  date INTEGER,
+  PRIMARY KEY("id" AUTOINCREMENT)
+)`
+).run()
+
+db.prepare(
+  `CREATE TABLE IF NOT EXISTS Invests (
+  id INTEGER,
+  amount INTEGER,
+  date INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()

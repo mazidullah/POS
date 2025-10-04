@@ -1,0 +1,55 @@
+#customerReturnList.active {
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  main {
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .row {
+    display: flex;
+    gap: 4px;
+  }
+
+  .row:nth-child(1) {
+    justify-content: flex-end;
+  }
+
+  .row:nth-child(2) {
+    margin-top: 2rem;
+    .input:nth-child(1) {
+      flex: 1;
+    }
+
+    .input:nth-child(2) {
+      width: 90px;
+    }
+  }
+
+  th:nth-child(1),
+  td:nth-child(1),
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 80px;
+    text-align: center;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 80px;
+    text-align: center;
+  }
+
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 160px;
+    text-align: center;
+  }
+}

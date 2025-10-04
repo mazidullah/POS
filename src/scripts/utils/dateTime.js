@@ -4,8 +4,8 @@ function padZeroDate(num) {
 }
 
 function padZeroMonth(num) {
-  if (num < 10) return "0" + (num + 1)
-  else return "" + (num + 1)
+  if (num < 10) return "0" + num
+  else return "" + num
 }
 
 function padZeroYear(num) {
@@ -41,10 +41,18 @@ export function getDate(date) {
   return `${dd}/${mm}/${yy}`
 }
 
-export function setDate(element, date = new Date(0)) {
+export function setDate(element, date = new Date()) {
   let dd = padZeroDate(date.getDate())
-  let mm = padZeroMonth(date.getMonth())
+  let mm = padZeroMonth(date.getMonth() + 1)
   let yy = padZeroYear(date.getFullYear())
 
   element.value = `${yy}-${mm}-${dd}`
+}
+
+export function getSetableDate(date = new Date()) {
+  let dd = padZeroDate(date.getDate())
+  let mm = padZeroMonth(date.getMonth() + 1)
+  let yy = padZeroYear(date.getFullYear())
+
+  return `${yy}-${mm}-${dd}`
 }

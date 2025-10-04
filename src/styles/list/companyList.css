@@ -1,0 +1,74 @@
+#companyList.active {
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  main {
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .row {
+    display: flex;
+    gap: 4px;
+  }
+
+  .row:nth-child(1) {
+    justify-content: flex-end;
+    .input:nth-child(1) {
+      width: 250px;
+    }
+    .input:nth-child(2) {
+      width: 150px;
+    }
+    .input:nth-child(3) {
+      width: 160px;
+    }
+  }
+
+  .row:nth-child(2) {
+    margin-top: 2rem;
+    .input:nth-child(1) {
+      flex: 1;
+    }
+
+    .input:nth-child(2) {
+      width: 90px;
+    }
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 80px;
+    text-align: center;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 120px;
+    text-align: center;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4),
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 140px;
+  }
+
+  th:nth-child(6),
+  td:nth-child(6) {
+    width: 180px;
+  }
+
+  th:nth-child(7),
+  td:nth-child(7) {
+    width: 80px;
+    text-align: center;
+  }
+}

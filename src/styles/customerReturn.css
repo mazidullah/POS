@@ -1,0 +1,81 @@
+#customerReturn.active {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .row {
+      display: flex;
+      gap: 4px;
+    }
+
+    .row:nth-child(1) {
+      .input:nth-child(2) {
+        margin-left: auto;
+      }
+    }
+
+    .row:nth-child(2) {
+      margin-top: 2rem;
+      .input:nth-child(2) {
+        flex: 1;
+      }
+    }
+  }
+  footer {
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+
+    .left {
+      align-self: flex-end;
+    }
+
+    .right {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+
+      .input:nth-child(1) {
+        max-width: 240px;
+
+        label {
+          font-size: 13px;
+        }
+      }
+
+      .input:nth-child(2) {
+        margin-top: 30px;
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+          width: 120px;
+        }
+      }
+    }
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 80px;
+    text-align: center;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3),
+  th:nth-child(4),
+  td:nth-child(4),
+  th:nth-child(5),
+  td:nth-child(5),
+  th:nth-child(6),
+  td:nth-child(6),
+  th:nth-child(7),
+  td:nth-child(7) {
+    width: 120px;
+    text-align: center;
+  }
+}

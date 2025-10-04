@@ -1,0 +1,17 @@
+#editTypeList main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .row {
+    display: flex;
+    gap: 4px;
+  }
+
+  .row:nth-child(2) {
+    flex: 1;
+    .input:nth-child(1) {
+      flex: 1;
+    }
+  }
+}

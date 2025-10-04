@@ -1,0 +1,72 @@
+#editCustomerList main {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 8px;
+
+  .customer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .row {
+      display: flex;
+      gap: 4px;
+    }
+
+    .row:nth-child(1) {
+      justify-content: space-between;
+
+      .input:nth-child(1),
+      .input:nth-child(2) {
+        width: 160px;
+      }
+    }
+
+    .row:nth-child(2) {
+      margin-top: 2rem;
+      .input:nth-child(1) {
+        flex: 1;
+      }
+    }
+
+    .row:nth-child(3) {
+      .input:nth-child(1) {
+        flex: 1;
+      }
+
+      .input:nth-child(2) {
+        flex: 1;
+      }
+    }
+  }
+
+  .customer-dues {
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 90px;
+      text-align: center;
+      background-color: #250000 !important;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 180px;
+      text-align: center;
+      background-color: #250000 !important;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4),
+    th:nth-child(5),
+    td:nth-child(5),
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 100px;
+      text-align: center;
+      background-color: #250000 !important;
+    }
+  }
+}

@@ -9,13 +9,13 @@
 }
 
 @font-face {
-  font-family: poppins;
-  src: url(../assets/fonts/Poppins-Regular.ttf);
+  font-family: lato-bold;
+  src: url(../../assets/fonts/Lato-Bold.ttf);
 }
 
 @font-face {
   font-family: number;
-  src: url(../assets/fonts/monofonto.otf);
+  src: url(../../assets/fonts/monofonto.otf);
 }
 
 ::selection {
@@ -32,14 +32,17 @@
 body {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
   margin: 0;
+
   color: #9b9b9b;
   background-color: #0f0f0f;
-  font-size: 16px;
+
+  font-size: 14px;
   line-height: 1.4;
-  font-family: lato;
+  font-family: lato-bold, sans-serif;
+
   position: relative;
+  overflow: hidden;
   user-select: none;
 }
 
@@ -47,6 +50,12 @@ body {
   padding: 10px;
   border: 1px solid #353535;
   background-color: #1d1d1d;
+}
+
+.table-container {
+  border: 1px solid #353535;
+  background-color: #1d1d1d;
+  overflow-y: auto;
 }
 
 h1,
@@ -57,12 +66,12 @@ h5,
 h6,
 p {
   margin: 0;
+  font-family: lato-bold;
 }
 
 h1 {
   font-size: 21px;
   font-weight: 900;
-  font-family: sans-serif;
   text-align: center;
   margin-bottom: 6px;
 }
@@ -70,7 +79,6 @@ h1 {
 h2 {
   font-size: 19px;
   font-weight: 700;
-  font-family: sans-serif;
   text-align: center;
   margin-bottom: 6px;
 }
@@ -99,20 +107,18 @@ th {
 
 thead {
   position: sticky;
-  top: -11px;
+  top: -2px;
   th {
     color: #afafaf;
     background-color: #00013f;
-    padding: 4px;
+
+    font-size: 14px;
+    font-family: serif;
+    white-space: nowrap;
   }
 }
 
 tbody {
-  td {
-    color: #a2c7ff;
-    padding: 4px;
-  }
-
   tr:nth-child(odd) {
     background-color: #252424;
   }
@@ -122,7 +128,16 @@ tbody {
   }
 
   tr:hover {
-    background-color: var(--selection-clr) !important;
+    color: #00013f;
+    background-color: #3eb2ff;
+  }
+
+  td {
+    padding: 3px 4px;
+  }
+
+  td.mobile-number {
+    font-family: number, monospace;
   }
 }
 
@@ -153,12 +168,12 @@ div:has(> .suggetion) {
   position: absolute;
   top: 100%;
   z-index: 100;
-  background-color: #353535;
+  background-color: #cfcfcf;
 
   & > div {
-    color: #b8b8b8;
+    color: #141414;
     padding: 2px 4px;
-    background-color: #252525;
+    background-color: #adadad;
 
     span:first-child {
       width: 160px;
@@ -167,7 +182,7 @@ div:has(> .suggetion) {
   }
 
   & > div:hover {
-    background-color: #1f1f1f;
+    background-color: #979797;
   }
 
   div.selected {

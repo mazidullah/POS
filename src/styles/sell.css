@@ -1,0 +1,76 @@
+#sell.active {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  header,
+  footer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .row {
+    display: flex;
+    gap: 4px;
+  }
+
+  header {
+    .row:nth-child(1) {
+      .input:nth-child(1) {
+        width: 170px;
+      }
+      .input:nth-child(2) {
+        margin-left: auto;
+        width: 160px;
+      }
+
+      .input:nth-child(3) {
+        width: 160px;
+      }
+    }
+
+    .row:nth-child(2) {
+      .input:nth-child(1) {
+        flex-grow: 1;
+      }
+
+      .input:nth-child(2) {
+        max-width: 364px;
+      }
+    }
+
+    .row:nth-child(3) {
+      margin-top: 30px;
+
+      .input:nth-child(1) {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  footer {
+    justify-content: space-between;
+    flex-direction: row;
+
+    .left,
+    .right {
+      display: flex;
+      gap: 4px;
+    }
+
+    .left {
+      justify-content: flex-start;
+      align-items: flex-end;
+    }
+
+    .right {
+      align-items: flex-end;
+      flex-direction: column;
+
+      .row:nth-child(3) {
+        justify-content: flex-end;
+        margin-top: 30px;
+      }
+    }
+  }
+}

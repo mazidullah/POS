@@ -1,0 +1,18 @@
+#editAdminInfo {
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+    }
+
+    .input {
+      display: flex;
+      flex: 1;
+    }
+  }
+}

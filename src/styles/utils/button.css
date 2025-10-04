@@ -51,19 +51,19 @@ button:active:not(:disabled) {
 }
 
 button.btn-primary {
-  --bg-color: #0b6dff;
+  --bg-color: #0151c9;
 }
 button.btn-primary:hover:not(:disabled) {
-  --bg-color: #045bdd;
+  --bg-color: #1c77ff;
 }
 button.btn-primary:focus:not(:disabled) {
-  --bg-color: #0043a7;
+  --bg-color: #0b6dff;
 }
 button.btn-primary:focus-visible:not(:disabled) {
-  --bg-color: #0043a7;
+  --bg-color: #0b6dff;
 }
 button.btn-primary:active:not(:disabled) {
-  --bg-color: #0b6dff;
+  --bg-color: #045bdd;
 }
 
 button.btn-success {

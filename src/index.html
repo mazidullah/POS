@@ -6,29 +6,10 @@
 
     <title>Awesome PoS</title>
     <link rel="stylesheet" href="./styles/index.css" />
-    <script src="./scripts/index.js" type="module"></script>
+    <script src="./scripts/index.js" type="module" defer></script>
   </head>
   <body>
-    <div id="login" class="hidden">
-      <div class="container">
-        <h1>LOGIN</h1>
-        <div class="input">
-          <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Username" />
-        </div>
-
-        <div class="input">
-          <label for="password">Password</label>
-          <input type="text" id="password" placeholder="password" />
-        </div>
-
-        <div class="input-last-child input-button-group">
-          <button class="btn-primary" id="loginBtn">Login</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="modules">
+    <div id="pos">
       <nav>
         <ul>
           <li data-navitem="sell" class="active">
@@ -111,9 +92,11 @@
               <li data-navitem="companyList">Company List</li>
               <li data-navitem="genericList">Generics List</li>
               <li data-navitem="typeList">Type List</li>
-              <li data-navitem="purchaseList">Purchase List</li>
               <li data-navitem="stockList">Stock List</li>
+              <li data-navitem="purchaseList">Purchase List</li>
               <li data-navitem="expenseList">Expense List</li>
+              <li data-navitem="customerReturnList">Customer Return</li>
+              <li data-navitem="companyReturnList">Company Return</li>
             </ul>
           </li>
           <li>
@@ -161,19 +144,6 @@
             </svg>
             <span>Settings</span>
           </li>
-
-          <li data-navitem="logout">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#e3e3e3">
-              <path
-                d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-84 31.5-156.5T197-763l56 56q-44 44-68.5 102T160-480q0 134 93 227t227 93q134 0 227-93t93-227q0-67-24.5-125T707-707l56-56q54 54 85.5 126.5T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-360v-440h80v440h-80Z" />
-            </svg>
-            <span>Logout</span>
-          </li>
         </ul>
       </nav>
 
@@ -181,12 +151,17 @@
         <div id="sell" class="active">
           <header class="container">
             <div class="row">
-              <div class="input">
+              <div class="input" title="Customer ID">
                 <label for="sellId">ID</label>
-                <input type="text" id="sellId" placeholder="0" disabled />
+                <input
+                  type="text"
+                  id="sellId"
+                  value="0"
+                  placeholder="0"
+                  disabled />
               </div>
 
-              <div class="input">
+              <div class="input" title="Customer previous dues">
                 <label for="sellPrevDue">Dues</label>
                 <input
                   type="text"
@@ -196,7 +171,7 @@
                   value="0" />
               </div>
 
-              <div class="input">
+              <div class="input" title="Total cost of all items">
                 <label for="sellTotalCost">Cost</label>
                 <input
                   type="text"
@@ -206,50 +181,55 @@
                   value="0" />
               </div>
 
-              <div class="input">
+              <div class="input" title="Voucher date">
                 <label for="sellDate">Date</label>
-                <input type="date" id="sellDate" />
+                <input type="date" id="sellDate" disabled />
               </div>
             </div>
 
             <div class="row">
-              <div class="input">
-                <label for="sellName">Customer Name</label>
+              <div class="input" title="Search by custome name or id">
+                <label for="sellName">Name</label>
                 <input
                   type="text"
                   id="sellName"
                   placeholder="Customer Name or ID" />
               </div>
 
-              <div class="input">
+              <div class="input" title="Customer address">
                 <label for="sellAddress">Address</label>
                 <input
                   type="text"
                   id="sellAddress"
-                  placeholder="Customer Address" />
+                  placeholder="Customer Address"
+                  disabled />
               </div>
 
-              <div class="input">
+              <div class="input" title="Customer mobile no.">
                 <label for="sellMobile">Mobile</label>
-                <input type="text" id="sellMobile" placeholder="01xxx-xxxxxx" />
+                <input
+                  type="text"
+                  id="sellMobile"
+                  placeholder="01xxx-xxxxxx"
+                  disabled />
               </div>
             </div>
 
             <div class="row">
-              <div class="input">
-                <label for="sellInput">Khoj the Search</label>
+              <div class="input" title="Search by product or generic name">
+                <label for="sellInput">Search</label>
                 <input
                   type="text"
                   id="sellSearch"
                   placeholder="Product Name of Generic Name" />
               </div>
-              <div class="input">
+              <div class="input" title="Quantity">
                 <label for="sellQnt">Qnt</label>
                 <input type="text" id="sellQnt" placeholder="Quantity" />
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -271,11 +251,10 @@
           <footer class="container">
             <div class="left">
               <button id="sellClear" class="btn-error">Clear</button>
-              <button id="sellRefresh">Refersh</button>
             </div>
             <div class="right">
               <div class="row">
-                <div class="input">
+                <div class="input" title="Total bill amount">
                   <label for="sellTotalBill">Total Bill</label>
                   <input
                     type="text"
@@ -284,7 +263,7 @@
                     placeholder="0.0" />
                 </div>
 
-                <div class="input input-discount">
+                <div class="input input-discount" title="Discount">
                   <label for="sellDiscountAmount">Dis</label>
                   <input type="text" id="sellDiscountAmount" placeholder="0" />
                   <input
@@ -295,7 +274,7 @@
               </div>
 
               <div class="row">
-                <div class="input">
+                <div class="input" title="Payable amount after adjust discount">
                   <label for="sellPayable">Payable</label>
                   <input
                     type="text"
@@ -304,14 +283,14 @@
                     disabled />
                 </div>
 
-                <div class="input">
+                <div class="input" title="Dues amount">
                   <label for="sellDue">Due</label>
                   <input type="text" id="sellDue" placeholder="0" />
                 </div>
               </div>
 
               <div class="row">
-                <div class="input">
+                <div class="input" title="Paid amount">
                   <label for="sellPaid">Paid</label>
                   <input type="text" id="sellPaid" placeholder="0" />
                 </div>
@@ -324,26 +303,29 @@
         </div>
         <div id="voucher">
           <header class="container">
-            <div class="input">
-              <label for="voucherName">Search</label>
-              <input
-                type="text"
-                id="voucherName"
-                placeholder="Customer Name or Bill No." />
-            </div>
+            <div class="row">
+              <div class="input" title="Start from">
+                <label for="voucherStartDate">Start Date</label>
+                <input type="date" id="voucherStartDate" />
+              </div>
 
-            <div class="input">
-              <label for="voucherStartDate">Start Date</label>
-              <input type="date" id="voucherStartDate" />
+              <div class="input" title="End to">
+                <label for="voucherEndDate">End Date</label>
+                <input type="date" id="voucherEndDate" />
+              </div>
             </div>
-
-            <div class="input">
-              <label for="voucherEndDate">End Date</label>
-              <input type="date" id="voucherEndDate" />
+            <div class="row">
+              <div class="input" title="Search by customer name or voucher id.">
+                <label for="voucherNameOrId">Search</label>
+                <input
+                  type="text"
+                  id="voucherNameOrId"
+                  placeholder="Customer Name or Bill No." />
+              </div>
             </div>
           </header>
 
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
@@ -390,7 +372,7 @@
                   disabled />
               </div>
               <div class="input">
-                <label for="customerReturnCustomerName">Customer Name</label>
+                <label for="customerReturnCustomerName">Cus. Name</label>
                 <input
                   type="text"
                   id="customerReturnCustomerName"
@@ -417,15 +399,15 @@
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
                   <th>No.</th>
-                  <th>Name</th>
+                  <th>Product Name</th>
                   <th>Sell Qnt</th>
-                  <th>Avail Qnt</th>
                   <th>Sell Price</th>
+                  <th>Avail Qnt</th>
                   <th>Return Qnt</th>
                   <th>Total Price</th>
                 </tr>
@@ -435,15 +417,13 @@
           </main>
           <footer class="container">
             <div class="left">
-              <div class="input">
-                <button id="customerReturnClear" class="btn-error">
-                  Clear
-                </button>
-              </div>
+              <button id="customerReturnClear" class="btn-error">Clear</button>
             </div>
             <div class="right">
               <div class="input">
-                <label for="customerReturnTotalAmount">Total Amount</label>
+                <label for="customerReturnTotalAmount" title="Return amount"
+                  >Return Amt.</label
+                >
                 <input
                   type="text"
                   id="customerReturnTotalAmount"
@@ -475,7 +455,7 @@
             </div>
             <div class="row">
               <div class="input">
-                <label for="purchaseCompanyName">Company Name</label>
+                <label for="purchaseCompanyName">Com Name</label>
                 <input
                   type="text"
                   id="purchaseCompanyName"
@@ -496,7 +476,7 @@
             </div>
             <div class="row">
               <div class="input">
-                <label for="purchaseProductName">Product Name</label>
+                <label for="purchaseProductName">Prod Name</label>
                 <input
                   type="text"
                   id="purchaseProductName"
@@ -590,7 +570,7 @@
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
@@ -614,9 +594,7 @@
           </main>
           <footer class="container">
             <div class="left">
-              <div class="input">
-                <button id="purchaseClear" class="btn-error">Clear</button>
-              </div>
+              <button id="purchaseClear" class="btn-error">Clear</button>
             </div>
             <div class="right">
               <div class="row">
@@ -706,12 +684,11 @@
                 </select>
               </div>
 
-              <div class="input flex-0">
-                <label for="customerListGotoPage"
-                  >Page [ Total
-                  <span id="customerListPossiblePage">1</span> ]</label
-                >
-                <input type="text" id="customerListGotoPage" value="1" />
+              <div class="input page">
+                <label for="customerListGotoPage">
+                  Page [Total:<span id="customerListPossiblePage">0</span>]
+                </label>
+                <input type="text" id="customerListGotoPage" value="0" />
               </div>
             </div>
             <div class="row">
@@ -724,22 +701,23 @@
               </div>
 
               <div class="input">
-                <button id="customerListCreate">Create</button>
+                <button id="customerListCreate" class="btn-primary">
+                  Create
+                </button>
               </div>
             </div>
           </header>
 
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>CID</th>
-                  <th>Name</th>
+                  <th title="Customer ID">CID</th>
+                  <th>Customer Name</th>
                   <th>Address</th>
                   <th>Mobile</th>
                   <th>Remark</th>
-                  <th>Due</th>
+                  <th>Dues</th>
                 </tr>
               </thead>
 
@@ -777,12 +755,11 @@
                 </select>
               </div>
 
-              <div class="input">
-                <label for="productListGotoPage"
-                  >Page [ Total
-                  <span id="productListPossiblePage">1</span> ]</label
-                >
-                <input type="text" id="productListGotoPage" value="1" />
+              <div class="input page">
+                <label for="productListGotoPage">
+                  Page [Total:<span id="productListPossiblePage">0</span>]
+                </label>
+                <input type="text" id="productListGotoPage" value="0" />
               </div>
             </div>
             <div class="row">
@@ -799,21 +776,22 @@
               </div>
 
               <div class="input">
-                <button id="productListCreate">Create</button>
+                <button id="productListCreate" class="btn-primary">
+                  Create
+                </button>
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>PID</th>
+                  <th title="Product ID">PID</th>
                   <th>Type</th>
-                  <th>Name</th>
-                  <th>Generic</th>
-                  <th>Company</th>
-                  <th>MinStk</th>
+                  <th>Product Name</th>
+                  <th>Generic Name</th>
+                  <th>Company Name</th>
+                  <th title="Minimun stock">Min. Stock</th>
                 </tr>
               </thead>
 
@@ -855,12 +833,11 @@
                 </select>
               </div>
 
-              <div class="input">
-                <label for="companyListGotoPage"
-                  >Page [ Total
-                  <span id="companyListPossiblePage">1</span> ]</label
-                >
-                <input type="text" id="companyListGotoPage" value="1" />
+              <div class="input page">
+                <label for="companyListGotoPage">
+                  Page [Total:<span id="companyListPossiblePage">0</span>]
+                </label>
+                <input type="text" id="companyListGotoPage" value="0" />
               </div>
             </div>
             <div class="row">
@@ -873,21 +850,23 @@
               </div>
 
               <div class="input">
-                <button id="companyListCreate">Create</button>
+                <button id="companyListCreate" class="btn-primary">
+                  Create
+                </button>
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
+                  <th title="Company ID">CID</th>
+                  <th>Company Name</th>
                   <th>Mobile</th>
                   <th>Order Day</th>
                   <th>Delivery Day</th>
                   <th>Remark</th>
-                  <th>Due</th>
+                  <th>Dues</th>
                 </tr>
               </thead>
 
@@ -919,12 +898,11 @@
                 </select>
               </div>
 
-              <div class="input">
-                <label for="genericListGotoPage"
-                  >Page [ Total
-                  <span id="genericListPossiblePage">1</span> ]</label
-                >
-                <input type="text" id="genericListGotoPage" value="1" />
+              <div class="input page">
+                <label for="genericListGotoPage">
+                  Page [Total:<span id="genericListPossiblePage">0</span>]
+                </label>
+                <input type="text" id="genericListGotoPage" value="0" />
               </div>
             </div>
             <div class="row">
@@ -937,16 +915,18 @@
               </div>
 
               <div class="input">
-                <button id="genericListCreate">Create</button>
+                <button id="genericListCreate" class="btn-primary">
+                  Create
+                </button>
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
+                  <th title="Generic ID">GID</th>
+                  <th>Generic Name</th>
                 </tr>
               </thead>
 
@@ -978,12 +958,11 @@
                 </select>
               </div>
 
-              <div class="input">
-                <label for="typeListGotoPage"
-                  >Page [ Total
-                  <span id="typeListPossiblePage">1</span> ]</label
-                >
-                <input type="text" id="typeListGotoPage" value="1" />
+              <div class="input page">
+                <label for="typeListGotoPage">
+                  Page [Total:<span id="typeListPossiblePage">0</span>]
+                </label>
+                <input type="text" id="typeListGotoPage" value="0" />
               </div>
             </div>
             <div class="row">
@@ -995,215 +974,20 @@
                   placeholder="Search by id or name" />
               </div>
               <div class="input">
-                <button id="typeListCreate">Create</button>
+                <button id="typeListCreate" class="btn-primary">Create</button>
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
+                  <th title="Type ID">TID</th>
+                  <th>Type Name</th>
                 </tr>
               </thead>
 
               <tbody id="typeListTbody"></tbody>
-            </table>
-          </main>
-        </div>
-
-        <div id="customerReturnList">
-          <header class="container">
-            <div class="row">
-              <div class="input">
-                <label for="customerReturnListDisplayPerPage">Display</label>
-                <input
-                  type="text"
-                  id="customerReturnListDisplayPerPage"
-                  value="100" />
-              </div>
-
-              <div class="input">
-                <label for="customerReturnListGotoPage"
-                  >Goto Page (Total
-                  <span id="customerReturnListPossiblePage">1</span>)</label
-                >
-                <input type="text" id="customerReturnListGotoPage" value="1" />
-              </div>
-
-              <div class="input">
-                <label for="customerReturnListSortBy">Sort By</label>
-                <select id="customerReturnListSortBy">
-                  <option value="return_id_asc">01 - Return ID</option>
-                  <option value="return_id_des" selected>
-                    02 - Return ID (Rev)
-                  </option>
-                  <option value="customer_name_asc">03 - Customer Name</option>
-                  <option value="customer_name_des">
-                    04 - Customer Name (Rev)
-                  </option>
-                  <option value="customer_id_asc">05 - Customer ID</option>
-                  <option value="customer_name_des">
-                    06 - Customer ID (Rev).
-                  </option>
-                  <option value="date_asc">07 - Address</option>
-                  <option value="date_des">08 - Address (Rev)</option>
-                  <option value="return_amt_asc">09 - Return Amount</option>
-                  <option value="return_amt_des">
-                    10 - Return Amount (Rev)
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input">
-                <label for="customerReturnListSearch">Search</label>
-                <input type="text" id="customerReturnListSearch" />
-              </div>
-            </div>
-          </header>
-          <main class="container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Customer ID</th>
-                  <th>Customer Name</th>
-                  <th>Return Amount</th>
-                  <th>Date-Time</th>
-                </tr>
-              </thead>
-
-              <tbody id="customerReturnListTbody"></tbody>
-            </table>
-          </main>
-        </div>
-
-        <div id="companyReturnList">
-          <header class="container">
-            <div class="row">
-              <div class="input">
-                <label for="companyReturnListSortBy">Sort By</label>
-                <select id="companyReturnListSortBy">
-                  <option value="company_name_asc">01 - Company Name</option>
-                  <option value="company_name_des">Company Name(Rev)</option>
-                  <option value="return_id_asc">Return ID</option>
-                  <option value="return_id_des" selected>
-                    Return ID (Rev)
-                  </option>
-                  <option value="date_asc">Date</option>
-                  <option value="date_des">Date (Rev)</option>
-                  <option value="amount_asc">Amount</option>
-                  <option value="amount_des">Amount (Rev)</option>
-                </select>
-              </div>
-
-              <div class="input">
-                <label for="companyReturnListDisplayPerPage">Display</label>
-                <input
-                  type="text"
-                  id="companyReturnListDisplayPerPage"
-                  value="100" />
-              </div>
-
-              <div class="input">
-                <label for="companyReturnListGotoPage"
-                  >Goto Page (Total
-                  <span id="companyReturnListPossiblePage">1</span>)</label
-                >
-                <input type="text" id="companyReturnListGotoPage" value="1" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="input">
-                <label for="companyReturnListSearch">Search</label>
-                <input type="text" id="companyReturnListSearch" />
-              </div>
-            </div>
-          </header>
-          <main class="container">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Company Name</th>
-                  <th>Amount</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-
-              <tbody id="companyReturnListTbody"></tbody>
-            </table>
-          </main>
-        </div>
-
-        <div id="purchaseList">
-          <header class="container">
-            <div class="row">
-              <div class="input">
-                <label for="purchaseListSortBy">Sort By</label>
-                <select id="purchaseListSortBy">
-                  <option value="id">01 - ID</option>
-                  <option value="id_des" selected>02 - ID (Rev)</option>
-                  <option value="company_name">03 - Company Name</option>
-                  <option value="company_name_des">
-                    04 - Company Name (Rev)
-                  </option>
-                  <option value="date">05 - Date</option>
-                  <option value="date_des">06 - Date (Rev)</option>
-                  <option value="due">07 - Dues</option>
-                  <option value="due_des">08 - Dues (Rev)</option>
-                </select>
-              </div>
-
-              <div class="input">
-                <label for="purchaseListDisplayPerPage">Display</label>
-                <select id="purchaseListDisplayPerPage">
-                  <option value="100">100</option>
-                  <option value="200">200</option>
-                  <option value="500">500</option>
-                  <option value="1000">1000</option>
-                </select>
-              </div>
-
-              <div class="input">
-                <label for="purchaseListGotoPage"
-                  >Page [ Total
-                  <span id="purchaseListPossiblePage">1</span> ]</label
-                >
-                <input type="text" id="purchaseListGotoPage" value="1" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="input">
-                <label for="purchaseListSearch">Search</label>
-                <input
-                  type="text"
-                  id="purchaseListSearch"
-                  placeholder="Search by id, invoice no. or company name" />
-              </div>
-            </div>
-          </header>
-          <main class="container">
-            <table>
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>PID</th>
-                  <th>Invoice No</th>
-                  <th>Company Name</th>
-                  <th>Total Bill</th>
-                  <th>Payable</th>
-                  <th>Discount</th>
-                  <th>ToPay</th>
-                  <th>Paid</th>
-                  <th>Due</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-
-              <tbody id="purchaseListTbody"></tbody>
             </table>
           </main>
         </div>
@@ -1241,11 +1025,11 @@
                 </select>
               </div>
 
-              <div class="input">
-                <label for="stockListGotoPage"
-                  >Page [ Total <span id="stockListPossiblePage">1</span> ]
+              <div class="input page">
+                <label for="stockListGotoPage">
+                  Page [Total:<span id="stockListPossiblePage">0</span>]
                 </label>
-                <input type="text" id="stockListGotoPage" value="1" />
+                <input type="text" id="stockListGotoPage" value="0" />
               </div>
             </div>
             <div class="row">
@@ -1258,20 +1042,19 @@
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>PID</th>
+                  <th title="Purchase ID">PID</th>
                   <th>Type</th>
-                  <th>Name</th>
-                  <th>Generic</th>
-                  <th>Company</th>
-                  <th>TQnt</th>
-                  <th>Qnt</th>
-                  <th>P/P</th>
-                  <th>S/P</th>
+                  <th title="Product name">Product Name</th>
+                  <th title="Generic name">Generic name</th>
+                  <th title="Company name">Company Name</th>
+                  <th title="Total quantity">Total Qnt</th>
+                  <th title="Quantity">Quantity</th>
+                  <th title="Purchase price">Pur. Price</th>
+                  <th title="Sell price">Sell Price</th>
                   <th>Expire</th>
                 </tr>
               </thead>
@@ -1281,47 +1064,59 @@
           </main>
         </div>
 
+        <div id="purchaseList">
+          <header class="container">
+            <div class="row">
+              <div class="input">
+                <label for="purchaseListStartDate">Start Date</label>
+                <input type="date" id="purchaseListStartDate" />
+              </div>
+
+              <div class="input">
+                <label for="purchaseListEndDate">Start Date</label>
+                <input type="date" id="purchaseListEndDate" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input">
+                <label for="purchaseListSearch">Search</label>
+                <input
+                  type="text"
+                  id="purchaseListSearch"
+                  placeholder="Search by id, invoice no. or company name" />
+              </div>
+            </div>
+          </header>
+          <main class="tableContainer">
+            <table>
+              <thead>
+                <tr>
+                  <th title="Purchase ID">PID</th>
+                  <th>Invoice No</th>
+                  <th>Company Name</th>
+                  <th>Total Bill</th>
+                  <th>Discount</th>
+                  <th>Payable</th>
+                  <th>Paid</th>
+                  <th>Due</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+
+              <tbody id="purchaseListTbody"></tbody>
+            </table>
+          </main>
+        </div>
+
         <div id="expenseList">
           <header class="container">
             <div class="row">
               <div class="input">
-                <label for="expenseListSortBy">Sort By</label>
-                <select id="expenseListSortBy">
-                  <option value="name">01 - Cause</option>
-                  <option value="name_des">02 - Cause (Rev)</option>
-                  <option value="id">03 - ID</option>
-                  <option value="id_des" selected>04 - ID (Rev)</option>
-                  <option value="date">05 - Date</option>
-                  <option value="date_des">06 - Date (Rev)</option>
-                  <option value="amount">07 - Amount</option>
-                  <option value="amount_des">08 - Amount (Rev)</option>
-                </select>
-              </div>
-
-              <div class="input">
-                <label for="expenseListDisplayPerPage">Display</label>
-                <select id="expenseListDisplayPerPage">
-                  <option value="100">100</option>
-                  <option value="200">200</option>
-                  <option value="500">500</option>
-                  <option value="1000">1000</option>
-                </select>
-              </div>
-
-              <div class="input">
-                <label for="expenseListGotoPage"
-                  >Page (Total
-                  <span id="expenseListPossiblePage">1</span>)</label
-                >
-                <input type="text" id="expenseListGotoPage" value="1" />
-              </div>
-
-              <div class="input flex-0">
                 <label for="expenseListStartDate">Start Date</label>
                 <input type="date" id="expenseListStartDate" />
               </div>
 
-              <div class="input flex-0">
+              <div class="input">
                 <label for="expenseListEndDate">Start Date</label>
                 <input type="date" id="expenseListEndDate" />
               </div>
@@ -1335,15 +1130,17 @@
                   placeholder="Search by id or cause" />
               </div>
               <div class="input">
-                <button id="expenseListAddNewItem">Add</button>
+                <button id="expenseListAddNewItem" class="btn-primary">
+                  Add
+                </button>
               </div>
             </div>
           </header>
-          <main class="container">
+          <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th title="Expense ID">EID</th>
                   <th>Cause</th>
                   <th>Amount</th>
                   <th>Date-Time</th>
@@ -1355,11 +1152,180 @@
           </main>
         </div>
 
-        <div id="telemetry">telemetry</div>
-        <div id="settings">setting</div>
-        <div id="logout"></div>
-      </main>
+        <div id="customerReturnList">
+          <header class="container">
+            <div class="row">
+              <div class="input">
+                <label for="customerReturnListStartDate">Start Date</label>
+                <input type="date" id="customerReturnListStartDate" />
+              </div>
 
+              <div class="input">
+                <label for="customerReturnListEndDate">Start Date</label>
+                <input type="date" id="customerReturnListEndDate" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input">
+                <label for="customerReturnListSearch">Search</label>
+                <input type="text" id="customerReturnListSearch" />
+              </div>
+            </div>
+          </header>
+          <main class="tableContainer">
+            <table>
+              <thead>
+                <tr>
+                  <th title="Customer return ID">CRID</th>
+                  <th title="Customer ID">CID</th>
+                  <th>Customer Name</th>
+                  <th>Amount</th>
+                  <th>Date-Time</th>
+                </tr>
+              </thead>
+
+              <tbody id="customerReturnListTbody"></tbody>
+            </table>
+          </main>
+        </div>
+
+        <div id="companyReturnList">
+          <header class="container">
+            <div class="row">
+              <div class="input">
+                <label for="companyReturnListStartDate">Start Date</label>
+                <input type="date" id="companyReturnListStartDate" />
+              </div>
+
+              <div class="input">
+                <label for="companyReturnListEndDate">Start Date</label>
+                <input type="date" id="companyReturnListEndDate" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input">
+                <label for="companyReturnListSearch">Search</label>
+                <input type="text" id="companyReturnListSearch" />
+              </div>
+            </div>
+          </header>
+          <main class="tableContainer">
+            <table>
+              <thead>
+                <tr>
+                  <th title="Company return ID">CRID</th>
+                  <th title="Company ID">CID</th>
+                  <th>Company Name</th>
+                  <th>Amount</th>
+                  <th>Date-Time</th>
+                </tr>
+              </thead>
+
+              <tbody id="companyReturnListTbody"></tbody>
+            </table>
+          </main>
+        </div>
+
+        <div id="telemetry">telemetry</div>
+        <div id="settings">
+          <div class="left">
+            <div class="list">
+              <h2>Import lists</h2>
+              <div class="buttons">
+                <button class="btn-primary">Import customer list</button>
+                <button class="btn-primary">Import type list</button>
+                <button class="btn-primary">Import generics list</button>
+                <button class="btn-primary">Import company list</button>
+                <button class="btn-primary">Import product list</button>
+              </div>
+            </div>
+            <div class="stock">
+              <h2>Stock settings</h2>
+              <div class="buttons">
+                <button class="btn-primary">Short item list</button>
+                <button class="btn-primary">Purge damage item</button>
+                <button class="btn-primary">Damage item list</button>
+                <button class="btn-primary">Expired item list</button>
+                <button class="btn-primary">Return expire items</button>
+              </div>
+            </div>
+            <div class="ledger">
+              <h2>Ledger</h2>
+              <div class="buttons">
+                <button class="btn-primary">Income ledger</button>
+                <button class="btn-primary">Expense ledger</button>
+                <button class="btn-primary">Total ledger</button>
+              </div>
+            </div>
+            <div class="dues">
+              <h2>Customer dues</h2>
+              <div class="buttons">
+                <button class="btn-primary">Customer dues list</button>
+                <button class="btn-primary">Due collection list</button>
+              </div>
+            </div>
+
+            <div class="dues">
+              <h2>Comapany dues</h2>
+              <div class="buttons">
+                <button class="btn-primary">Company Dues list</button>
+                <button class="btn-primary">Due payment list</button>
+              </div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="users">
+              <h2>Users settings</h2>
+
+              <div class="buttons">
+                <button class="btn-primary">Setup new user</button>
+                <button class="btn-primary">View all user</button>
+                <button class="btn-primary">Edit users info</button>
+                <button class="btn-primary">Delete user</button>
+              </div>
+            </div>
+            <div class="employee">
+              <h2>Employees settings</h2>
+
+              <div class="buttons">
+                <button class="btn-primary">Setup new employee</button>
+                <button class="btn-primary">View all employee</button>
+                <button class="btn-primary">Edit employee info</button>
+                <button class="btn-primary">Pay salary</button>
+                <button class="btn-primary">Terminate Employee</button>
+              </div>
+            </div>
+            <div class="cash">
+              <h2>Invest/Withdraw</h2>
+
+              <div class="buttons">
+                <button class="btn-primary" id="openInvestCash">
+                  Invest cash
+                </button>
+                <button class="btn-primary" id="openWithdrawCash">
+                  Withdraw cash
+                </button>
+              </div>
+            </div>
+
+            <div class="store">
+              <h1>Store Info</h1>
+
+              <div class="buttons">
+                <button class="btn-error" id="openStoreInfo">
+                  Change store info
+                </button>
+                <button class="btn-error" id="openAdminInfo">
+                  Update admin info
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="create">
       <div id="createCustomer" class="dialog hidden">
         <div class="wrapper">
           <header>
@@ -1401,19 +1367,19 @@
               </div>
 
               <div class="input">
-                <label for="createCustomerMobile">Mobile</label>
-                <input
-                  type="text"
-                  id="createCustomerMobile"
-                  placeholder="01xxx-xxxxxx" />
-              </div>
-
-              <div class="input">
                 <label for="createCustomerRemark">Remark</label>
                 <input
                   type="text"
                   id="createCustomerRemark"
                   placeholder="Customer Remark" />
+              </div>
+
+              <div class="input">
+                <label for="createCustomerMobile">Mobile</label>
+                <input
+                  type="text"
+                  id="createCustomerMobile"
+                  placeholder="01xxx-xxxxxx" />
               </div>
             </div>
           </main>
@@ -1422,6 +1388,171 @@
             <button id="createCustomerCreate" class="btn-primary">
               Create
             </button>
+          </footer>
+        </div>
+      </div>
+
+      <div id="createProduct" class="dialog hidden">
+        <div class="wrapper">
+          <header>
+            <span>Create new product</span>
+            <span id="createProductClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18px"
+                height="18px"
+                viewBox="0 -960 960 960">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="row">
+              <div class="input">
+                <label for="createProductId">ID</label>
+                <input type="text" id="createProductId" disabled />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input">
+                <label for="createProductName">Name</label>
+                <input
+                  type="text"
+                  id="createProductName"
+                  placeholder="Product name" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input" title="Company name">
+                <label for="createProductCompanyName">Com. name</label>
+                <input
+                  type="text"
+                  id="createProductCompanyName"
+                  placeholder="Company name" />
+                <div
+                  class="suggetion hidden"
+                  id="createProductCompanyNameSuggetions"
+                  data-id="0"></div>
+              </div>
+
+              <div class="input" title="Generic name">
+                <label for="createProductGenericName">Gen. name</label>
+                <input
+                  type="text"
+                  id="createProductGenericName"
+                  placeholder="Generic name" />
+                <div
+                  class="suggetion hidden"
+                  id="createProductGenericNameSuggetions"
+                  data-id="0"></div>
+              </div>
+
+              <div class="input" title="Type name">
+                <label for="createProductTypeName">T. name</label>
+                <input
+                  type="text"
+                  id="createProductTypeName"
+                  placeholder="Type name" />
+                <div
+                  class="suggetion hidden"
+                  id="createProductTypeNameSuggetions"
+                  data-id="0"></div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input">
+                <label for="createProductMinStock">Min Stock</label>
+                <input
+                  type="text"
+                  id="createProductMinStock"
+                  placeholder="Min stock" />
+              </div>
+            </div>
+          </main>
+          <footer>
+            <button id="createProductClear" class="btn-error">Clear</button>
+            <button id="createProductCreate" class="btn-primary">Create</button>
+          </footer>
+        </div>
+      </div>
+
+      <div id="createType" class="dialog hidden">
+        <div class="wrapper">
+          <header>
+            <span>Create new type</span>
+            <span id="createTypeClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18px"
+                height="18px"
+                viewBox="0 -960 960 960">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="row">
+              <div class="input" title="Type ID">
+                <label for="createTypeId">TID</label>
+                <input type="text" id="createTypeId" disabled />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input" title="Type name">
+                <label for="createTypeName">Name</label>
+                <input
+                  type="text"
+                  id="createTypeName"
+                  placeholder="Type name" />
+              </div>
+            </div>
+          </main>
+          <footer>
+            <button id="createTypeClear" class="btn-error">Clear</button>
+            <button id="createTypeCreate" class="btn-primary">Create</button>
+          </footer>
+        </div>
+      </div>
+
+      <div id="createGeneric" class="dialog hidden">
+        <div class="wrapper">
+          <header>
+            <span>Create new generic</span>
+            <span id="createGenericClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18px"
+                height="18px"
+                viewBox="0 -960 960 960">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="row">
+              <div class="input" title="Generic ID">
+                <label for="createGenericId">GID</label>
+                <input type="text" id="createGenericId" disabled />
+              </div>
+            </div>
+            <div class="row">
+              <div class="input" title="Generic name">
+                <label for="createGenericName">Name</label>
+                <input
+                  type="text"
+                  id="createGenericName"
+                  placeholder="Generic name" />
+              </div>
+            </div>
+          </main>
+          <footer>
+            <button id="createGenericClear" class="btn-error">Clear</button>
+            <button id="createGenericCreate" class="btn-primary">Create</button>
           </footer>
         </div>
       </div>
@@ -1459,6 +1590,13 @@
             </div>
             <div class="row">
               <div class="input">
+                <label for="createCompanyRemark">Remark</label>
+                <input
+                  type="text"
+                  id="createCompanyRemark"
+                  placeholder="Remark" />
+              </div>
+              <div class="input">
                 <label for="createCompanyMobile">Mobile</label>
                 <input
                   type="text"
@@ -1467,88 +1605,79 @@
               </div>
             </div>
             <div class="row">
-              <div class="input">
-                <label for="createCompanyRemark">Remark</label>
-                <input
-                  type="text"
-                  id="createCompanyRemark"
-                  placeholder="Remark" />
-              </div>
-            </div>
-            <div class="row">
               <div class="input order-delivery">
                 <div>
-                  <label for="createCompanyOrderDay">Order day</label>
-                  <div>
+                  <div for="createCompanyOrderDay">Order day</div>
+                  <div class="input-checkbox">
                     <input type="checkbox" id="createCompanyOrderDaySaturday" />
                     <label for="createCompanyOrderDaySaturday">Sat</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input type="checkbox" id="createCompanyOrderDaySunday" />
                     <label for="createCompanyOrderDaySunday">Sun</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input type="checkbox" id="createCompanyOrderDayMonday" />
                     <label for="createCompanyOrderDayMonday">Mon</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input type="checkbox" id="createCompanyOrderDayTuesday" />
                     <label for="createCompanyOrderDayTuesday">Tues</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyOrderDayWednesday" />
                     <label for="createCompanyOrderDayWednesday">Wed</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input type="checkbox" id="createCompanyOrderDayThusday" />
                     <label for="createCompanyOrderDayThusday">Thus</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input type="checkbox" id="createCompanyOrderDayFriday" />
                     <label for="createCompanyOrderDayFriday">Fri</label>
                   </div>
                 </div>
                 <div>
-                  <label for="createCompanyDeliveryDay">Delivery day</label>
-                  <div>
+                  <div for="createCompanyDeliveryDay">Delivery day</div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyDeliveryDaySaturday" />
                     <label for="createCompanyDeliveryDaySaturday">Sat</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyDeliveryDaySunday" />
                     <label for="createCompanyDeliveryDaySunday">Sun</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyDeliveryDayMonday" />
                     <label for="createCompanyDeliveryDayMonday">Mon</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyDeliveryDayTuesday" />
                     <label for="createCompanyDeliveryDayTuesday">Tues</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyDeliveryDayWednesday" />
                     <label for="createCompanyDeliveryDayWednesday">Wed</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyDeliveryDayThusday" />
                     <label for="createCompanyDeliveryDayThusday">Thus</label>
                   </div>
-                  <div>
+                  <div class="input-checkbox">
                     <input
                       type="checkbox"
                       id="createCompanyDeliveryDayFriday" />
@@ -1564,371 +1693,356 @@
           </footer>
         </div>
       </div>
+    </div>
 
-      <div id="createGeneric" class="dialog hidden">
-        <div class="wrapper">
-          <header>
-            <span>Create new generic</span>
-            <span id="createGenericClose">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18px"
-                height="18px"
-                viewBox="0 -960 960 960">
-                <path
-                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </svg>
-            </span>
-          </header>
-          <main>
-            <div class="input">
-              <label for="createGenericId">ID</label>
-              <input type="text" id="createGenericId" disabled />
-            </div>
-            <div class="input">
-              <label for="createGenericName">Name</label>
-              <input
-                type="text"
-                id="createGenericName"
-                placeholder="Generic name" />
-            </div>
-          </main>
-          <footer>
-            <button id="createGenericCancel" class="btn-error">Cancel</button>
-            <button id="createGenericCreate" class="btn-primary">Create</button>
-          </footer>
-        </div>
-      </div>
-
-      <div id="createType" class="dialog hidden">
-        <div class="wrapper">
-          <header>
-            <span>Create new type</span>
-            <span id="createTypeClose">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18px"
-                height="18px"
-                viewBox="0 -960 960 960">
-                <path
-                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </svg>
-            </span>
-          </header>
-          <main>
-            <div class="input" style="width: 11ch">
-              <label for="createTypeId">ID</label>
-              <input type="text" id="createTypeId" disabled />
-            </div>
-            <div class="input">
-              <label for="createTypeName">Name</label>
-              <input type="text" id="createTypeName" placeholder="Type name" />
-            </div>
-          </main>
-          <footer>
-            <button id="createTypeClear" class="btn-error">Clear</button>
-            <button id="createTypeCreate" class="btn-primary">Create</button>
-          </footer>
-        </div>
-      </div>
-
-      <div id="createProduct" class="dialog hidden">
-        <div class="wrapper">
-          <header>
-            <span>Create new product</span>
-            <span id="createProductClose">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18px"
-                height="18px"
-                viewBox="0 -960 960 960">
-                <path
-                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </svg>
-            </span>
-          </header>
-          <main>
-            <div class="input">
-              <label for="createProductId">ID</label>
-              <input type="text" id="createProductId" disabled />
-            </div>
-
-            <div class="input">
-              <label for="createProductName">Name</label>
-              <input
-                type="text"
-                id="createProductName"
-                placeholder="Product name" />
-            </div>
-
-            <div class="input">
-              <label for="createProductCompanyName">Company name</label>
-              <input
-                type="text"
-                id="createProductCompanyName"
-                placeholder="Company name" />
-              <div
-                class="suggetion hidden"
-                id="createProductCompanyNameSuggetions"
-                data-id="0"></div>
-            </div>
-
-            <div class="input">
-              <label for="createProductGenericName">Generic name</label>
-              <input
-                type="text"
-                id="createProductGenericName"
-                placeholder="Generic name" />
-              <div
-                class="suggetion hidden"
-                id="createProductGenericNameSuggetions"
-                data-id="0"></div>
-            </div>
-
-            <div class="input">
-              <label for="createProductTypeName">Type name</label>
-              <input
-                type="text"
-                id="createProductTypeName"
-                placeholder="Type name" />
-              <div
-                class="suggetion hidden"
-                id="createProductTypeNameSuggetions"
-                data-id="0"></div>
-            </div>
-
-            <div class="input">
-              <label for="createProductMinStock">Min Stock</label>
-              <input
-                type="text"
-                id="createProductMinStock"
-                placeholder="Min stock" />
-            </div>
-          </main>
-          <footer>
-            <button id="createProductClear" class="btn-error">Clear</button>
-            <button id="createProductCreate" class="btn-primary">Create</button>
-          </footer>
-        </div>
-      </div>
-
+    <div class="edit">
       <div id="editCustomerList" class="dialog hidden">
-        <header>
-          <h1>CUSTOMER INFO</h1>
-          <span>
-            <svg
-              id="editCustomerListClose"
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 -960 960 960"
-              width="18px">
-              <path
-                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-            </svg>
-          </span>
-        </header>
-        <main>
-          <div>
-            <div class="input short">
-              <label for="editCustomerListId">Customer Id</label>
-              <input type="text" id="editCustomerListId" disabled />
-            </div>
+        <div class="wrapper">
+          <header>
+            <span>Customer info</span>
+            <span id="editCustomerListClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="18px"
+                viewBox="0 -960 960 960"
+                width="18px">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="customer-info">
+              <div class="row">
+                <div class="input" title="Customer ID">
+                  <label for="editCustomerListId">CID</label>
+                  <input type="text" id="editCustomerListId" disabled />
+                </div>
+                <div class="input" title="Previous Dues">
+                  <label for="editCustomerListDue">Prev Dues</label>
+                  <input
+                    type="text"
+                    id="editCustomerListDue"
+                    placeholder="Dues"
+                    disabled />
+                </div>
+              </div>
 
-            <div class="input">
-              <label for="editCustomerListName">Customer Name</label>
-              <input type="text" id="editCustomerListName" />
-            </div>
+              <div class="row">
+                <div class="input" title="Customer name">
+                  <label for="editCustomerListName">Name</label>
+                  <input type="text" id="editCustomerListName" />
+                </div>
+              </div>
 
-            <div class="input">
-              <label for="editCustomerListAddress">Customer Address</label>
-              <input type="text" id="editCustomerListAddress" />
-            </div>
+              <div class="row">
+                <div class="input" title="Customer address">
+                  <label for="editCustomerListAddress">Address</label>
+                  <input
+                    type="text"
+                    id="editCustomerListAddress"
+                    placeholder="Customer address" />
+                </div>
 
-            <div class="input">
-              <label for="editCustomerListMobile">Customer Mobile</label>
-              <input type="text" id="editCustomerListMobile" />
-            </div>
+                <div class="input" title="Customer remark">
+                  <label for="editCustomerListRemark">Remark</label>
+                  <input
+                    type="text"
+                    id="editCustomerListRemark"
+                    placeholder="Customer remark" />
+                </div>
 
-            <div class="input">
-              <label for="editCustomerListRemark">Customer Remark</label>
-              <input type="text" id="editCustomerListRemark" />
+                <div class="input" title="Customer mobile no.">
+                  <label for="editCustomerListMobile">Mobile</label>
+                  <input
+                    type="text"
+                    id="editCustomerListMobile"
+                    placeholder="01xxx-xxxxxx" />
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div>
-            <div class="input short" style="margin-left: auto">
-              <label for="editCustomerListDue">Prev Dues</label>
-              <input
-                type="text"
-                id="editCustomerListDue"
-                placeholder="Dues"
-                disabled />
+            <div class="table-container customer-dues">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Bill No.</th>
+                    <th>Date</th>
+                    <th>Total Bill</th>
+                    <th title="Previous discount">Prev. Dis</th>
+                    <th>Paid</th>
+                    <th>Due</th>
+                    <th>Dis</th>
+                    <th>Pay</th>
+                  </tr>
+                </thead>
+                <tbody id="editCustomerListTbody"></tbody>
+              </table>
             </div>
-
-            <div class="input">
-              <label for="editCustomerListPay">Pay</label>
-              <input type="text" id="editCustomerListPay" placeholder="Pay" />
-            </div>
-
-            <div class="input">
-              <label for="editCustomerListDiscount">Discount</label>
-              <input
-                type="text"
-                id="editCustomerListDiscount"
-                placeholder="Discount" />
-            </div>
-          </div>
-        </main>
-        <footer>
-          <button id="editCustomerListCancel" class="outline-btn">
-            Cancel
-          </button>
-          <button id="editCustomerListSave">Save</button>
-        </footer>
+          </main>
+          <footer>
+            <button id="editCustomerListClear" class="btn-error">Clear</button>
+            <button id="editCustomerListSave" class="btn-primary">Save</button>
+          </footer>
+        </div>
       </div>
 
       <div id="editCompanyList" class="dialog hidden">
-        <header>
-          <h1>COMPANY INFO</h1>
-          <span>
-            <svg
-              id="editCompanyListClose"
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 -960 960 960"
-              width="18px">
-              <path
-                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-            </svg>
-          </span>
-        </header>
-        <main>
-          <div>
-            <div class="input short">
-              <label for="editCompanyListId">Company Id</label>
-              <input type="text" id="editCompanyListId" disabled />
+        <div class="wrapper">
+          <header>
+            <span>Company info</span>
+            <span id="editCompanyListClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="18px"
+                viewBox="0 -960 960 960"
+                width="18px">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="company-info">
+              <div class="left">
+                <div class="row">
+                  <div class="input" title="Company ID">
+                    <label for="editCompanyListId">CID </label>
+                    <input
+                      type="text"
+                      id="editCompanyListId"
+                      placeholder="Customer ID"
+                      disabled />
+                  </div>
+                  <div class="input" title="Previous Dues">
+                    <label for="editCompanyListDue">Dues</label>
+                    <input
+                      type="text"
+                      id="editCompanyListDue"
+                      placeholder="Prev. Dues"
+                      disabled />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input" title="Company name">
+                    <label for="editCompanyListName">Name</label>
+                    <input type="text" id="editCompanyListName" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input">
+                    <label for="editCompanyListRemark">Remark</label>
+                    <input
+                      type="text"
+                      id="editCompanyListRemark"
+                      placeholder="Remark" />
+                  </div>
+                  <div class="input">
+                    <label for="editCompanyListMobile">Mobile No.</label>
+                    <input
+                      type="text"
+                      id="editCompanyListMobile"
+                      placeholder="01xxx-xxxxxx" />
+                  </div>
+                </div>
+              </div>
+              <div class="right">
+                <div class="row">
+                  <div>
+                    <div for="editCompanyListOrderDay">Order day</div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListOrderDaySaturday" />
+                      <label for="editCompanyListOrderDaySaturday">Sat</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListOrderDaySunday" />
+                      <label for="editCompanyListOrderDaySunday">Sun</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListOrderDayMonday" />
+                      <label for="editCompanyListOrderDayMonday">Mon</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListOrderDayTuesday" />
+                      <label for="editCompanyListOrderDayTuesday">Tues</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListOrderDayWednesday" />
+                      <label for="editCompanyListOrderDayWednesday">Wed</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListOrderDayThusday" />
+                      <label for="editCompanyListOrderDayThusday">Thus</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListOrderDayFriday" />
+                      <label for="editCompanyListOrderDayFriday">Fri</label>
+                    </div>
+                  </div>
+                  <div>
+                    <div for="editCompanyListDeliveryDay">Delivery day</div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListDeliveryDaySaturday" />
+                      <label for="editCompanyListDeliveryDaySaturday"
+                        >Sat</label
+                      >
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListDeliveryDaySunday" />
+                      <label for="editCompanyListDeliveryDaySunday">Sun</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListDeliveryDayMonday" />
+                      <label for="editCompanyListDeliveryDayMonday">Mon</label>
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListDeliveryDayTuesday" />
+                      <label for="editCompanyListDeliveryDayTuesday"
+                        >Tues</label
+                      >
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListDeliveryDayWednesday" />
+                      <label for="editCompanyListDeliveryDayWednesday"
+                        >Wed</label
+                      >
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListDeliveryDayThusday" />
+                      <label for="editCompanyListDeliveryDayThusday"
+                        >Thus</label
+                      >
+                    </div>
+                    <div class="input-checkbox">
+                      <input
+                        type="checkbox"
+                        id="editCompanyListDeliveryDayFriday" />
+                      <label for="editCompanyListDeliveryDayFriday">Fri</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <div class="input">
-              <label for="editCompanyListName">Company Name</label>
-              <input type="text" id="editCompanyListName" />
+            <div class="table-container company-dues">
+              <table>
+                <thead>
+                  <tr>
+                    <th title="Purchase ID">PID</th>
+                    <th title="Purchase date and time">Date-Time</th>
+                    <th title="Total bill amount">Bill Amt</th>
+                    <th title="Previous discount amount">Prev. Dis.</th>
+                    <th title="Previous paid amount">Paid</th>
+                    <th title="Previous due amount">Due</th>
+                    <th title="Pay amount">Pay</th>
+                    <th title="Discount amount">Dis.</th>
+                  </tr>
+                </thead>
+                <tbody id="editCompanyListTbody"></tbody>
+              </table>
             </div>
-
-            <div class="input">
-              <label for="editCompanyListMobile">Mobile No.</label>
-              <input
-                type="text"
-                id="editCompanyListMobile"
-                placeholder="01xxx-xxxxxx" />
-            </div>
-
-            <div class="input">
-              <label for="editCompanyListOrderDay">Order Day</label>
-              <input
-                type="text"
-                id="editCompanyListOrderDay"
-                placeholder="Sat, Sun,...." />
-            </div>
-
-            <div class="input">
-              <label for="editCompanyListDeliveryDay">Delivery Day</label>
-              <input
-                type="text"
-                id="editCompanyListDeliveryDay"
-                placeholder="Sat, Sun,...." />
-            </div>
-
-            <div class="input">
-              <label for="editCompanyListRemark">Remark</label>
-              <input
-                type="text"
-                id="editCompanyListRemark"
-                placeholder="Remark" />
-            </div>
-          </div>
-        </main>
-        <footer>
-          <div class="input">
-            <button id="editCompanyListCancel" class="outline-btn">
-              Cancel
-            </button>
-            <button id="editCompanyListSave">Save</button>
-          </div>
-        </footer>
+          </main>
+          <footer>
+            <button id="editCompanyListClear" class="btn-error">Clear</button>
+            <button id="editCompanyListSave" class="btn-success">Save</button>
+          </footer>
+        </div>
       </div>
 
       <div id="editGenericList" class="dialog hidden">
-        <header>
-          <h1>GENERIC INFO</h1>
-          <span>
-            <svg
-              id="editGenericListClose"
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 -960 960 960"
-              width="18px">
-              <path
-                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-            </svg>
-          </span>
-        </header>
-        <main>
-          <div>
-            <div class="input short">
-              <label for="editGenericListId">Id</label>
-              <input type="text" id="editGenericListId" disabled />
+        <div class="wrapper">
+          <header>
+            <span>Generic info</span>
+            <span id="editGenericListClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="18px"
+                viewBox="0 -960 960 960"
+                width="18px">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="row">
+              <div class="input" title="Generic ID">
+                <label for="editGenericListId">GId</label>
+                <input type="text" id="editGenericListId" disabled />
+              </div>
             </div>
-
-            <div class="input">
-              <label for="editGenericListName">Generic name</label>
-              <input type="text" id="editGenericListName" />
+            <div class="row">
+              <div class="input" title="Generic name">
+                <label for="editGenericListName">name</label>
+                <input type="text" id="editGenericListName" />
+              </div>
             </div>
-          </div>
-        </main>
-        <footer>
-          <div class="input">
-            <button id="editGenericListCancel" class="outline-btn">
-              Cancel
-            </button>
-            <button id="editGenericListSave">Save</button>
-          </div>
-        </footer>
+          </main>
+          <footer>
+            <button id="editGenericListClear" class="btn-error">Clear</button>
+            <button id="editGenericListSave" class="btn-primary">Save</button>
+          </footer>
+        </div>
       </div>
 
       <div id="editTypeList" class="dialog hidden">
-        <header>
-          <h1>TYPE INFO</h1>
-          <span>
-            <svg
-              id="editTypeListClose"
-              xmlns="http://www.w3.org/2000/svg"
-              height="18px"
-              viewBox="0 -960 960 960"
-              width="18px">
-              <path
-                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-            </svg>
-          </span>
-        </header>
-        <main>
-          <div>
-            <div class="input short">
-              <label for="editTypeListId">Id</label>
-              <input type="text" id="editTypeListId" disabled />
+        <div class="wrapper">
+          <header>
+            <span>Type info</span>
+            <span id="editTypeListClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="18px"
+                viewBox="0 -960 960 960"
+                width="18px">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="row">
+              <div class="input" title="Type ID">
+                <label for="editTypeListId">TID</label>
+                <input type="text" id="editTypeListId" disabled />
+              </div>
             </div>
-
-            <div class="input">
-              <label for="editTypeListName">Type name</label>
-              <input type="text" id="editTypeListName" />
+            <div class="row">
+              <div class="input" title="Type name">
+                <label for="editTypeListName">Type name</label>
+                <input type="text" id="editTypeListName" />
+              </div>
             </div>
-          </div>
-        </main>
-        <footer>
-          <div class="input">
-            <button id="editTypeListCancel" class="outline-btn">Cancel</button>
-            <button id="editTypeListSave">Save</button>
-          </div>
-        </footer>
+          </main>
+          <footer>
+            <button id="editTypeListClear" class="btn-error">Clear</button>
+            <button id="editTypeListSave" class="btn-primary">Save</button>
+          </footer>
+        </div>
       </div>
 
       <div id="editProductList" class="dialog hidden">
@@ -2081,6 +2195,203 @@
       </div>
     </div>
 
+    <div class="settings">
+      <div id="investCash" class="dialog hidden">
+        <div class="wrapper">
+          <header>
+            <span>Invest cash</span>
+            <span id="closeInvestCash">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18px"
+                height="18px"
+                viewBox="0 -960 960 960">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="row">
+              <div class="input">
+                <label for="investCashAmount">Invest</label>
+                <input
+                  type="text"
+                  id="investCashAmount"
+                  placeholder="Inverst amount" />
+              </div>
+
+              <button id="investCashClear" class="btn-error">Clear</button>
+              <button id="investCashSave" class="btn-primary">Save</button>
+            </div>
+
+            <div class="invest-details">
+              <div class="container">
+                <div class="row">
+                  <div class="input">
+                    <label for="investCashStartDate">Start date</label>
+                    <input type="date" id="investCashStartDate" />
+                  </div>
+
+                  <div class="input">
+                    <label for="investCashEndDate">End date</label>
+                    <input type="date" id="investCashEndDate" />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="input">
+                    <label for="investCashTotal">Total</label>
+                    <input
+                      type="text"
+                      id="investCashTotal"
+                      placeholder="Total Invest"
+                      disabled />
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Date-Time</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="investCashTbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      <div id="editStoreInfo" class="dialog hidden">
+        <div class="wrapper">
+          <header>
+            <span>Edit store info</span>
+            <span id="closeStoreInfo">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18px"
+                height="18px"
+                viewBox="0 -960 960 960">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="left">
+              <div class="row">
+                <div class="input">
+                  <label for="editStoreInfoName">Name</label>
+                  <input
+                    type="text"
+                    id="editStoreInfoName"
+                    placeholder="Store name" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="input">
+                  <label for="editStoreInfoAddress">Address</label>
+                  <input
+                    type="text"
+                    id="editStoreInfoAddress"
+                    placeholder="Store address" />
+                </div>
+
+                <div class="input">
+                  <label for="editStoreInfoMobile">Mobile No.</label>
+                  <input
+                    type="text"
+                    id="editStoreInfoMobile"
+                    placeholder="Mobile No." />
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <div class="row">
+                <input type="file" id="editStoreInfoLogo" />
+                <img id="editStoreInfoImageViewer" />
+                <div class="div logo-text">Select a logo</div>
+              </div>
+            </div>
+          </main>
+          <footer>
+            <button id="editStoreInfoClear" class="btn-error">Clear</button>
+            <button id="editStoreInfoSave" class="btn-primary">Save</button>
+          </footer>
+        </div>
+      </div>
+      <div id="editAdminInfo" class="dialog hidden">
+        <div class="wrapper">
+          <header>
+            <span>Change admin passwod & name</span>
+            <span id="editAdminInfoClose">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18px"
+                height="18px"
+                viewBox="0 -960 960 960">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main>
+            <div class="row">
+              <div class="input" title="Admin old user name">
+                <label for="editAdminInfoOldName">Old name</label>
+                <input
+                  type="text"
+                  id="editAdminInfoOldName"
+                  placeholder="Admin old name" />
+              </div>
+              <div class="input" title="Old password">
+                <label for="editAdminInfoOldPassword">Old Pass</label>
+                <input
+                  type="password"
+                  id="editAdminInfoOldPassword"
+                  placeholder="Old password" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input" title="Admin new user name">
+                <label for="editAdminInfoNewName">New name</label>
+                <input
+                  type="text"
+                  id="editAdminInfoNewName"
+                  placeholder="Admin new name" />
+              </div>
+
+              <div class="input" title="New passwod">
+                <label for="editAdminInfoNewPassword">New Pass</label>
+                <input
+                  type="password"
+                  id="editAdminInfoNewPassword"
+                  placeholder="New password" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-checkbox">
+                <input type="checkbox" id="editAdminInfoTogglePassword" />
+                <label for="editAdminInfoTogglePassword">See password</label>
+              </div>
+            </div>
+          </main>
+          <footer>
+            <button id="editAdminInfoClear" class="btn-error">Clear</button>
+            <button id="editAdminInfoSave" class="btn-primary">Save</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!--messeging-->
     <div id="confirmation">
       <div class="wrapper">
         <h1 class="header">Are your sure?</h1>
@@ -2109,5 +2420,6 @@
         <span class="text"></span>
       </main>
     </div>
+    <!--messeging-->
   </body>
 </html>

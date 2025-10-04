@@ -1,0 +1,40 @@
+@import url(./utils/basic.css);
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#login {
+  width: 400px;
+  translate: 0 -2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  header,
+  main,
+  footer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  main {
+    label {
+      width: 120px;
+    }
+  }
+
+  footer {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+
+  .input {
+    width: 100%;
+  }
+}
