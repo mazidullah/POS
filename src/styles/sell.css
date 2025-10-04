@@ -17,15 +17,50 @@
   header {
     .row:nth-child(1) {
       .input:nth-child(1) {
-        width: 170px;
+        width: 120px;
+        label {
+          min-width: unset;
+        }
+        input {
+          text-align: right;
+          padding-right: 4px;
+        }
       }
       .input:nth-child(2) {
         margin-left: auto;
-        width: 160px;
+        width: 120px;
+
+        label {
+          min-width: unset;
+        }
+        input {
+          text-align: right;
+          padding-right: 4px;
+        }
       }
 
       .input:nth-child(3) {
-        width: 160px;
+        width: 120px;
+
+        label {
+          min-width: unset;
+        }
+        input {
+          text-align: right;
+          padding-right: 4px;
+        }
+      }
+
+      .input:nth-child(4) {
+        width: 175px;
+
+        label {
+          min-width: unset;
+        }
+        input {
+          text-align: right;
+          padding-right: 4px;
+        }
       }
     }
 
@@ -35,15 +70,27 @@
       }
 
       .input:nth-child(2) {
-        max-width: 364px;
+        width: 244px;
+      }
+
+      .input:nth-child(3) {
+        width: 175px;
+        label {
+          min-width: unset;
+        }
+        input {
+          text-align: right;
+          padding-right: 4px;
+        }
       }
     }
 
     .row:nth-child(3) {
-      margin-top: 30px;
-
       .input:nth-child(1) {
         flex-grow: 1;
+      }
+      .input:nth-child(2) {
+        width: 175px;
       }
     }
   }
@@ -67,9 +114,72 @@
       align-items: flex-end;
       flex-direction: column;
 
+      .row:nth-child(1) {
+        .input:nth-child(1) {
+          width: 150px;
+
+          label {
+            min-width: unset;
+          }
+          input {
+            text-align: right;
+          }
+        }
+
+        .input:nth-child(2) {
+          width: 150px;
+
+          label {
+            min-width: unset;
+          }
+          input {
+            text-align: right;
+          }
+        }
+      }
+
+      .row:nth-child(2) {
+        .input:nth-child(1) {
+          width: 150px;
+
+          label {
+            min-width: unset;
+          }
+          input {
+            text-align: right;
+          }
+        }
+
+        .input:nth-child(2) {
+          width: 150px;
+          label {
+            min-width: unset;
+          }
+          input {
+            text-align: right;
+          }
+        }
+      }
+
       .row:nth-child(3) {
         justify-content: flex-end;
-        margin-top: 30px;
+
+        .input:nth-child(1) {
+          width: 150px;
+          label {
+            min-width: unset;
+          }
+          input {
+            text-align: right;
+          }
+        }
+
+        .input:nth-child(2) {
+          width: 150px;
+          input {
+            text-align: right;
+          }
+        }
       }
     }
   }
