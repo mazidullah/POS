@@ -30,9 +30,6 @@ function clearInvestCash(sd = new Date(), ed = new Date()) {
 }
 
 function renderInvestCashTbody() {
-  console.log(startDate)
-  console.log(endDate)
-
   let sd, ed
   totalInvest = 0
 
