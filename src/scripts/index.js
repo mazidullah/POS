@@ -23,21 +23,8 @@ import "./list/expenseList.js"
 import "./settings/investCash.js"
 import "./settings/editStoreInfo.js"
 import "./settings/editAdminInfo.js"
-;(() => {
-  let { ipcRenderer } = require("electron")
 
-  ipcRenderer.on("user:id", (ev, id) => {
-    window.__pos__ = {}
-    window.__pos__.userId = id
-
-    let userInfo = getData("Users", `where id = ${id}`)
-    let name = userInfo.name
-    let accessModule = userInfo.access_modules
-    let isAdmin = userInfo.role === "admin"
-
-    document.title = `Awesome PoS [${name} as ${isAdmin ? "admin" : "user"}]`
-  })
-})()
+navigator(document.querySelector("nav"), document.querySelector("main"))
 
 document.querySelectorAll("nav li div").forEach(div => {
   div.addEventListener("click", e => {
@@ -47,4 +34,30 @@ document.querySelectorAll("nav li div").forEach(div => {
   })
 })
 
-navigator(document.querySelector("nav"), document.querySelector("main"))
+const { ipcRenderer } = require("electron")
+
+ipcRenderer.on("set:user-id", (ev, id) => {
+  window.__pos__ = {}
+  window.__pos__.userId = id
+
+  let userInfo = getData("Users", `where id = ${id}`)
+  let name = userInfo.name
+  let accessModule = userInfo.access_modules
+  let isAdmin = userInfo.role === "admin"
+
+  document.title = `Awesome PoS [${name} as ${isAdmin ? "admin" : "user"}]`
+})
+
+document.querySelectorAll("input").forEach(element => {
+  element.addEventListener("focus", () => {
+    let type = element.type
+
+    if ("date" === type) element.focus()
+    else if ("file" === type) element.focus()
+    else {
+      element.selectionStart = 0
+      element.selectionEnd = element.value.length
+      element.focus()
+    }
+  })
+})

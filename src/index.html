@@ -6,10 +6,12 @@
 
     <title>Awesome PoS</title>
     <link rel="stylesheet" href="./styles/index.css" />
+
     <script src="./scripts/index.js" type="module" defer></script>
   </head>
   <body>
     <div id="pos">
+      <!-- Navbar -->
       <nav>
         <ul>
           <li data-navitem="sell" class="active">
@@ -148,48 +150,58 @@
       </nav>
 
       <main>
+        <!-- Sells window -->
         <div id="sell" class="active">
-          <header class="container">
-            <div class="row">
+          <!-- Header -->
+          <header class="container flex flex-column">
+            <div class="flex flex-row">
               <div class="input" title="Customer ID">
-                <label for="sellId">ID</label>
+                <label for="sellId">CID</label>
                 <input
                   type="text"
                   id="sellId"
+                  class="number"
                   value="0"
                   placeholder="0"
                   disabled />
               </div>
 
-              <div class="input" title="Customer previous dues">
-                <label for="sellPrevDue">Dues</label>
+              <div class="input to-right" title="Customer's total previous due">
+                <label for="sellPrevDue">DUES</label>
                 <input
                   type="text"
                   id="sellPrevDue"
+                  class="number"
+                  value="0"
                   placeholder="Prev deus"
-                  disabled
-                  value="0" />
+                  disabled />
               </div>
 
               <div class="input" title="Total cost of all items">
-                <label for="sellTotalCost">Cost</label>
+                <label for="sellTotalCost">COST</label>
                 <input
                   type="text"
                   id="sellTotalCost"
+                  class="number"
+                  value="0"
                   placeholder="Total Cost"
-                  disabled
-                  value="0" />
+                  disabled />
               </div>
 
               <div class="input" title="Voucher date">
-                <label for="sellDate">Date</label>
-                <input type="date" id="sellDate" disabled />
+                <label for="sellDate">DATE</label>
+                <input
+                  type="text"
+                  id="sellDate"
+                  class="date"
+                  disabled
+                  value="dd-mm-yyyy" />
               </div>
             </div>
 
-            <div class="row">
-              <div class="input" title="Search by custome name or id">
-                <label for="sellName">Name</label>
+            <div class="flex flex-row">
+              <div class="input flex-1" title="Search by custome name or id">
+                <label for="sellName">NAME</label>
                 <input
                   type="text"
                   id="sellName"
@@ -197,7 +209,7 @@
               </div>
 
               <div class="input" title="Customer address">
-                <label for="sellAddress">Address</label>
+                <label for="sellAddress">ADDRESS</label>
                 <input
                   type="text"
                   id="sellAddress"
@@ -206,29 +218,39 @@
               </div>
 
               <div class="input" title="Customer mobile no.">
-                <label for="sellMobile">Mobile</label>
+                <label for="sellMobile">MOBILE</label>
                 <input
                   type="text"
                   id="sellMobile"
+                  class="mobile"
                   placeholder="01xxx-xxxxxx"
+                  value="01912-750963"
                   disabled />
               </div>
             </div>
 
-            <div class="row">
-              <div class="input" title="Search by product or generic name">
-                <label for="sellInput">Search</label>
+            <div class="flex flex-row">
+              <div
+                class="input flex-1"
+                title="Search by product or generic name">
+                <label for="sellInput">SEARCH</label>
                 <input
                   type="text"
                   id="sellSearch"
                   placeholder="Product Name of Generic Name" />
               </div>
               <div class="input" title="Quantity">
-                <label for="sellQnt">Qnt</label>
-                <input type="text" id="sellQnt" placeholder="Quantity" />
+                <label for="sellQnt">QUANTITY</label>
+                <input
+                  type="number"
+                  id="sellQnt"
+                  value="0"
+                  placeholder="Quantity" />
               </div>
             </div>
           </header>
+
+          <!-- Main -->
           <main class="table-container">
             <table>
               <thead>
@@ -236,31 +258,33 @@
                   <th>No</th>
                   <th>Type</th>
                   <th>Product Name</th>
-                  <th>Company Name</th>
+                  <th title="Batch or serial number">B/S</th>
                   <th>Rack</th>
-                  <th>P/P</th>
-                  <th>Qnt</th>
-                  <th>S/P</th>
-                  <th>T/P</th>
+                  <th title="Purchase price">P/P</th>
+                  <th title="Quantity">Qnt</th>
+                  <th title="Sell price">S/P</th>
+                  <th title="Trade price">T/P</th>
                   <th>X</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody id="sellTbody"></tbody>
             </table>
           </main>
-          <footer class="container">
-            <div class="left">
+
+          <!-- Footer -->
+          <footer class="container flex flex-row">
+            <div class="left flex">
               <button id="sellClear" class="btn-error">Clear</button>
             </div>
-            <div class="right">
-              <div class="row">
+            <div class="right flex flex-column">
+              <div class="flex flex-row">
                 <div class="input" title="Total bill amount">
                   <label for="sellTotalBill">Total Bill</label>
                   <input
                     type="text"
                     id="sellTotalBill"
-                    disabled
-                    placeholder="0.0" />
+                    placeholder="0.0"
+                    disabled />
                 </div>
 
                 <div class="input input-discount" title="Discount">
@@ -273,7 +297,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <div class="flex flex-row">
                 <div class="input" title="Payable amount after adjust discount">
                   <label for="sellPayable">Payable</label>
                   <input
@@ -289,7 +313,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <div class="flex flex-row">
                 <div class="input" title="Paid amount">
                   <label for="sellPaid">Paid</label>
                   <input type="text" id="sellPaid" placeholder="0" />
@@ -301,6 +325,8 @@
             </div>
           </footer>
         </div>
+
+        <!-- Voucher window -->
         <div id="voucher">
           <header class="container">
             <div class="row">
@@ -345,6 +371,8 @@
             </table>
           </main>
         </div>
+
+        <!--Customer return window -->
         <div id="customerReturn">
           <header class="container">
             <div class="row">
@@ -438,9 +466,13 @@
             </div>
           </footer>
         </div>
+
+        <!-- Company return -->
         <div id="companyReturn">
           <header>sdffasd</header>
         </div>
+
+        <!--Purchase window -->
         <div id="purchase">
           <header class="container">
             <div class="row">
@@ -653,6 +685,8 @@
             </div>
           </footer>
         </div>
+
+        <!-- Customer list window -->
         <div id="customerList">
           <header class="container">
             <div class="row">
@@ -726,6 +760,7 @@
           </main>
         </div>
 
+        <!-- Product list window-->
         <div id="productList">
           <header class="container">
             <div class="row">
@@ -800,6 +835,7 @@
           </main>
         </div>
 
+        <!-- Company list window-->
         <div id="companyList">
           <header class="container">
             <div class="row">
@@ -875,6 +911,7 @@
           </main>
         </div>
 
+        <!-- Generic list window-->
         <div id="genericList">
           <header class="container">
             <div class="row">
@@ -935,6 +972,7 @@
           </main>
         </div>
 
+        <!-- Type list window-->
         <div id="typeList">
           <header class="container">
             <div class="row">
@@ -992,6 +1030,7 @@
           </main>
         </div>
 
+        <!-- Stock list window-->
         <div id="stockList">
           <header class="container">
             <div class="row">
@@ -1064,6 +1103,7 @@
           </main>
         </div>
 
+        <!-- Purchase list window-->
         <div id="purchaseList">
           <header class="container">
             <div class="row">
@@ -1108,6 +1148,7 @@
           </main>
         </div>
 
+        <!-- Expense list window-->
         <div id="expenseList">
           <header class="container">
             <div class="row">
@@ -1152,6 +1193,7 @@
           </main>
         </div>
 
+        <!-- Customer list window-->
         <div id="customerReturnList">
           <header class="container">
             <div class="row">
@@ -1189,6 +1231,7 @@
           </main>
         </div>
 
+        <!-- Company list window-->
         <div id="companyReturnList">
           <header class="container">
             <div class="row">
@@ -1227,6 +1270,8 @@
         </div>
 
         <div id="telemetry">telemetry</div>
+
+        <!-- Settings -->
         <div id="settings">
           <div class="left">
             <div class="list">

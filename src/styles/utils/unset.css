@@ -1,0 +1,104 @@
+::selection {
+  color: #000;
+  background-color: #3eb2ff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+
+  color: #ccc;
+  background-color: #0f0f0f;
+
+  font-size: 14px;
+  line-height: 1.4;
+  font-family: sans-serif;
+
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+@media screen and (max-width: 1000px) {
+  body {
+    font-size: 12px;
+  }
+}
+
+h1 {
+  font-size: 21px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+h2 {
+  font-size: 19px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+table {
+  width: 100%;
+  background-color: #313131;
+  border-collapse: collapse;
+}
+
+table,
+td,
+th {
+  border: 1px solid #525252;
+}
+
+thead {
+  position: sticky;
+  top: -2px;
+}
+
+th {
+  color: #afafaf;
+  background-color: #00013f;
+
+  padding: 4px;
+
+  font-size: 14px;
+  font-family: serif;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #252424;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #1d1d1d;
+}
+
+tbody tr:hover {
+  color: #00013f;
+  background-color: #3eb2ff;
+}
+
+td {
+  padding: 4px;
+}
+
+td.mobile-number {
+  font-family: number, monospace;
+}

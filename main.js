@@ -51,9 +51,9 @@ const posWindow = id => {
   posWindow.maximize()
   posWindow.webContents.openDevTools() // Disable this
 
-  setTimeout(() => {
-    posWindow.send("user:id", id)
-  }, 1000)
+  posWindow.on("ready-to-show", () => {
+    posWindow.send("set:user-id", id)
+  })
   // Menu.setApplicationMenu(null)
 }
 

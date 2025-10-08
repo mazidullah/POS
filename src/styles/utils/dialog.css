@@ -1,11 +1,10 @@
 .dialog {
   width: 100vw;
   height: 100vh;
-  z-index: 10;
-  background-color: #2c2c2ca2;
+  background-color: #1a1a1aa2;
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
+  z-index: 10;
 
   display: flex;
   justify-content: center;
@@ -14,7 +13,10 @@
   & > .wrapper {
     width: 80%;
     height: 80%;
-    border: 1px solid #95baff79;
+
+    border: 1px solid #3f3f3f;
+    box-shadow: 0px 0px 0px 2px #525252c4;
+    border-radius: 4px;
     background: #161616;
     backdrop-filter: blur(10px);
 

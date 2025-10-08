@@ -1,0 +1,76 @@
+.container {
+  padding: 10px;
+  border: 1px solid #353535;
+  background-color: #1d1d1d;
+}
+
+.table-container {
+  border: 1px solid #353535;
+  background-color: #1d1d1d;
+  overflow-y: auto;
+}
+
+.hidden,
+.hide {
+  display: none !important;
+}
+
+.shown,
+.show,
+.block {
+  display: block !important;
+}
+
+.inline {
+  display: inline !important;
+}
+
+.flex {
+  display: flex;
+  gap: 6px;
+}
+
+.flex.flex-row {
+  flex-direction: row;
+}
+
+.flex.flex-column {
+  flex-direction: column;
+}
+
+.flex.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex.flex-row.flex-left {
+  justify-content: left;
+}
+
+.flex.flex-column.flex-left {
+  align-items: left;
+}
+
+.flex.flex-row.flex-right {
+  justify-content: right;
+}
+
+.flex.flex-column.flex-right {
+  align-items: right;
+}
+
+.flex-0 {
+  flex: 0;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.to-right {
+  margin-left: auto;
+}
+
+.to-left {
+  margin-right: auto;
+}
