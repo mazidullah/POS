@@ -60,6 +60,7 @@
 
   li:not(:has(li)) {
     display: flex;
+    align-items: center;
     gap: 10px;
     padding: 4px;
   }
@@ -67,6 +68,7 @@
   li:not(:has(li)):hover {
     color: #32eb78;
     background-color: #000;
+
     svg {
       fill: #32eb78;
     }
@@ -75,6 +77,7 @@
   li.active {
     color: #fff;
     background-color: #000;
+
     svg {
       fill: #fff;
     }
@@ -102,10 +105,12 @@
 
   li.expended > div {
     color: #c7c7c7;
+
     svg {
       fill: rgb(196, 196, 196);
       rotate: 180deg;
     }
+
     + ul {
       display: block;
     }
@@ -115,6 +120,7 @@
   li.expended > div {
     color: #aaaaaa;
     background-color: #424242;
+
     svg {
       fill: rgb(175, 175, 175);
     }
@@ -190,7 +196,7 @@ div:has(> .suggetion) {
 
 @media screen and (max-width: 1000px) {
   body {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   #pos {
@@ -208,7 +214,4 @@ div:has(> .suggetion) {
   align-items: center;
 
   width: 24px;
-
-  svg {
-  }
 }

@@ -49,6 +49,10 @@ input[type="file"] {
   opacity: 0;
 }
 
+input[type="date"] {
+  font-size: 0.8rem;
+}
+
 input:disabled {
   color: #007d8d;
   background-color: #1b1b1b;
@@ -58,8 +62,6 @@ input:disabled {
 .input {
   display: flex;
   height: 30px;
-  width: 210px;
-
   & label {
     padding-inline: 8px;
 
@@ -101,11 +103,6 @@ input.mobile {
 input.date {
   font-size: 1rem;
   font-family: monospace;
-}
-
-input.date:disabled {
-  text-align: right;
-  background-color: #111111;
 }
 
 .input.button-group {

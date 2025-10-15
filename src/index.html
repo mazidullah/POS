@@ -9,6 +9,7 @@
 
     <script src="./scripts/index.js" type="module" defer></script>
   </head>
+
   <body>
     <div id="pos">
       <!-- Navbar -->
@@ -150,9 +151,7 @@
       </nav>
 
       <main>
-        <!-- Sells window -->
         <div id="sell" class="active">
-          <!-- Header -->
           <header class="container flex flex-column">
             <div class="flex flex-row">
               <div class="input" title="Customer ID">
@@ -194,8 +193,8 @@
                   type="text"
                   id="sellDate"
                   class="date"
-                  disabled
-                  value="dd-mm-yyyy" />
+                  placeholder="dd-mm-yyyy"
+                  disabled />
               </div>
             </div>
 
@@ -224,7 +223,6 @@
                   id="sellMobile"
                   class="mobile"
                   placeholder="01xxx-xxxxxx"
-                  value="01912-750963"
                   disabled />
               </div>
             </div>
@@ -242,7 +240,7 @@
               <div class="input" title="Quantity">
                 <label for="sellQnt">QUANTITY</label>
                 <input
-                  type="number"
+                  type="text"
                   id="sellQnt"
                   value="0"
                   placeholder="Quantity" />
@@ -250,16 +248,15 @@
             </div>
           </header>
 
-          <!-- Main -->
           <main class="table-container">
             <table>
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>Type</th>
-                  <th>Product Name</th>
+                  <th title="Number of item">No.</th>
+                  <th title="Type of the item">Type</th>
+                  <th title="Product name">Product Name</th>
                   <th title="Batch or serial number">B/S</th>
-                  <th>Rack</th>
+                  <th title="Product rack number">Rack</th>
                   <th title="Purchase price">P/P</th>
                   <th title="Quantity">Qnt</th>
                   <th title="Sell price">S/P</th>
@@ -271,7 +268,6 @@
             </table>
           </main>
 
-          <!-- Footer -->
           <footer class="container flex flex-row">
             <div class="left flex">
               <button id="sellClear" class="btn-error">Clear</button>
@@ -284,6 +280,7 @@
                     type="text"
                     id="sellTotalBill"
                     placeholder="0.0"
+                    value="0"
                     disabled />
                 </div>
 
@@ -293,7 +290,8 @@
                   <input
                     type="text"
                     id="sellDiscountPercentage"
-                    placeholder="%" />
+                    placeholder="%"
+                    value="0" />
                 </div>
               </div>
 
@@ -304,19 +302,20 @@
                     type="text"
                     id="sellPayable"
                     placeholder="0"
+                    value="0"
                     disabled />
                 </div>
 
                 <div class="input" title="Dues amount">
                   <label for="sellDue">Due</label>
-                  <input type="text" id="sellDue" placeholder="0" />
+                  <input type="text" id="sellDue" placeholder="0" value="0" />
                 </div>
               </div>
 
               <div class="flex flex-row">
                 <div class="input" title="Paid amount">
                   <label for="sellPaid">Paid</label>
-                  <input type="text" id="sellPaid" placeholder="0" />
+                  <input type="text" id="sellPaid" placeholder="0" value="0" />
                 </div>
                 <div class="input">
                   <button id="sellSave" class="btn-primary">Save</button>
@@ -341,7 +340,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="input" title="Search by customer name or voucher id.">
+              <div class="input" title="Search by customer name or bill number">
                 <label for="voucherNameOrId">Search</label>
                 <input
                   type="text"
@@ -355,27 +354,27 @@
             <table>
               <thead>
                 <tr>
-                  <th>Bill No.</th>
-                  <th>Cus ID.</th>
-                  <th>Cus Name</th>
-                  <th>Date</th>
-                  <th>Total Bill</th>
-                  <th>Dis</th>
-                  <th>Dis %</th>
-                  <th>Payable</th>
-                  <th>Paid</th>
-                  <th>Due</th>
+                  <th title="Bill number">Bill No.</th>
+                  <th title="Customer ID">CID</th>
+                  <th title="Customer name">Customer Name</th>
+                  <th title="Billing date">Date</th>
+                  <th title="Total bill amount">Total Bill</th>
+                  <th title="Discount">Dis</th>
+                  <th title="Discount %">Dis %</th>
+                  <th title="Bill amount after ajdusting discount">Payable</th>
+                  <th title="Paid amount">Paid</th>
+                  <th title="Due amount">Due</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody id="voucherTbody"></tbody>
             </table>
           </main>
         </div>
 
         <!--Customer return window -->
         <div id="customerReturn">
-          <header class="container">
-            <div class="row">
+          <header class="container flex flex-column">
+            <div class="row flex">
               <div class="input">
                 <label for="customerReturnVoucherId">Vou. No.</label>
                 <input
@@ -384,22 +383,40 @@
                   placeholder="Voucher No." />
               </div>
 
-              <div class="input">
+              <div class="input to-right">
                 <label for="customerReturnVoucherDate">Bill Date</label>
-                <input type="date" id="customerReturnVoucherDate" disabled />
+                <input
+                  type="text"
+                  class="date"
+                  id="customerReturnVoucherDate"
+                  placeholder="dd-mm-yyyy"
+                  disabled />
               </div>
             </div>
 
-            <div class="row">
-              <div class="input">
-                <label for="customerReturnCustomerId">Cus. ID</label>
+            <div class="row flex">
+              <div class="input" title="Customer ID">
+                <label for="customerReturnCustomerId">CID</label>
                 <input
                   type="text"
                   id="customerReturnCustomerId"
+                  class="number"
                   placeholder="Customer ID"
                   disabled />
               </div>
-              <div class="input">
+              <div class="input to-right">
+                <label for="customerReturnMobileNo">Mobile No.</label>
+                <input
+                  type="text"
+                  id="customerReturnMobileNo"
+                  class="mobile"
+                  placeholder="01xxx-xxxxxx"
+                  disabled />
+              </div>
+            </div>
+
+            <div class="row flex">
+              <div class="input flex-1" title="Customer name">
                 <label for="customerReturnCustomerName">Cus. Name</label>
                 <input
                   type="text"
@@ -416,38 +433,32 @@
                   placeholder="Customer Address"
                   disabled />
               </div>
-
-              <div class="input">
-                <label for="customerReturnMobileNo">Mobile No.</label>
-                <input
-                  type="text"
-                  id="customerReturnMobileNo"
-                  placeholder="01xxx-xxxxxx"
-                  disabled />
-              </div>
             </div>
           </header>
           <main class="tableContainer">
             <table>
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>Product Name</th>
-                  <th>Sell Qnt</th>
-                  <th>Sell Price</th>
-                  <th>Avail Qnt</th>
-                  <th>Return Qnt</th>
-                  <th>Total Price</th>
+                  <th title="Number of item">No.</th>
+                  <th title="Product name">Product Name</th>
+                  <th title="Sell quantity">Sell Qnt</th>
+                  <th title="Sell price">Sell Price</th>
+                  <th
+                    title="Available quantity for return. May be less then sell quantity.">
+                    Avail Qnt
+                  </th>
+                  <th title="Enter return quantity">Return Qnt</th>
+                  <th title="Total price of returned items">Total Price</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody id="customerReturnTbody"></tbody>
             </table>
           </main>
-          <footer class="container">
+          <footer class="container flex">
             <div class="left">
               <button id="customerReturnClear" class="btn-error">Clear</button>
             </div>
-            <div class="right">
+            <div class="right flex flex-column to-right">
               <div class="input">
                 <label for="customerReturnTotalAmount" title="Return amount"
                   >Return Amt.</label
@@ -606,18 +617,23 @@
             <table>
               <thead>
                 <tr>
-                  <th>No.</th>
-                  <th>Product Name</th>
-                  <th>Qnt</th>
-                  <th>PP</th>
-                  <th>Vat</th>
-                  <th>TPP</th>
-                  <th>TVat</th>
-                  <th>TP</th>
-                  <th>TTP</th>
-                  <th>SP</th>
-                  <th>Rack</th>
-                  <th>Epr Date</th>
+                  <th title="Number of item">No.</th>
+                  <th title="Product name">Product Name</th>
+                  <th title="Quantity">Qnt</th>
+                  <th title="Purchase price of single product">PP</th>
+                  <th title="Vat of single product">Vat</th>
+                  <th title="Total purchase price (purchase price * quantity)">
+                    TPP
+                  </th>
+                  <th title="Total vat (vat * quantity)">TVat</th>
+                  <th title="Trade price (purchase price + vat)">TP</th>
+                  <th
+                    title="Total trade price [ (purchase price + vat) * quantity ]">
+                    TTP
+                  </th>
+                  <th title="Sell price">SP</th>
+                  <th title="Product rack no">Rack</th>
+                  <th title="Expire date">Epr Date</th>
                   <th>X</th>
                 </tr>
               </thead>
