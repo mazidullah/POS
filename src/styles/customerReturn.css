@@ -10,7 +10,7 @@
       }
 
       .input:nth-child(2) {
-        width: 220px;
+        width: 200px;
       }
     }
 
@@ -27,6 +27,12 @@
       flex-direction: column;
       justify-content: flex-end;
       align-items: flex-start;
+    }
+
+    .right {
+      .input {
+        width: 200px;
+      }
     }
   }
 

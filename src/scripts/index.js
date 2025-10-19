@@ -1,6 +1,7 @@
 import { navigator } from "./utils/navigator.js"
 import { getData } from "./utils/database.js"
 
+import "./sell.js"
 import "./purchase.js"
 
 import "./create/createCustomer.js"

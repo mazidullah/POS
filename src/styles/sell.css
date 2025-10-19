@@ -3,13 +3,12 @@
   grid-template-rows: auto 1fr auto;
 
   header {
-    & > .flex:nth-child(1) {
+    .row:nth-child(1) {
       .input:nth-child(1) {
-        width: 130px;
+        width: 160px;
       }
-
       .input:nth-child(2) {
-        width: 140px;
+        width: 130px;
       }
 
       .input:nth-child(3) {
@@ -17,11 +16,15 @@
       }
 
       .input:nth-child(4) {
+        width: 140px;
+      }
+
+      .input:nth-child(5) {
         width: 180px;
       }
     }
 
-    & > .flex:nth-child(2) {
+    .row:nth-child(2) {
       .input:nth-child(2) {
         width: 286px;
       }
@@ -31,7 +34,8 @@
       }
     }
 
-    & > .flex:nth-child(3) {
+    .row:nth-child(3) {
+      margin-top: 30px;
       .input:nth-child(2) {
         width: 180px;
       }
@@ -50,6 +54,81 @@
       .input {
         width: 180px;
       }
+
+      .input:has(#percentageSimble) {
+        position: relative;
+
+        #percentageSimble {
+          position: absolute;
+          top: 50%;
+          right: 5px;
+          translate: 0 -50%;
+        }
+
+        input:nth-child(2) {
+          padding-right: 15px;
+        }
+      }
+    }
+  }
+
+  table {
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 50px;
+      text-align: center;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 100px;
+      text-align: center;
+    }
+
+    td:nth-child(3) {
+      text-align: left;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 100px;
+      text-align: center;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 70px;
+      text-align: center;
+    }
+
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 100px;
+      text-align: center;
+    }
+
+    th:nth-child(7),
+    td:nth-child(7) {
+      width: 100px;
+      text-align: center;
+    }
+
+    th:nth-child(8),
+    td:nth-child(8) {
+      width: 100px;
+      text-align: center;
+    }
+
+    th:nth-child(9),
+    td:nth-child(9) {
+      width: 100px;
+      text-align: center;
+    }
+
+    th:nth-child(10),
+    td:nth-child(10) {
+      width: 40px;
+      text-align: center;
     }
   }
 }

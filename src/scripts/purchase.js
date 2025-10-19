@@ -699,7 +699,7 @@ purchaseSave.addEventListener("click", () => {
 })
 
 let now = Date.now()
-purchaseID.value = padZero(nextRowId("purchases"))
+purchaseID.value = nextRowId("purchases")
 setDate(purchaseInvoiceDate, new Date(now))
 setDate(purchaseExpireDate, new Date(now + 365 * 24 * 3600000))
 

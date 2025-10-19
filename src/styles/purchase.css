@@ -1,4 +1,56 @@
 #purchase.active {
   display: grid;
   grid-template-rows: auto 1fr auto;
+
+  header {
+    .row:nth-child(1) {
+      .input:nth-child(1) {
+        width: 120px;
+      }
+
+      .input:nth-child(2) {
+        width: 220px;
+      }
+    }
+
+    .row:nth-child(2) {
+      .input:nth-child(2) {
+        width: 220px;
+      }
+    }
+
+    .row:nth-child(3) {
+      margin-top: 30px;
+      .input:nth-child(2) {
+        width: 120px;
+      }
+
+      .input:nth-child(3) {
+        width: 220px;
+      }
+    }
+
+    .row:nth-child(4),
+    .row:nth-child(5) {
+      .input:nth-child(1),
+      .input:nth-child(2),
+      .input:nth-child(3),
+      .input:nth-child(4) {
+        width: 160px;
+      }
+    }
+  }
+
+  footer {
+    .left {
+      justify-content: left;
+      align-items: flex-end;
+    }
+
+    .right {
+      .input {
+        width: 160px;
+      }
+    }
+  }
 }

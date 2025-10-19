@@ -153,7 +153,17 @@
       <main>
         <div id="sell" class="active">
           <header class="container flex flex-column">
-            <div class="flex flex-row">
+            <div class="row flex flex-row">
+              <div class="input" title="Voucher No.">
+                <label for="sellVoucherNo">Vou. No</label>
+                <input
+                  type="text"
+                  id="sellVoucherNo"
+                  class="number"
+                  value="0"
+                  placeholder="Vou. No."
+                  disabled />
+              </div>
               <div class="input" title="Customer ID">
                 <label for="sellId">CID</label>
                 <input
@@ -161,7 +171,7 @@
                   id="sellId"
                   class="number"
                   value="0"
-                  placeholder="0"
+                  placeholder="Cus. ID"
                   disabled />
               </div>
 
@@ -198,7 +208,7 @@
               </div>
             </div>
 
-            <div class="flex flex-row">
+            <div class="row flex flex-row">
               <div class="input flex-1" title="Search by custome name or id">
                 <label for="sellName">NAME</label>
                 <input
@@ -227,11 +237,11 @@
               </div>
             </div>
 
-            <div class="flex flex-row">
+            <div class="row flex flex-row">
               <div
                 class="input flex-1"
                 title="Search by product or generic name">
-                <label for="sellInput">SEARCH</label>
+                <label for="sellSearch">SEARCH</label>
                 <input
                   type="text"
                   id="sellSearch"
@@ -286,12 +296,17 @@
 
                 <div class="input input-discount" title="Discount">
                   <label for="sellDiscountAmount">Dis</label>
-                  <input type="text" id="sellDiscountAmount" placeholder="0" />
+                  <input
+                    type="text"
+                    id="sellDiscountAmount"
+                    placeholder="0"
+                    value="0" />
                   <input
                     type="text"
                     id="sellDiscountPercentage"
                     placeholder="%"
                     value="0" />
+                  <span id="percentageSimble">%</span>
                 </div>
               </div>
 
@@ -354,7 +369,7 @@
             <table>
               <thead>
                 <tr>
-                  <th title="Bill number">Bill No.</th>
+                  <th title="Voucher number">Vou. No.</th>
                   <th title="Customer ID">CID</th>
                   <th title="Customer name">Customer Name</th>
                   <th title="Billing date">Date</th>
@@ -396,11 +411,10 @@
 
             <div class="row flex">
               <div class="input" title="Customer ID">
-                <label for="customerReturnCustomerId">CID</label>
+                <label for="customerReturnCustomerId">Cus. ID</label>
                 <input
                   type="text"
                   id="customerReturnCustomerId"
-                  class="number"
                   placeholder="Customer ID"
                   disabled />
               </div>
@@ -485,19 +499,24 @@
 
         <!--Purchase window -->
         <div id="purchase">
-          <header class="container">
-            <div class="row">
+          <header class="container flex flex-column">
+            <div class="row flex flex-row">
               <div class="input">
                 <label for="purchaseID">ID</label>
-                <input type="text" id="purchaseID" placeholder="PID" disabled />
+                <input
+                  type="text"
+                  id="purchaseID"
+                  class="number"
+                  placeholder="PID"
+                  disabled />
               </div>
-              <div class="input">
+              <div class="input to-right">
                 <label for="purchaseInvoiceDate">Inv Date</label>
                 <input type="date" id="purchaseInvoiceDate" disabled />
               </div>
             </div>
-            <div class="row">
-              <div class="input">
+            <div class="row flex flex-row">
+              <div class="input flex-1">
                 <label for="purchaseCompanyName">Com Name</label>
                 <input
                   type="text"
@@ -517,12 +536,13 @@
                   placeholder="Invoice No." />
               </div>
             </div>
-            <div class="row">
-              <div class="input">
+            <div class="row flex flex-row">
+              <div class="input flex-1">
                 <label for="purchaseProductName">Prod Name</label>
                 <input
                   type="text"
                   id="purchaseProductName"
+                  class="flex-1"
                   placeholder="Product Name" />
                 <div
                   class="suggetion hidden"
@@ -543,7 +563,7 @@
                 <input type="date" id="purchaseExpireDate" />
               </div>
             </div>
-            <div class="row">
+            <div class="row flex flex-row">
               <div class="input">
                 <label for="purchasePurchasePrice">PP</label>
                 <input
@@ -576,7 +596,7 @@
                   placeholder="Total VAT" />
               </div>
             </div>
-            <div class="row">
+            <div class="row flex flex-row">
               <div class="input">
                 <label for="purchaseTradePrice">TP</label>
                 <input
@@ -608,7 +628,7 @@
                 <input type="text" id="purchaseRackNo" placeholder="Rack No." />
               </div>
 
-              <div class="input">
+              <div class="input to-right">
                 <button id="purchaseAddProduct" class="btn-primary">Add</button>
               </div>
             </div>
@@ -640,19 +660,19 @@
               <tbody id="purchaseTbody"></tbody>
             </table>
           </main>
-          <footer class="container">
-            <div class="left">
+          <footer class="container flex flex-row">
+            <div class="left flex">
               <button id="purchaseClear" class="btn-error">Clear</button>
             </div>
-            <div class="right">
-              <div class="row">
+            <div class="right flex flex-column to-right">
+              <div class="row flex flex-row">
                 <div class="input">
                   <label for="purchaseTotalBill">Total Bill</label>
                   <input
                     type="text"
                     id="purchaseTotalBill"
                     placeholder="Total Bill"
-                    value="0.00"
+                    value="0.0"
                     disabled />
                 </div>
 
@@ -665,7 +685,7 @@
                     value="0" />
                 </div>
               </div>
-              <div class="row">
+              <div class="row flex flex-row">
                 <div class="input">
                   <label for="purchaseToPay">To Pay</label>
                   <input
@@ -684,7 +704,7 @@
                     value="0" />
                 </div>
               </div>
-              <div class="row">
+              <div class="row flex flex-row">
                 <div class="input">
                   <label for="purchasePaid">Paid</label>
                   <input
