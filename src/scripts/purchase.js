@@ -348,8 +348,16 @@ enterToNextInput([
   purchaseExpireDate,
   purchasePurchasePrice,
 ])
-enterToNextInput([purchaseSellPrice, purchaseRackNo, purchaseAddProduct])
+
+enterToNextInput([
+  purchaseRackNo,
+  purchaseSerialNo,
+  purchaseSellPrice,
+  purchaseAddProduct,
+])
+
 enterToNextInput([purchaseDiscount, purchasePaid, purchaseDue, purchaseSave])
+
 focusToSelectAll([
   purchaseCompanyName,
   purchaseInvoiceNo,
@@ -411,6 +419,7 @@ purchasePurchasePrice.addEventListener("keyup", e => {
   let pp = Number(purchasePrice)
 
   purchaseTotalPurchasePrice.value = Number((pp * qnt).toFixed(4))
+
   updateTradePrice()
 
   if (e.key === "Enter") {
@@ -432,7 +441,7 @@ purchaseVat.addEventListener("keyup", e => {
 
   if (e.key === "Enter") {
     if (e.target.value === "" || e.target.value === "0") focus(purchaseTotalVat)
-    else focus(purchaseSellPrice)
+    else focus(purchaseRackNo)
   }
 })
 
@@ -464,7 +473,7 @@ purchaseTotalVat.addEventListener("keyup", e => {
 
   updateTradePrice()
 
-  if (e.key === "Enter") focus(purchaseSellPrice)
+  if (e.key === "Enter") focus(purchaseRackNo)
 })
 
 purchaseAddProduct.addEventListener("click", () => {
@@ -699,6 +708,7 @@ purchaseSave.addEventListener("click", () => {
 })
 
 let now = Date.now()
+
 purchaseID.value = nextRowId("purchases")
 setDate(purchaseInvoiceDate, new Date(now))
 setDate(purchaseExpireDate, new Date(now + 365 * 24 * 3600000))

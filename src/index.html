@@ -501,8 +501,8 @@
         <div id="purchase">
           <header class="container flex flex-column">
             <div class="row flex flex-row">
-              <div class="input">
-                <label for="purchaseID">ID</label>
+              <div class="input" title="Purchase ID">
+                <label for="purchaseID">PID</label>
                 <input
                   type="text"
                   id="purchaseID"
@@ -510,13 +510,13 @@
                   placeholder="PID"
                   disabled />
               </div>
-              <div class="input to-right">
+              <div class="input to-right" title="Invoice creation date">
                 <label for="purchaseInvoiceDate">Inv Date</label>
                 <input type="date" id="purchaseInvoiceDate" disabled />
               </div>
             </div>
             <div class="row flex flex-row">
-              <div class="input flex-1">
+              <div class="input flex-1" title="Company name">
                 <label for="purchaseCompanyName">Com Name</label>
                 <input
                   type="text"
@@ -528,8 +528,8 @@
                   data-id="0"></div>
               </div>
 
-              <div class="input">
-                <label for="purchaseInvoiceNo">Inv No</label>
+              <div class="input" title="Invoice number">
+                <label for="purchaseInvoiceNo">Inv No.</label>
                 <input
                   type="text"
                   id="purchaseInvoiceNo"
@@ -537,7 +537,7 @@
               </div>
             </div>
             <div class="row flex flex-row">
-              <div class="input flex-1">
+              <div class="input flex-1" title="Product name">
                 <label for="purchaseProductName">Prod Name</label>
                 <input
                   type="text"
@@ -550,7 +550,7 @@
                   data-id="0"></div>
               </div>
 
-              <div class="input">
+              <div class="input" title="Quantity">
                 <label for="purchaseProductQuantity">Qnt</label>
                 <input
                   type="text"
@@ -564,7 +564,7 @@
               </div>
             </div>
             <div class="row flex flex-row">
-              <div class="input">
+              <div class="input" title="Purchase price">
                 <label for="purchasePurchasePrice">PP</label>
                 <input
                   type="text"
@@ -572,7 +572,7 @@
                   placeholder="Price Per Piece" />
               </div>
 
-              <div class="input">
+              <div class="input" title="Vat">
                 <label for="purchaseVat">VAT</label>
                 <input
                   type="text"
@@ -580,6 +580,12 @@
                   placeholder="VAT Per Piece" />
               </div>
 
+              <div class="input to-right" title="Rack No.">
+                <label for="purchaseRackNo">Rack</label>
+                <input type="text" id="purchaseRackNo" placeholder="Rack No." />
+              </div>
+            </div>
+            <div class="row flex flex-row" title="Total purchase price">
               <div class="input">
                 <label for="purchaseTotalPurchasePrice">Total PP</label>
                 <input
@@ -588,16 +594,24 @@
                   placeholder="Total price" />
               </div>
 
-              <div class="input">
+              <div class="input" title="Total VAT">
                 <label for="purchaseTotalVat">Total VAT</label>
                 <input
                   type="text"
                   id="purchaseTotalVat"
                   placeholder="Total VAT" />
               </div>
+
+              <div class="input to-right" title="Serial No.">
+                <label for="purchaseSerialNo">Serial No.</label>
+                <input
+                  type="text"
+                  id="purchaseSerialNo"
+                  placeholder="Serial No." />
+              </div>
             </div>
             <div class="row flex flex-row">
-              <div class="input">
+              <div class="input" title="Trade price (purchase price + VAT)">
                 <label for="purchaseTradePrice">TP</label>
                 <input
                   type="text"
@@ -606,7 +620,9 @@
                   disabled />
               </div>
 
-              <div class="input">
+              <div
+                class="input"
+                title="Total trade price (purchase price + VAT) * quantity">
                 <label for="purchaseTotalTradePrice">Total TP</label>
                 <input
                   type="text"
@@ -615,20 +631,14 @@
                   disabled />
               </div>
 
-              <div class="input">
+              <div class="input to-right" title="Sell price">
                 <label for="purchaseSellPrice">SP</label>
                 <input
                   type="text"
                   id="purchaseSellPrice"
                   placeholder="Sell Price" />
               </div>
-
               <div class="input">
-                <label for="purchaseRackNo">Rack</label>
-                <input type="text" id="purchaseRackNo" placeholder="Rack No." />
-              </div>
-
-              <div class="input to-right">
                 <button id="purchaseAddProduct" class="btn-primary">Add</button>
               </div>
             </div>
@@ -637,23 +647,15 @@
             <table>
               <thead>
                 <tr>
-                  <th title="Number of item">No.</th>
+                  <th>No.</th>
                   <th title="Product name">Product Name</th>
                   <th title="Quantity">Qnt</th>
-                  <th title="Purchase price of single product">PP</th>
-                  <th title="Vat of single product">Vat</th>
-                  <th title="Total purchase price (purchase price * quantity)">
-                    TPP
-                  </th>
-                  <th title="Total vat (vat * quantity)">TVat</th>
-                  <th title="Trade price (purchase price + vat)">TP</th>
-                  <th
-                    title="Total trade price [ (purchase price + vat) * quantity ]">
-                    TTP
-                  </th>
+                  <th title="Trade price">TP</th>
+                  <th title="Toala TP">TTP</th>
                   <th title="Sell price">SP</th>
                   <th title="Product rack no">Rack</th>
-                  <th title="Expire date">Epr Date</th>
+                  <th title="Serial No.">Serial No.</th>
+                  <th title="Expire date">Expire Date</th>
                   <th>X</th>
                 </tr>
               </thead>
@@ -1231,20 +1233,20 @@
 
         <!-- Customer list window-->
         <div id="customerReturnList">
-          <header class="container">
-            <div class="row">
+          <header class="container flex flex-column">
+            <div class="row flex flex-row to-right">
               <div class="input">
                 <label for="customerReturnListStartDate">Start Date</label>
                 <input type="date" id="customerReturnListStartDate" />
               </div>
 
               <div class="input">
-                <label for="customerReturnListEndDate">Start Date</label>
+                <label for="customerReturnListEndDate">End Date</label>
                 <input type="date" id="customerReturnListEndDate" />
               </div>
             </div>
-            <div class="row">
-              <div class="input">
+            <div class="row flex flex-row">
+              <div class="input flex-1">
                 <label for="customerReturnListSearch">Search</label>
                 <input type="text" id="customerReturnListSearch" />
               </div>

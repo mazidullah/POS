@@ -1,4 +1,9 @@
-@import url(./utils/basic.css);
+@import url(./utils/unset.css);
+@import url(./utils/button.css);
+@import url(./utils/inputs.css);
+@import url(./utils/utils.css);
+@import url(./utils/messege.css);
+@import url(./utils/dialog.css);
 
 body {
   display: flex;

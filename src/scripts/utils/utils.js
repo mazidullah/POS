@@ -369,7 +369,8 @@ export function intInput(element, min = -Infinity, max = Infinity) {
     }
 
     if (key === "Enter") {
-      element.value = parseInt(element.value)
+      if (value < min) element.value = min
+      if (value > max) element.value = max
     }
     if (key === "Tab") element.dispatchEvent(new Event("next"))
   })
