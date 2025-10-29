@@ -3,20 +3,21 @@
   grid-template-rows: auto 1fr auto;
 
   header {
-    .row:nth-child(1),
-    .row:nth-child(2) {
-      .input:nth-child(1) {
-        width: 170px;
+    .row:nth-child(1) {
+      .input:nth-child(1),
+      .input:nth-child(2) {
+        width: 180px;
       }
 
-      .input:nth-child(2) {
+      .input:nth-child(3) {
         width: 200px;
       }
     }
 
-    .row:nth-child(3) {
-      .input:nth-child(2) {
-        width: 350px;
+    .row:nth-child(2) {
+      margin-top: 30px;
+      .input:nth-child(3) {
+        width: 200px;
       }
     }
   }
@@ -38,7 +39,7 @@
 
   th:nth-child(1),
   td:nth-child(1) {
-    width: 80px;
+    width: 50px;
     text-align: center;
   }
 

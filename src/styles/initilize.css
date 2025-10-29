@@ -9,12 +9,39 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+}
 
-  & > div {
-    width: 450px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+body > div {
+  .input:not(:has(input[type="checkbox"])) {
+    input {
+      width: 300px;
+      border: 1px solid #4e4e4e;
+    }
+
+    label {
+      width: 160px;
+      background: transparent;
+      border: none;
+      text-align: right;
+      padding-left: 0;
+    }
+  }
+
+  & > div:last-child {
+    margin-top: 30px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  body > div {
+    .input:not(:has(input[type="checkbox"])) {
+      input {
+        width: 280px;
+      }
+
+      label {
+        width: 140px;
+      }
+    }
   }
 }

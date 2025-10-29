@@ -17,7 +17,7 @@ body {
   margin: 0;
 
   color: #ccc;
-  background-color: #0f0f0f;
+  background-color: #070707;
 
   font-size: 14px;
   line-height: 1.4;
@@ -30,7 +30,7 @@ body {
 
 @media screen and (max-width: 1000px) {
   body {
-    font-size: 12px;
+    font-size: 13px;
   }
 }
 
@@ -64,6 +64,19 @@ table,
 td,
 th {
   border: 1px solid #525252;
+}
+
+table {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+th:first-child {
+  border-top-left-radius: 8px;
+}
+
+th:last-child {
+  border-top-right-radius: 8px;
 }
 
 thead {

@@ -63,6 +63,7 @@
           top: 50%;
           right: 5px;
           translate: 0 -50%;
+          color: #5498ff;
         }
 
         input:nth-child(2) {

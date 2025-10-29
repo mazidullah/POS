@@ -342,8 +342,8 @@
 
         <!-- Voucher window -->
         <div id="voucher">
-          <header class="container">
-            <div class="row">
+          <header class="container flex flex-row">
+            <div class="row flex flex-row to-right">
               <div class="input" title="Start from">
                 <label for="voucherStartDate">Start Date</label>
                 <input type="date" id="voucherStartDate" />
@@ -354,18 +354,21 @@
                 <input type="date" id="voucherEndDate" />
               </div>
             </div>
-            <div class="row">
-              <div class="input" title="Search by customer name or bill number">
-                <label for="voucherNameOrId">Search</label>
+
+            <div class="row flex flex-row">
+              <div
+                class="input"
+                title="Search by customer name, id or Voucher No.">
+                <label for="search">Search</label>
                 <input
                   type="text"
                   id="voucherNameOrId"
-                  placeholder="Customer Name or Bill No." />
+                  placeholder="Search by customer name, ID or Voucher No." />
               </div>
             </div>
           </header>
 
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -398,18 +401,6 @@
                   placeholder="Voucher No." />
               </div>
 
-              <div class="input to-right">
-                <label for="customerReturnVoucherDate">Bill Date</label>
-                <input
-                  type="text"
-                  class="date"
-                  id="customerReturnVoucherDate"
-                  placeholder="dd-mm-yyyy"
-                  disabled />
-              </div>
-            </div>
-
-            <div class="row flex">
               <div class="input" title="Customer ID">
                 <label for="customerReturnCustomerId">Cus. ID</label>
                 <input
@@ -418,13 +409,14 @@
                   placeholder="Customer ID"
                   disabled />
               </div>
+
               <div class="input to-right">
-                <label for="customerReturnMobileNo">Mobile No.</label>
+                <label for="customerReturnVoucherDate">Bill Date</label>
                 <input
                   type="text"
-                  id="customerReturnMobileNo"
-                  class="mobile"
-                  placeholder="01xxx-xxxxxx"
+                  class="date"
+                  id="customerReturnVoucherDate"
+                  placeholder="dd-mm-yyyy"
                   disabled />
               </div>
             </div>
@@ -447,9 +439,18 @@
                   placeholder="Customer Address"
                   disabled />
               </div>
+              <div class="input">
+                <label for="customerReturnMobileNo">Mobile No.</label>
+                <input
+                  type="text"
+                  id="customerReturnMobileNo"
+                  class="mobile"
+                  placeholder="01xxx-xxxxxx"
+                  disabled />
+              </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -602,12 +603,12 @@
                   placeholder="Total VAT" />
               </div>
 
-              <div class="input to-right" title="Serial No.">
-                <label for="purchaseSerialNo">Serial No.</label>
+              <div class="input to-right" title="Serial/Batch No.">
+                <label for="purchaseSerialNo">S/B No.</label>
                 <input
                   type="text"
                   id="purchaseSerialNo"
-                  placeholder="Serial No." />
+                  placeholder="Serial/Batch No." />
               </div>
             </div>
             <div class="row flex flex-row">
@@ -654,7 +655,7 @@
                   <th title="Toala TP">TTP</th>
                   <th title="Sell price">SP</th>
                   <th title="Product rack no">Rack</th>
-                  <th title="Serial No.">Serial No.</th>
+                  <th title="Serial/Batch No.">S/B No.</th>
                   <th title="Expire date">Expire Date</th>
                   <th>X</th>
                 </tr>
@@ -780,7 +781,7 @@
             </div>
           </header>
 
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -855,7 +856,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -930,7 +931,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -996,7 +997,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -1054,7 +1055,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -1119,7 +1120,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -1165,7 +1166,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -1215,7 +1216,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -1252,7 +1253,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -1290,7 +1291,7 @@
               </div>
             </div>
           </header>
-          <main class="tableContainer">
+          <main class="table-container">
             <table>
               <thead>
                 <tr>
@@ -1425,50 +1426,48 @@
             </span>
           </header>
           <main>
-            <div class="row">
-              <div class="input">
-                <label for="createCustomerId">ID</label>
-                <input type="text" id="createCustomerId" disabled />
-              </div>
+            <div class="input" title="Customer ID">
+              <label for="createCustomerId">CID</label>
+              <input
+                type="text"
+                id="createCustomerId"
+                class="number"
+                disabled />
             </div>
-            <div class="row">
-              <div class="input">
-                <label for="createCustomerName">Name</label>
-                <input
-                  type="text"
-                  id="createCustomerName"
-                  placeholder="Customer name" />
-              </div>
+            <div class="input" title="Customer name">
+              <label for="createCustomerName">Name</label>
+              <input
+                type="text"
+                id="createCustomerName"
+                placeholder="Customer name" />
             </div>
-            <div class="row">
-              <div class="input">
-                <label for="createCustomerAddress">Address</label>
-                <input
-                  type="text"
-                  id="createCustomerAddress"
-                  placeholder="Customer Address" />
-              </div>
+            <div class="input" title="Customer address">
+              <label for="createCustomerAddress">Address</label>
+              <input
+                type="text"
+                id="createCustomerAddress"
+                placeholder="Customer Address" />
+            </div>
 
-              <div class="input">
-                <label for="createCustomerRemark">Remark</label>
-                <input
-                  type="text"
-                  id="createCustomerRemark"
-                  placeholder="Customer Remark" />
-              </div>
+            <div class="input" title="Customer remark">
+              <label for="createCustomerRemark">Remark</label>
+              <input
+                type="text"
+                id="createCustomerRemark"
+                placeholder="Customer Remark" />
+            </div>
 
-              <div class="input">
-                <label for="createCustomerMobile">Mobile</label>
-                <input
-                  type="text"
-                  id="createCustomerMobile"
-                  placeholder="01xxx-xxxxxx" />
-              </div>
+            <div class="input" title="Customer mobile no.">
+              <label for="createCustomerMobile">Mobile</label>
+              <input
+                type="text"
+                id="createCustomerMobile"
+                placeholder="01xxx-xxxxxx" />
             </div>
           </main>
           <footer>
             <button id="createCustomerClear" class="btn-error">Clear</button>
-            <button id="createCustomerCreate" class="btn-primary">
+            <button id="createCustomerCreate" class="btn-primary to-right">
               Create
             </button>
           </footer>
@@ -1491,73 +1490,68 @@
             </span>
           </header>
           <main>
-            <div class="row">
-              <div class="input">
-                <label for="createProductId">ID</label>
-                <input type="text" id="createProductId" disabled />
-              </div>
-            </div>
-            <div class="row">
-              <div class="input">
-                <label for="createProductName">Name</label>
-                <input
-                  type="text"
-                  id="createProductName"
-                  placeholder="Product name" />
-              </div>
+            <div class="input" title="Product ID">
+              <label for="createProductId">PID</label>
+              <input type="text" class="number" id="createProductId" disabled />
             </div>
 
-            <div class="row">
-              <div class="input" title="Company name">
-                <label for="createProductCompanyName">Com. name</label>
-                <input
-                  type="text"
-                  id="createProductCompanyName"
-                  placeholder="Company name" />
-                <div
-                  class="suggetion hidden"
-                  id="createProductCompanyNameSuggetions"
-                  data-id="0"></div>
-              </div>
-
-              <div class="input" title="Generic name">
-                <label for="createProductGenericName">Gen. name</label>
-                <input
-                  type="text"
-                  id="createProductGenericName"
-                  placeholder="Generic name" />
-                <div
-                  class="suggetion hidden"
-                  id="createProductGenericNameSuggetions"
-                  data-id="0"></div>
-              </div>
-
-              <div class="input" title="Type name">
-                <label for="createProductTypeName">T. name</label>
-                <input
-                  type="text"
-                  id="createProductTypeName"
-                  placeholder="Type name" />
-                <div
-                  class="suggetion hidden"
-                  id="createProductTypeNameSuggetions"
-                  data-id="0"></div>
-              </div>
+            <div class="input" title="Product name">
+              <label for="createProductName">Prod. Name</label>
+              <input
+                type="text"
+                id="createProductName"
+                placeholder="Product name" />
             </div>
 
-            <div class="row">
-              <div class="input">
-                <label for="createProductMinStock">Min Stock</label>
-                <input
-                  type="text"
-                  id="createProductMinStock"
-                  placeholder="Min stock" />
-              </div>
+            <div class="input" title="Company name">
+              <label for="createProductCompanyName">Com. name</label>
+              <input
+                type="text"
+                id="createProductCompanyName"
+                placeholder="Company name" />
+              <div
+                class="suggetion hidden"
+                id="createProductCompanyNameSuggetions"
+                data-id="0"></div>
+            </div>
+
+            <div class="input" title="Generic name">
+              <label for="createProductGenericName">Gen. name</label>
+              <input
+                type="text"
+                id="createProductGenericName"
+                placeholder="Generic name" />
+              <div
+                class="suggetion hidden"
+                id="createProductGenericNameSuggetions"
+                data-id="0"></div>
+            </div>
+
+            <div class="input" title="Type name">
+              <label for="createProductTypeName">T. name</label>
+              <input
+                type="text"
+                id="createProductTypeName"
+                placeholder="Type name" />
+              <div
+                class="suggetion hidden"
+                id="createProductTypeNameSuggetions"
+                data-id="0"></div>
+            </div>
+
+            <div class="input">
+              <label for="createProductMinStock">Min Stock</label>
+              <input
+                type="text"
+                id="createProductMinStock"
+                placeholder="Min stock" />
             </div>
           </main>
           <footer>
             <button id="createProductClear" class="btn-error">Clear</button>
-            <button id="createProductCreate" class="btn-primary">Create</button>
+            <button id="createProductCreate" class="btn-primary to-right">
+              Create
+            </button>
           </footer>
         </div>
       </div>
@@ -1578,25 +1572,21 @@
             </span>
           </header>
           <main>
-            <div class="row">
-              <div class="input" title="Type ID">
-                <label for="createTypeId">TID</label>
-                <input type="text" id="createTypeId" disabled />
-              </div>
+            <div class="input" title="Type ID">
+              <label for="createTypeId">TID</label>
+              <input type="text" id="createTypeId" disabled />
             </div>
-            <div class="row">
-              <div class="input" title="Type name">
-                <label for="createTypeName">Name</label>
-                <input
-                  type="text"
-                  id="createTypeName"
-                  placeholder="Type name" />
-              </div>
+
+            <div class="input" title="Type name">
+              <label for="createTypeName">Name</label>
+              <input type="text" id="createTypeName" placeholder="Type name" />
             </div>
           </main>
           <footer>
             <button id="createTypeClear" class="btn-error">Clear</button>
-            <button id="createTypeCreate" class="btn-primary">Create</button>
+            <button id="createTypeCreate" class="btn-primary to-right">
+              Create
+            </button>
           </footer>
         </div>
       </div>
@@ -1617,25 +1607,24 @@
             </span>
           </header>
           <main>
-            <div class="row">
-              <div class="input" title="Generic ID">
-                <label for="createGenericId">GID</label>
-                <input type="text" id="createGenericId" disabled />
-              </div>
+            <div class="input" title="Generic ID">
+              <label for="createGenericId">GID</label>
+              <input type="text" id="createGenericId" disabled />
             </div>
-            <div class="row">
-              <div class="input" title="Generic name">
-                <label for="createGenericName">Name</label>
-                <input
-                  type="text"
-                  id="createGenericName"
-                  placeholder="Generic name" />
-              </div>
+
+            <div class="input" title="Generic name">
+              <label for="createGenericName">Name</label>
+              <input
+                type="text"
+                id="createGenericName"
+                placeholder="Generic name" />
             </div>
           </main>
           <footer>
             <button id="createGenericClear" class="btn-error">Clear</button>
-            <button id="createGenericCreate" class="btn-primary">Create</button>
+            <button id="createGenericCreate" class="btn-primary to-right">
+              Create
+            </button>
           </footer>
         </div>
       </div>
@@ -1656,13 +1645,12 @@
             </span>
           </header>
           <main>
-            <div class="row">
+            <div class="row flex flex-column">
               <div class="input">
                 <label for="createCompanyId">ID</label>
                 <input type="text" id="createCompanyId" disabled />
               </div>
-            </div>
-            <div class="row">
+
               <div class="input">
                 <label for="createCompanyName">Name</label>
                 <input
@@ -1670,8 +1658,7 @@
                   id="createCompanyName"
                   placeholder="Company name" />
               </div>
-            </div>
-            <div class="row">
+
               <div class="input">
                 <label for="createCompanyRemark">Remark</label>
                 <input
@@ -1688,91 +1675,79 @@
               </div>
             </div>
             <div class="row">
-              <div class="input order-delivery">
-                <div>
-                  <div for="createCompanyOrderDay">Order day</div>
-                  <div class="input-checkbox">
-                    <input type="checkbox" id="createCompanyOrderDaySaturday" />
-                    <label for="createCompanyOrderDaySaturday">Sat</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input type="checkbox" id="createCompanyOrderDaySunday" />
-                    <label for="createCompanyOrderDaySunday">Sun</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input type="checkbox" id="createCompanyOrderDayMonday" />
-                    <label for="createCompanyOrderDayMonday">Mon</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input type="checkbox" id="createCompanyOrderDayTuesday" />
-                    <label for="createCompanyOrderDayTuesday">Tues</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyOrderDayWednesday" />
-                    <label for="createCompanyOrderDayWednesday">Wed</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input type="checkbox" id="createCompanyOrderDayThusday" />
-                    <label for="createCompanyOrderDayThusday">Thus</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input type="checkbox" id="createCompanyOrderDayFriday" />
-                    <label for="createCompanyOrderDayFriday">Fri</label>
-                  </div>
+              <div>
+                <div for="createCompanyOrderDay">Order day</div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyOrderDaySaturday" />
+                  <label for="createCompanyOrderDaySaturday">Sat</label>
                 </div>
-                <div>
-                  <div for="createCompanyDeliveryDay">Delivery day</div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyDeliveryDaySaturday" />
-                    <label for="createCompanyDeliveryDaySaturday">Sat</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyDeliveryDaySunday" />
-                    <label for="createCompanyDeliveryDaySunday">Sun</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyDeliveryDayMonday" />
-                    <label for="createCompanyDeliveryDayMonday">Mon</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyDeliveryDayTuesday" />
-                    <label for="createCompanyDeliveryDayTuesday">Tues</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyDeliveryDayWednesday" />
-                    <label for="createCompanyDeliveryDayWednesday">Wed</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyDeliveryDayThusday" />
-                    <label for="createCompanyDeliveryDayThusday">Thus</label>
-                  </div>
-                  <div class="input-checkbox">
-                    <input
-                      type="checkbox"
-                      id="createCompanyDeliveryDayFriday" />
-                    <label for="createCompanyDeliveryDayFriday">Fri</label>
-                  </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyOrderDaySunday" />
+                  <label for="createCompanyOrderDaySunday">Sun</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyOrderDayMonday" />
+                  <label for="createCompanyOrderDayMonday">Mon</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyOrderDayTuesday" />
+                  <label for="createCompanyOrderDayTuesday">Tues</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyOrderDayWednesday" />
+                  <label for="createCompanyOrderDayWednesday">Wed</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyOrderDayThusday" />
+                  <label for="createCompanyOrderDayThusday">Thus</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyOrderDayFriday" />
+                  <label for="createCompanyOrderDayFriday">Fri</label>
+                </div>
+              </div>
+              <div>
+                <div for="createCompanyDeliveryDay">Delivery day</div>
+                <div class="input checkbox">
+                  <input
+                    type="checkbox"
+                    id="createCompanyDeliveryDaySaturday" />
+                  <label for="createCompanyDeliveryDaySaturday">Sat</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyDeliveryDaySunday" />
+                  <label for="createCompanyDeliveryDaySunday">Sun</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyDeliveryDayMonday" />
+                  <label for="createCompanyDeliveryDayMonday">Mon</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyDeliveryDayTuesday" />
+                  <label for="createCompanyDeliveryDayTuesday">Tues</label>
+                </div>
+                <div class="input checkbox">
+                  <input
+                    type="checkbox"
+                    id="createCompanyDeliveryDayWednesday" />
+                  <label for="createCompanyDeliveryDayWednesday">Wed</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyDeliveryDayThusday" />
+                  <label for="createCompanyDeliveryDayThusday">Thus</label>
+                </div>
+                <div class="input checkbox">
+                  <input type="checkbox" id="createCompanyDeliveryDayFriday" />
+                  <label for="createCompanyDeliveryDayFriday">Fri</label>
                 </div>
               </div>
             </div>
           </main>
           <footer>
             <button id="createCompanyClear" class="btn-error">Clear</button>
-            <button id="createCompanyCreate" class="btn-primary">Create</button>
+            <button id="createCompanyCreate" class="btn-primary to-right">
+              Create
+            </button>
           </footer>
         </div>
       </div>
@@ -1795,17 +1770,22 @@
             </span>
           </header>
           <main>
-            <div class="customer-info">
+            <div class="customer-info container">
               <div class="row">
                 <div class="input" title="Customer ID">
                   <label for="editCustomerListId">CID</label>
-                  <input type="text" id="editCustomerListId" disabled />
+                  <input
+                    type="text"
+                    id="editCustomerListId"
+                    class="number"
+                    disabled />
                 </div>
                 <div class="input" title="Previous Dues">
                   <label for="editCustomerListDue">Prev Dues</label>
                   <input
                     type="text"
                     id="editCustomerListDue"
+                    class="number"
                     placeholder="Dues"
                     disabled />
                 </div>
@@ -1864,7 +1844,9 @@
           </main>
           <footer>
             <button id="editCustomerListClear" class="btn-error">Clear</button>
-            <button id="editCustomerListSave" class="btn-primary">Save</button>
+            <button id="editCustomerListSave" class="btn-primary to-right">
+              Save
+            </button>
           </footer>
         </div>
       </div>
@@ -1885,7 +1867,7 @@
             </span>
           </header>
           <main>
-            <div class="company-info">
+            <div class="company-info container">
               <div class="left">
                 <div class="row">
                   <div class="input" title="Company ID">
@@ -1893,6 +1875,7 @@
                     <input
                       type="text"
                       id="editCompanyListId"
+                      class="number"
                       placeholder="Customer ID"
                       disabled />
                   </div>
@@ -1901,6 +1884,7 @@
                     <input
                       type="text"
                       id="editCompanyListDue"
+                      class="number"
                       placeholder="Prev. Dues"
                       disabled />
                   </div>
@@ -2051,7 +2035,9 @@
           </main>
           <footer>
             <button id="editCompanyListClear" class="btn-error">Clear</button>
-            <button id="editCompanyListSave" class="btn-success">Save</button>
+            <button id="editCompanyListSave" class="btn-primary to-right">
+              Save
+            </button>
           </footer>
         </div>
       </div>
@@ -2087,7 +2073,9 @@
           </main>
           <footer>
             <button id="editGenericListClear" class="btn-error">Clear</button>
-            <button id="editGenericListSave" class="btn-primary">Save</button>
+            <button id="editGenericListSave" class="btn-primary to-right">
+              Save
+            </button>
           </footer>
         </div>
       </div>
@@ -2123,7 +2111,9 @@
           </main>
           <footer>
             <button id="editTypeListClear" class="btn-error">Clear</button>
-            <button id="editTypeListSave" class="btn-primary">Save</button>
+            <button id="editTypeListSave" class="btn-primary to-right">
+              Save
+            </button>
           </footer>
         </div>
       </div>

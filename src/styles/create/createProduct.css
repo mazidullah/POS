@@ -1,29 +1,25 @@
 #createProduct {
+  .wrapper {
+    width: 650px;
+  }
+
   .wrapper main {
     display: flex;
     flex-direction: column;
     gap: 4px;
 
-    .row:nth-child(1),
-    .row:nth-child(4) {
-      .input:nth-child(1) {
-        width: 160px;
-      }
+    label {
+      width: 120px;
     }
 
-    .row:nth-child(2) {
-      display: flex;
-      .input:nth-child(1) {
-        flex: 1;
-      }
+    .input:nth-child(1) {
+      width: 160px;
+      margin-bottom: 1rem;
     }
 
-    .row:nth-child(3) {
-      display: flex;
-      gap: 4px;
-      .input {
-        flex: 1;
-      }
+    .input:nth-child(6) {
+      width: 160px;
+      margin-top: 1rem;
     }
   }
 }

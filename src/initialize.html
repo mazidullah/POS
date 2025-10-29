@@ -8,36 +8,38 @@
     <script src="./scripts/initilize.js" type="module" defer></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container flex flex-column">
       <h1>CREATE NEW STORE</h1>
+      <br />
 
-      <div class="input-inline">
+      <div class="input">
         <label for="storeName">Store name</label>
         <input type="text" id="storeName" placeholder="Store name" />
       </div>
 
-      <div class="input-inline">
+      <div class="input">
         <label for="storeAddress">Store address</label>
         <input type="text" id="storeAddress" placeholder="Store address" />
       </div>
 
-      <div class="input-inline">
+      <div class="input">
         <label for="storeMobile">Mobile no.</label>
         <input type="text" id="storeMobile" placeholder="01xxx-xxxxxx" />
       </div>
 
-      <hr />
-      <div class="input-inline">
+      <br />
+
+      <div class="input">
         <label for="adminName">Admin name</label>
         <input type="text" id="adminName" placeholder="Admin name" />
       </div>
 
-      <div class="input-inline">
+      <div class="input">
         <label for="adminPassword">Password</label>
         <input type="password" id="adminPassword" placeholder="Password" />
       </div>
 
-      <div class="input-inline">
+      <div class="input">
         <label for="adminPasswordRepeat">Repeat password</label>
         <input
           type="password"
@@ -45,14 +47,18 @@
           placeholder="Repeat Password" />
       </div>
 
-      <div class="input-inline-checkbox">
+      <div class="input checkbox">
         <input type="checkbox" id="togglePassword" />
         <label for="togglePassword">Show password</label>
       </div>
 
-      <div class="input-button-group input-last-child">
-        <button>I have database</button>
-        <button class="btn-primary" id="create">Create</button>
+      <div class="flex flex-row">
+        <button id="clear" class="btn-error flex-0">Clear</button>
+
+        <div class="to-right flex-0 flex flex-row">
+          <button id="copyDatabase">I have database</button>
+          <button id="create" class="btn-primary">Create</button>
+        </div>
       </div>
     </div>
 

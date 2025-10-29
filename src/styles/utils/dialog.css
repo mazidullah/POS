@@ -1,7 +1,8 @@
 .dialog {
   width: 100vw;
   height: 100vh;
-  background-color: #1a1a1aa2;
+
+  background-color: #50505086;
   position: fixed;
   inset: 0;
   z-index: 10;
@@ -11,24 +12,22 @@
   align-items: center;
 
   & > .wrapper {
-    width: 80%;
+    max-width: 80%;
     height: 80%;
 
-    border: 1px solid #3f3f3f;
-    box-shadow: 0px 0px 0px 2px #525252c4;
+    border: 2px solid #303030;
     background: #161616;
-    backdrop-filter: blur(10px);
 
     display: grid;
-    grid-template-rows: 30px 1fr 38px;
+    grid-template-rows: 30px 1fr 48px;
 
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 0 0 8px;
-      background-color: #111111;
-      border-bottom: 1px solid #555555;
+      background-color: #242424;
+      border-bottom: 1px solid #242424;
       -webkit-app-region: drag;
 
       span:nth-child(1) {
@@ -37,7 +36,7 @@
 
       span:nth-child(2) {
         width: 40px;
-        height: 30px;
+        height: 29px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -56,14 +55,13 @@
     }
 
     main {
-      padding: 4px;
+      padding: 8px;
       overflow-y: auto;
     }
 
     footer {
-      padding: 4px;
+      padding: 8px;
       display: flex;
-      justify-content: flex-end;
       gap: 4px;
 
       button {

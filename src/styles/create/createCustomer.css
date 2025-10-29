@@ -1,28 +1,25 @@
 #createCustomer {
+  .wrapper {
+    width: 650px;
+  }
+
   .wrapper main {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    .row:nth-child(1) {
-      .input:nth-child(1) {
-        width: 160px;
-      }
+
+    label {
+      width: 80px;
     }
 
-    .row:nth-child(2) {
-      display: flex;
-      .input:nth-child(1) {
-        flex: 1;
-      }
+    .input:nth-child(1) {
+      width: 140px;
+      margin-bottom: 1rem;
     }
 
-    .row:nth-child(3) {
-      display: flex;
-      gap: 4px;
-      .input:nth-child(1),
-      .input:nth-child(2) {
-        flex: 1;
-      }
+    .input:nth-child(5) {
+      width: 200px;
+      margin-top: 1rem;
     }
   }
 }

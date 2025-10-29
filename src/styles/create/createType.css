@@ -1,21 +1,23 @@
 #createType {
+  .wrapper {
+    width: 650px;
+    height: auto;
+
+    translate: 0 -4rem;
+  }
+
   .wrapper main {
     display: flex;
     flex-direction: column;
     gap: 4px;
 
-    .row:nth-child(1),
-    .row:nth-child(4) {
-      .input:nth-child(1) {
-        width: 160px;
-      }
+    label {
+      width: 80px;
     }
 
-    .row:nth-child(2) {
-      display: flex;
-      .input:nth-child(1) {
-        flex: 1;
-      }
+    .input:nth-child(1) {
+      width: 140px;
+      margin-bottom: 1rem;
     }
   }
 }

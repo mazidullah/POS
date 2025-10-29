@@ -39,27 +39,40 @@ togglePassword.addEventListener("input", e => {
   adminPasswordRepeat.type = "password"
 })
 
+clear.addEventListener("click", () => {
+  storeName.value = ""
+  storeAddress.value = ""
+  storeMobile.value = ""
+  adminName.value = ""
+  adminPassword.value = ""
+  adminPasswordRepeat.value = ""
+
+  togglePassword.checked = false
+
+  delayFocus(storeName)
+})
+
 create.addEventListener("click", () => {
   if (!storeName.value.length) {
-    showMessege("Invalid input", "You Must provide a store name")
+    showMessege("Invalid input", "You must provide a store name")
     delayFocus(storeName)
     return
   }
 
   if (!storeAddress.value.length) {
-    showMessege("Invalid input", "You Must provide a store address")
+    showMessege("Invalid input", "You must provide a store address")
     delayFocus(storeAddress)
     return
   }
 
   if (!storeMobile.value.length) {
-    showMessege("Invalid input", "You Must provide a store mobile no.")
+    showMessege("Invalid input", "You must provide a store mobile no.")
     delayFocus(storeMobile)
     return
   }
 
   if (!adminName.value.length) {
-    showMessege("Invalid input", "You Must provide a admin name")
+    showMessege("Invalid input", "You must provide a admin name")
     delayFocus(adminName)
     return
   }
