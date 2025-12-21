@@ -83,6 +83,11 @@ export function deleteFrom(tableName, conditions) {
   return result
 }
 
+export function getCash() {
+  let storeInfo = getData("StoreInfo", "Where id = 1")
+  return Number(storeInfo.cash)
+}
+
 export function updateCash(toAdd) {
   let storeInfo = getData("StoreInfo", "Where id = 1")
   let cash = Number(storeInfo.cash)

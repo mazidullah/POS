@@ -35,6 +35,7 @@
 @import url(./edit/editTypeList.css);
 
 @import url(./settings/investCash.css);
+@import url(./settings/withdrawCash.css);
 @import url(./settings/editStoreInfo.css);
 @import url(./settings/editAdminInfo.css);
 
@@ -56,6 +57,11 @@
 
   svg {
     fill: #00993b;
+  }
+
+  #displayCash {
+    padding: 4px 10px;
+    color: red;
   }
 
   li:not(:has(li)) {

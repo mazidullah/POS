@@ -22,6 +22,7 @@ import "./list/stockList.js"
 import "./list/expenseList.js"
 
 import "./settings/investCash.js"
+import "./settings/withdrawCash.js"
 import "./settings/editStoreInfo.js"
 import "./settings/editAdminInfo.js"
 
@@ -33,20 +34,6 @@ document.querySelectorAll("nav li div").forEach(div => {
       e.target.closest("li").classList.remove("expended")
     else e.target.closest("li").classList.add("expended")
   })
-})
-
-const { ipcRenderer } = require("electron")
-
-ipcRenderer.on("set:user-id", (ev, id) => {
-  window.__pos__ = {}
-  window.__pos__.userId = id
-
-  let userInfo = getData("Users", `where id = ${id}`)
-  let name = userInfo.name
-  let accessModule = userInfo.access_modules
-  let isAdmin = userInfo.role === "admin"
-
-  document.title = `Awesome PoS [${name} as ${isAdmin ? "admin" : "user"}]`
 })
 
 document.querySelectorAll("input").forEach(element => {
@@ -62,3 +49,6 @@ document.querySelectorAll("input").forEach(element => {
     }
   })
 })
+
+let storeInfo = getData("StoreInfo", "where id = 1")
+displayCash.innerHTML = `Cash: ${storeInfo.cash}`

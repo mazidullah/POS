@@ -5,6 +5,8 @@ import {
   getAllData,
   insertInto,
   updateInto,
+  getCash,
+  updateCash,
 } from "../utils/database.js"
 
 import { showMessege } from "../utils/messege.js"
@@ -89,6 +91,7 @@ investCashStartDate.addEventListener("input", () => {
   startDate = getSetableDate(new Date(investCashStartDate.value))
   renderInvestCashTbody()
 })
+
 investCashEndDate.addEventListener("input", () => {
   endDate = getSetableDate(new Date(investCashEndDate.value))
   renderInvestCashTbody()
@@ -99,15 +102,12 @@ investCashSave.addEventListener("click", e => {
 
   if (amount > 0) {
     insertInto("Invests", ["date", "amount"], [new Date().getTime(), amount])
-    updateInto(
-      "StoreInfo",
-      ["cash"],
-      [getData("StoreInfo", "Where id = 1").cash + amount],
-      "where id = 1"
-    )
-
+    updateCash(amount)
     clearInvestCash()
     renderInvestCashTbody()
+
+    displayCash.innerHTML = `Cash: ${getCash()}`
+    showMessege("Successfully invested", `Amount: ${amount}`)
   } else showMessege("Invalid amount", "Enter some valid amount!")
 
   delayFocus(investCashAmount)

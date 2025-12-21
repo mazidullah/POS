@@ -14,6 +14,7 @@
     <div id="pos">
       <!-- Navbar -->
       <nav>
+        <div id="displayCash">Cash: 0</div>
         <ul>
           <li data-navitem="sell" class="active">
             <svg
@@ -2284,8 +2285,8 @@
               </svg>
             </span>
           </header>
-          <main>
-            <div class="row">
+          <main class="flex flex-column">
+            <div class="container flex flex-row">
               <div class="input">
                 <label for="investCashAmount">Invest</label>
                 <input
@@ -2294,52 +2295,123 @@
                   placeholder="Inverst amount" />
               </div>
 
-              <button id="investCashClear" class="btn-error">Clear</button>
-              <button id="investCashSave" class="btn-primary">Save</button>
+              <button id="investCashClear" class="btn-error flex-0">
+                Clear
+              </button>
+              <button id="investCashSave" class="btn-primary flex-0">
+                Save
+              </button>
             </div>
 
-            <div class="invest-details">
-              <div class="container">
-                <div class="row">
-                  <div class="input">
-                    <label for="investCashStartDate">Start date</label>
-                    <input type="date" id="investCashStartDate" />
-                  </div>
-
-                  <div class="input">
-                    <label for="investCashEndDate">End date</label>
-                    <input type="date" id="investCashEndDate" />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="input">
-                    <label for="investCashTotal">Total</label>
-                    <input
-                      type="text"
-                      id="investCashTotal"
-                      placeholder="Total Invest"
-                      disabled />
-                  </div>
-                </div>
+            <div class="container flex flex-row">
+              <div class="input">
+                <label for="investCashTotal">Total</label>
+                <input
+                  type="text"
+                  id="investCashTotal"
+                  class="number"
+                  placeholder="Total Invest"
+                  disabled />
               </div>
 
-              <div class="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Date-Time</th>
-                      <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody id="investCashTbody"></tbody>
-                </table>
+              <div class="input">
+                <label for="investCashStartDate">Start date</label>
+                <input type="date" id="investCashStartDate" />
               </div>
+
+              <div class="input">
+                <label for="investCashEndDate">End date</label>
+                <input type="date" id="investCashEndDate" />
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Date-Time</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="investCashTbody"></tbody>
+              </table>
             </div>
           </main>
         </div>
       </div>
+
+      <div id="withdrawCash" class="dialog hidden">
+        <div class="wrapper">
+          <header>
+            <span>Withdraw cash</span>
+            <span id="closeWithdrawCash">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18px"
+                height="18px"
+                viewBox="0 -960 960 960">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+              </svg>
+            </span>
+          </header>
+          <main class="flex flex-column">
+            <div class="container flex flex-row">
+              <div class="input">
+                <label for="withdrawCashAmount">Withdraw</label>
+                <input
+                  type="text"
+                  id="withdrawCashAmount"
+                  placeholder="Withdraw amount" />
+              </div>
+
+              <button id="withdrawCashClear" class="btn-error flex-0">
+                Clear
+              </button>
+              <button id="withdrawCashSave" class="btn-primary flex-0">
+                Save
+              </button>
+            </div>
+
+            <div class="container flex flex-row">
+              <div class="input">
+                <label for="withdrawCashTotal">Total</label>
+                <input
+                  type="text"
+                  id="withdrawCashTotal"
+                  class="number"
+                  placeholder="Total Invest"
+                  disabled />
+              </div>
+
+              <div class="input">
+                <label for="withdrawCashStartDate">Start date</label>
+                <input type="date" id="withdrawCashStartDate" />
+              </div>
+
+              <div class="input">
+                <label for="withdrawCashEndDate">End date</label>
+                <input type="date" id="withdrawCashEndDate" />
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Date-Time</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="withdrawCashTbody"></tbody>
+              </table>
+            </div>
+          </main>
+        </div>
+      </div>
+
       <div id="editStoreInfo" class="dialog hidden">
         <div class="wrapper">
           <header>
@@ -2398,6 +2470,7 @@
           </footer>
         </div>
       </div>
+
       <div id="editAdminInfo" class="dialog hidden">
         <div class="wrapper">
           <header>

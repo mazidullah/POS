@@ -165,4 +165,13 @@ db.prepare(
 )`
 ).run()
 
+db.prepare(
+  `CREATE TABLE IF NOT EXISTS Withdraws (
+  id INTEGER,
+  amount INTEGER,
+  date INTEGER,
+  PRIMARY KEY("id" AUTOINCREMENT)
+)`
+).run()
+
 db.close()

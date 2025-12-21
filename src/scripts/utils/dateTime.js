@@ -23,7 +23,7 @@ export function getDateTime(date = new Date()) {
   let hours = padZeroDate(date.getHours())
   let minutes = padZeroDate(date.getMinutes())
 
-  return `${hours}:${minutes} on ${dd}/${mm}/${yy}`
+  return `${dd}/${mm}/${yy} at ${hours}:${minutes}`
 }
 
 export function getTime(date) {
