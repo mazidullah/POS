@@ -17,7 +17,12 @@ loginButton.addEventListener("click", () => {
 
   users.forEach(user => {
     if (user.name === name && user.password === pass) {
-      updateInto("Users", ["last_login"], [Date.now()], `where id = ${user.id}`)
+      updateInto(
+        "Users",
+        ["last_login_date"],
+        [Date.now()],
+        `where id = ${user.id}`
+      )
       closeMessege()
 
       let { ipcRenderer } = require("electron")

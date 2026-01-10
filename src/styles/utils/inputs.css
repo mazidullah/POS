@@ -32,17 +32,9 @@ input[type="number"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
 select:focus {
-  color: #252525;
-  background-color: #a0a0a0;
-  border-color: #008da0;
-}
-
-input[type="text"]:focus::placeholder,
-input[type="number"]:focus::placeholder,
-input[type="password"]:focus::placeholder,
-input[type="date"]:focus::placeholder,
-select:focus::placeholder {
-  color: #2c2c2c;
+  color: #cf9800;
+  background-color: #3b3b3b;
+  border-color: #ffe600;
 }
 
 input[type="file"] {

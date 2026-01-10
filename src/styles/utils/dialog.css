@@ -2,7 +2,8 @@
   width: 100vw;
   height: 100vh;
 
-  background-color: #50505086;
+  background-color: #20202086;
+
   position: fixed;
   inset: 0;
   z-index: 10;
@@ -15,7 +16,8 @@
     max-width: 80%;
     height: 80%;
 
-    border: 2px solid #303030;
+    border: 2px solid #000000;
+    border-radius: 10px;
     background: #161616;
 
     display: grid;
@@ -28,9 +30,11 @@
       padding: 0 0 0 8px;
       background-color: #242424;
       border-bottom: 1px solid #242424;
-      -webkit-app-region: drag;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
 
       span:nth-child(1) {
+        border-top-right-radius: 10px;
         font-size: 15px;
       }
 
@@ -41,6 +45,7 @@
         justify-content: center;
         align-items: center;
         background-color: #800;
+        border-top-right-radius: 8px;
         svg {
           fill: #fff;
         }

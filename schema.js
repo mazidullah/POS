@@ -8,6 +8,8 @@ db.prepare(
   mobile TEXT,
   address TEXT,
   cash INTEGER,
+  create_date INTEGER,
+  last_modify_date INTEGER,
   logo BLOB
 )`
 ).run()
@@ -19,7 +21,9 @@ db.prepare(
   password TEXT,
   role TEXT,
   access_modules TEXT,
-  last_login INTEGER,
+  create_date INTEGER,
+  last_modify_date INTEGER,
+  last_login_date INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
@@ -32,6 +36,8 @@ db.prepare(
   address TEXT,
   remark TEXT,
   dues INTEGER,
+  create_date INTEGER,
+  last_modify_date INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()
@@ -45,6 +51,8 @@ db.prepare(
   dues INTEGER,
   order_day TEXT,
   delivery_day TEXT,
+  create_date INTEGER,
+  last_modify_date INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()

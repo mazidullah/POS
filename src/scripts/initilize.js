@@ -5,7 +5,6 @@ import {
   delayFocus,
   mobileInput,
   enterToNextInput,
-  focusToSelectAll,
 } from "./utils/utils.js"
 
 focus(storeName)
@@ -18,15 +17,6 @@ enterToNextInput([
   adminPassword,
   adminPasswordRepeat,
   create,
-])
-
-focusToSelectAll([
-  storeName,
-  storeAddress,
-  storeMobile,
-  adminName,
-  adminPassword,
-  adminPasswordRepeat,
 ])
 
 togglePassword.addEventListener("input", e => {
@@ -53,6 +43,8 @@ clear.addEventListener("click", () => {
 })
 
 create.addEventListener("click", () => {
+  let date = Date.now()
+
   if (!storeName.value.length) {
     showMessege("Invalid input", "You must provide a store name")
     delayFocus(storeName)
@@ -91,23 +83,53 @@ create.addEventListener("click", () => {
 
   insertInto(
     "StoreInfo",
-    ["id", "name", "mobile", "address", "cash"],
+    [
+      "id",
+      "name",
+      "mobile",
+      "address",
+      "cash",
+      "create_date",
+      "last_modify_date",
+    ],
     [
       1,
       storeName.value.trim(),
       storeMobile.value.trim(),
       storeAddress.value.trim(),
       0,
+      date,
+      date,
     ]
   )
 
   insertInto(
     "Users",
-    ["id", "name", "password", "role", "access_modules", "last_login"],
-    [1, adminName.value.trim(), adminPassword.value.trim(), "admin", "", 0]
+    [
+      "id",
+      "name",
+      "password",
+      "role",
+      "access_modules",
+      "create_date",
+      "last_modify_date",
+      "last_login_date",
+    ],
+    [
+      1,
+      adminName.value.trim(),
+      adminPassword.value.trim(),
+      "admin",
+      "",
+      date,
+      date,
+      0,
+    ]
   )
 
   const { ipcRenderer } = require("electron")
   ipcRenderer.send("open:loginWindow")
   window.close()
 })
+
+delayFocus(storeName)
