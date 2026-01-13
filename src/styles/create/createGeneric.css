@@ -3,7 +3,8 @@
     width: 650px;
     height: auto;
 
-    translate: 0 -4rem;
+    position: absolute;
+    top: 7rem;
   }
 
   .wrapper main {

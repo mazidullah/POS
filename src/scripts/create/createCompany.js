@@ -1,37 +1,37 @@
-import { enterToNextInput, mobileInput, delayFocus } from "../utils/utils.js"
-import { showMessege } from "../utils/messege.js"
-import { hasData, insertInto, nextRowId } from "../utils/database.js"
-import { render } from "../list/companyList.js"
+import { enterToNextInput, mobileInput, delayFocus } from '../utils/utils.js'
+import { showMessege } from '../utils/messege.js'
+import { hasData, insertInto, nextRowId } from '../utils/database.js'
+import { render } from '../list/companyList.js'
 
-const tableName = "Companies"
+const tableName = 'Companies'
 const fieldNames = [
-  "name",
-  "mobile",
-  "remark",
-  "dues",
-  "order_day",
-  "delivery_day",
+  'name',
+  'mobile',
+  'remark',
+  'dues',
+  'order_day',
+  'delivery_day'
 ]
 const createCompanyBtns = document.querySelectorAll(`.createCompany`)
 
 mobileInput(createCompanyMobile)
 enterToNextInput([
   createCompanyName,
-  createCompanyRemark,
   createCompanyMobile,
-  createCompanyCreate,
+  createCompanyRemark,
+  createCompanyCreate
 ])
 
 function getOrderDays() {
   let orderDay = []
 
-  if (createCompanyOrderDaySaturday.checked) orderDay.push("Sat")
-  if (createCompanyOrderDaySunday.checked) orderDay.push("Sun")
-  if (createCompanyOrderDayMonday.checked) orderDay.push("Mon")
-  if (createCompanyOrderDayTuesday.checked) orderDay.push("Tues")
-  if (createCompanyOrderDayWednesday.checked) orderDay.push("Wed")
-  if (createCompanyOrderDayThusday.checked) orderDay.push("Thus")
-  if (createCompanyOrderDayFriday.checked) orderDay.push("Fri")
+  if (createCompanyOrderDaySaturday.checked) orderDay.push('Sat')
+  if (createCompanyOrderDaySunday.checked) orderDay.push('Sun')
+  if (createCompanyOrderDayMonday.checked) orderDay.push('Mon')
+  if (createCompanyOrderDayTuesday.checked) orderDay.push('Tues')
+  if (createCompanyOrderDayWednesday.checked) orderDay.push('Wed')
+  if (createCompanyOrderDayThusday.checked) orderDay.push('Thus')
+  if (createCompanyOrderDayFriday.checked) orderDay.push('Fri')
 
   return orderDay.join()
 }
@@ -39,13 +39,13 @@ function getOrderDays() {
 function getDeliveryDays() {
   let deliveryDay = []
 
-  if (createCompanyDeliveryDaySaturday.checked) deliveryDay.push("Sat")
-  if (createCompanyDeliveryDaySunday.checked) deliveryDay.push("Sun")
-  if (createCompanyDeliveryDayMonday.checked) deliveryDay.push("Mon")
-  if (createCompanyDeliveryDayTuesday.checked) deliveryDay.push("Tues")
-  if (createCompanyDeliveryDayWednesday.checked) deliveryDay.push("Wed")
-  if (createCompanyDeliveryDayThusday.checked) deliveryDay.push("Thus")
-  if (createCompanyDeliveryDayFriday.checked) deliveryDay.push("Fri")
+  if (createCompanyDeliveryDaySaturday.checked) deliveryDay.push('Sat')
+  if (createCompanyDeliveryDaySunday.checked) deliveryDay.push('Sun')
+  if (createCompanyDeliveryDayMonday.checked) deliveryDay.push('Mon')
+  if (createCompanyDeliveryDayTuesday.checked) deliveryDay.push('Tues')
+  if (createCompanyDeliveryDayWednesday.checked) deliveryDay.push('Wed')
+  if (createCompanyDeliveryDayThusday.checked) deliveryDay.push('Thus')
+  if (createCompanyDeliveryDayFriday.checked) deliveryDay.push('Fri')
 
   return deliveryDay.join()
 }
@@ -67,14 +67,14 @@ function resetCheckBox() {
   createCompanyDeliveryDayFriday.checked = false
 }
 
-createCompanyClose.addEventListener("click", () => {
-  createCompany.classList.add("hidden")
+createCompanyClose.addEventListener('click', () => {
+  createCompany.classList.add('hidden')
 })
 
-createCompanyClear.addEventListener("click", () => {
-  createCompanyName.value = ""
-  createCompanyMobile.value = ""
-  createCompanyRemark.value = ""
+createCompanyClear.addEventListener('click', () => {
+  createCompanyName.value = ''
+  createCompanyMobile.value = ''
+  createCompanyRemark.value = ''
 
   createCompanyOrderDaySaturday.checked = false
   createCompanyOrderDaySunday.checked = false
@@ -95,7 +95,7 @@ createCompanyClear.addEventListener("click", () => {
   delayFocus(createCompanyName)
 })
 
-createCompanyCreate.addEventListener("click", () => {
+createCompanyCreate.addEventListener('click', () => {
   const name = createCompanyName.value.trim()
   const mobile = createCompanyMobile.value.trim()
   const remark = createCompanyRemark.value.trim()
@@ -103,19 +103,19 @@ createCompanyCreate.addEventListener("click", () => {
   const deliveryDays = getDeliveryDays()
 
   if (name.length === 0) {
-    showMessege("Invalid name", "Name must not empty!")
+    showMessege('Invalid name', 'Name must not empty!')
     delayFocus(createCompanyName)
     return
   }
 
   if (mobile.length < 11) {
-    showMessege("Invalid mobile", "Invalid mobile number!")
+    showMessege('Invalid mobile', 'Invalid mobile number!')
     delayFocus(createCompanyMobile)
     return
   }
 
-  if (hasData("Companies", "name", name)) {
-    showMessege("Invalid name", "Name already present")
+  if (hasData('Companies', 'name', name)) {
+    showMessege('Invalid name', 'Name already present')
     delayFocus(createCompanyName)
     return
   }
@@ -124,16 +124,16 @@ createCompanyCreate.addEventListener("click", () => {
     name,
     mobile,
     remark,
-    "0",
+    '0',
     orderDays,
-    deliveryDays,
+    deliveryDays
   ])
 
-  showMessege("Successfully Created", `Name: ${createCompanyName.value}`)
+  showMessege('Successfully Created', `Name: ${createCompanyName.value}`)
 
-  createCompanyName.value = ""
-  createCompanyMobile.value = ""
-  createCompanyRemark.value = ""
+  createCompanyName.value = ''
+  createCompanyMobile.value = ''
+  createCompanyRemark.value = ''
 
   resetCheckBox()
 
@@ -143,8 +143,8 @@ createCompanyCreate.addEventListener("click", () => {
 })
 
 createCompanyBtns.forEach(navbar => {
-  navbar.addEventListener("click", () => {
-    createCompany.classList.remove("hidden")
+  navbar.addEventListener('click', () => {
+    createCompany.classList.remove('hidden')
     createCompanyId.value = nextRowId(tableName)
     delayFocus(createCompanyName)
   })

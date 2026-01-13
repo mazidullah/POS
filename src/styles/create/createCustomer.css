@@ -1,6 +1,10 @@
 #createCustomer {
   .wrapper {
     width: 650px;
+    height: max-content;
+
+    position: absolute;
+    top: 7rem;
   }
 
   .wrapper main {
@@ -12,14 +16,18 @@
       width: 80px;
     }
 
-    .input:nth-child(1) {
+    & > .input:nth-child(1) {
       width: 140px;
       margin-bottom: 1rem;
     }
 
-    .input:nth-child(5) {
-      width: 200px;
-      margin-top: 1rem;
+    & > .flex:nth-child(2) {
+      & > .input:nth-child(1) {
+        flex: 1;
+      }
+      & > .input:nth-child(2) {
+        width: 180px;
+      }
     }
   }
 }

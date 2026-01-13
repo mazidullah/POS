@@ -1,6 +1,10 @@
 #createProduct {
   .wrapper {
     width: 650px;
+    height: auto;
+
+    position: absolute;
+    top: 7rem;
   }
 
   .wrapper main {
@@ -13,7 +17,7 @@
     }
 
     .input:nth-child(1) {
-      width: 160px;
+      width: 140px;
       margin-bottom: 1rem;
     }
 

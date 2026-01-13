@@ -1,18 +1,18 @@
-import { insertInto } from "./utils/database.js"
-import { nextRowId } from "./utils/database.js"
-import { getData } from "./utils/database.js"
-import { updateCash } from "./utils/database.js"
-import { updateCompanyDue } from "./utils/database.js"
-import { showMessege } from "./utils/messege.js"
-import { getDate, setDate } from "./utils/dateTime.js"
-import { padZero, intInput, floatInput } from "./utils/utils.js"
-import { delayFocus, focusToSelectAll } from "./utils/utils.js"
-import { enterToNextInput } from "./utils/utils.js"
-import { suggestionHandler } from "./utils/utils.js"
+import { insertInto } from './utils/database.js'
+import { nextRowId } from './utils/database.js'
+import { getData } from './utils/database.js'
+import { updateCash } from './utils/database.js'
+import { updateCompanyDue } from './utils/database.js'
+import { showMessege } from './utils/messege.js'
+import { getDate, setDate } from './utils/dateTime.js'
+import { padZero, intInput, floatInput } from './utils/utils.js'
+import { delayFocus, focusToSelectAll } from './utils/utils.js'
+import { enterToNextInput } from './utils/utils.js'
+import { suggestionHandler } from './utils/utils.js'
 
 function getCompanies() {
-  const { DatabaseSync } = require("node:sqlite")
-  let db = new DatabaseSync("database.db")
+  const { DatabaseSync } = require('node:sqlite')
+  let db = new DatabaseSync('database.db')
 
   let stmt = db.prepare(`SELECT * from Companies ORDER BY UPPER(name)`)
   let companys = stmt.all()
@@ -27,9 +27,9 @@ function sanitizeCompanyName(searchTerm, companys) {
   const possibleNameMatch = new Set()
 
   try {
-    niddle = new RegExp(searchTerm, "i")
+    niddle = new RegExp(searchTerm, 'i')
   } catch (err) {
-    niddle = new RegExp("")
+    niddle = new RegExp('')
   }
 
   companys.forEach(company => {
@@ -60,7 +60,7 @@ function companyNameSuggetionRenderer() {
 
   let toRenderCompanies = sanitizeCompanyName(searchTerm, companies)
 
-  let txt = ""
+  let txt = ''
 
   toRenderCompanies.forEach(company => {
     txt += `
@@ -75,9 +75,9 @@ function companyNameSuggetionRenderer() {
 }
 
 function getProducts() {
-  const { DatabaseSync } = require("node:sqlite")
-  let db = new DatabaseSync("database.db")
-  let company_id = purchaseCompanyNameSuggetions.dataset["id"]
+  const { DatabaseSync } = require('node:sqlite')
+  let db = new DatabaseSync('database.db')
+  let company_id = purchaseCompanyNameSuggetions.dataset['id']
   let stmt = db.prepare(
     `SELECT * from Products WHERE Company_id = ? ORDER BY UPPER(name)`
   )
@@ -93,9 +93,9 @@ function sanitizeProductName(searchTerm, products) {
   const possibleNameMatch = new Set()
 
   try {
-    niddle = new RegExp(searchTerm, "i")
+    niddle = new RegExp(searchTerm, 'i')
   } catch (err) {
-    niddle = new RegExp("")
+    niddle = new RegExp('')
   }
 
   products.forEach(product => {
@@ -126,9 +126,9 @@ function productNameSuggetionRenderer() {
 
   let toRenderProducts = sanitizeProductName(searchTerm, products)
 
-  let txt = ""
-  let { DatabaseSync } = require("node:sqlite")
-  let db = new DatabaseSync("database.db")
+  let txt = ''
+  let { DatabaseSync } = require('node:sqlite')
+  let db = new DatabaseSync('database.db')
 
   toRenderProducts.forEach(product => {
     let type = db
@@ -170,11 +170,11 @@ function sanitizeCarts(carts) {
     sanitizedCarts.push({
       productID: cart.productID,
       batchNo: cart.batchNo,
-      qunatity: cart.quantity,
+      quantity: cart.quantity,
       purchasePrice: cart.purchasePrice,
       sellPrice: cart.sellPrice,
       rackNo: cart.rackNo,
-      expireDate: cart.expireDate,
+      expireDate: cart.expireDate
     })
   })
 
@@ -185,33 +185,31 @@ function resetPurchaseWindow() {
   resetProductInfo()
   carts = []
   setDate(purchaseInvoiceDate, new Date())
-  purchaseCompanyName.value = ""
-  purchaseInvoiceNo.value = ""
-  purchaseTbody.innerHTML = ""
-  purchaseTotalBill.value = "0.0"
-  purchasePayableBill.value = "0"
-  purchaseDiscount.value = "0"
-  purchaseToPay.value = "0"
-  purchasePaid.value = "0"
-  purchaseDue.value = "0"
-  purchaseCompanyNameSuggetions.dataset.id = "0"
+  purchaseCompanyName.value = ''
+  purchaseInvoiceNo.value = ''
+  purchaseTbody.innerHTML = ''
+  purchaseTotalBill.value = '0.0'
+  purchaseDiscount.value = '0'
+  purchaseToPay.value = '0'
+  purchasePaid.value = '0'
+  purchaseDue.value = '0'
+  purchaseCompanyNameSuggetions.dataset.id = '0'
 }
 
 function resetProductInfo() {
-  purchaseProductName.value = ""
-  purchaseProductQuantity.value = ""
-  purchasePurchasePrice.value = ""
-  purchaseSellPrice.value = ""
-  purchseBatchNo.value = ""
-  purchaseRackNo.value = ""
+  purchaseProductName.value = ''
+  purchaseProductQuantity.value = ''
+  purchasePurchasePrice.value = ''
+  purchaseSellPrice.value = ''
+  purchaseBatchNo.value = ''
+  purchaseRackNo.value = ''
 
   setDate(purchaseExpireDate, new Date(Date.now() + 365 * 24 * 3600000))
-  purchaseProductNameSuggetions.dataset.id = "0"
+  purchaseProductNameSuggetions.dataset.id = '0'
 }
 
 function updateTotalBill() {
   let totalBill = 0
-  let payableBill = 0
   let toPay = 0
   let discount = Number(purchaseDiscount.value)
   let paid = Number(purchasePaid.value)
@@ -222,19 +220,16 @@ function updateTotalBill() {
   })
 
   totalBill = Number(totalBill.toFixed(2))
-  payableBill = Number(totalBill.toFixed(0))
   toPay = Number(totalBill - discount).toFixed(0)
   paid = Number(paid.toFixed(0))
   due = Number((toPay - paid).toFixed(0))
 
   purchaseTotalBill.value = totalBill
-  purchasePayableBill.value = payableBill
   purchaseToPay.value = toPay
   purchasePaid.value = paid
   purchaseDue.value = due
 
   if (totalBill === 0) {
-    purchasePayableBill.value = 0
     purchaseDiscount.value = 0
     purchaseToPay.value = 0
     purchasePaid.value = 0
@@ -249,8 +244,8 @@ function deleteProductFromList(prodIndex) {
 }
 
 function renderTable() {
-  let txt = ""
-  purchaseTbody.innerHTML = ""
+  let txt = ''
+  purchaseTbody.innerHTML = ''
 
   carts.forEach((cart, i) => {
     let currentDate = Date.now()
@@ -260,27 +255,27 @@ function renderTable() {
     let expired = false
     let toExpire = false
 
-    let expireMsg = ""
-    let expireClassName = ""
-    let sellMsg = ""
-    let sellClassName = ""
+    let expireMsg = ''
+    let expireClassName = ''
+    let sellMsg = ''
+    let sellClassName = ''
 
     if (cart.expireDate < currentDate) expired = true
     if (cart.expireDate < shortDated) toExpire = true
 
     if (toExpire) {
-      expireMsg = "Product Will be expired within 90 days."
-      expireClassName = "warning"
+      expireMsg = 'Product Will be expired within 90 days.'
+      expireClassName = 'warning'
     }
 
     if (expired) {
-      expireMsg = "Product was expired."
-      expireClassName = "error"
+      expireMsg = 'Product was expired.'
+      expireClassName = 'error'
     }
 
-    if (Number(cart.sellPrice) <= Number(cart.tradePrice)) {
-      sellMsg = "Check your sell price again"
-      sellClassName = "error"
+    if (Number(cart.sellPrice) <= Number(cart.purchasePrice)) {
+      sellMsg = 'Check your sell price again'
+      sellClassName = 'error'
     }
 
     txt += `
@@ -290,16 +285,16 @@ function renderTable() {
           data-product-type="${cart.productType}"
           data-purchase-price="${cart.purchasePrice}"
           data-sell-price="${cart.sellPrice}"
-          data-quantity="${cart.qunatity}"
+          data-quantity="${cart.quantity}"
           data-rack-no="${cart.rackNo}"
           data-batch-no="${cart.batchNo}"
           data-expire-date="${cart.expireDate}"
         >
         <td>${padZero(i + 1)}</td>
         <td>[${cart.productType}] ${cart.productName}</td>
-        <td>${padZero(cart.qunatity)}</td>
+        <td>${padZero(cart.quantity)}</td>
         <td>${cart.purchasePrice}</td>
-        <td>${(cart.purchasePrice * cart.quantity).toFixed(2)}</td>
+        <td>${Number(cart.purchasePrice * cart.quantity).toFixed(2)}</td>
         <td class="${sellClassName}" title="${sellMsg}">${cart.sellPrice}</td>
         <td>${cart.rackNo}</td>
         <td>${cart.batchNo}</td>
@@ -319,13 +314,11 @@ enterToNextInput([
   purchaseProductQuantity,
   purchaseExpireDate,
   purchasePurchasePrice,
-])
-
-enterToNextInput([
+  purchaseSellPrice,
   purchaseRackNo,
   purchaseBatchNo,
-  purchaseSellPrice,
   purchaseAddProduct,
+  purchaseProductName
 ])
 
 enterToNextInput([purchaseDiscount, purchasePaid, purchaseDue, purchaseSave])
@@ -340,61 +333,60 @@ focusToSelectAll([
   purchaseBatchNo,
   purchaseDiscount,
   purchasePaid,
-  purchaseDue,
+  purchaseDue
 ])
 
-purchaseClear.addEventListener("click", resetPurchaseWindow)
+purchaseClear.addEventListener('click', resetPurchaseWindow)
 
-purchaseCompanyName.addEventListener("input", () => {
+purchaseCompanyName.addEventListener('input', () => {
   companyNameSuggetionRenderer()
   resetProductInfo()
-  purchaseInvoiceNo.value = ""
+  purchaseInvoiceNo.value = ''
   setDate(purchaseInvoiceDate, new Date())
-  purchaseTbody.innerHTML = ""
+  purchaseTbody.innerHTML = ''
 
-  purchaseTotalBill.value = "0.0"
-  purchasePayableBill.value = "0"
-  purchaseDiscount.value = "0"
-  purchasePaid.value = "0"
-  purchaseDue.value = "0"
+  purchaseTotalBill.value = '0.0'
+  purchaseDiscount.value = '0'
+  purchasePaid.value = '0'
+  purchaseDue.value = '0'
 })
 
-purchaseAddProduct.addEventListener("click", () => {
+purchaseAddProduct.addEventListener('click', () => {
   let companyID = Number(purchaseCompanyNameSuggetions.dataset.id)
   let productID = Number(purchaseProductNameSuggetions.dataset.id)
-  let qunatity = Number(purchaseProductQuantity.value.trim())
+  let quantity = Number(purchaseProductQuantity.value.trim())
   let purchasePrice = Number(purchasePurchasePrice.value.trim())
   let sellPrice = Number(purchaseSellPrice.value.trim())
-  let rackNo = Number(purchaseRackNo.value.trim())
-  let batchNo = Number(purchaseBatchNo.value.trim())
+  let rackNo = purchaseRackNo.value.trim()
+  let batchNo = purchaseBatchNo.value.trim()
   let expireDate = purchaseExpireDate.valueAsNumber
 
   if (companyID <= 0) {
-    showMessege("Invaild company name", "Select a company")
+    showMessege('Invaild company name', 'Select a company')
     delayFocus(purchaseCompanyName)
     return
   }
 
   if (productID <= 0) {
-    showMessege("Invalid product name", "Select a product")
+    showMessege('Invalid product name', 'Select a product')
     delayFocus(purchaseProductName)
     return
   }
 
-  if (qunatity < 1) {
-    showMessege("Invalid product qunatity", "Enter product qunatity")
+  if (quantity < 1) {
+    showMessege('Invalid product quantity', 'Enter product quantity')
     delayFocus(purchaseProductQuantity)
     return
   }
 
   if (sellPrice < 0) {
-    showMessege("Invalid sell price", "Enter product sell price")
+    showMessege('Invalid sell price', 'Enter product sell price')
     delayFocus(purchaseSellPrice)
     return
   }
 
-  let product = getData("Products", `WHERE id = ${productID}`)
-  let type = getData("Types", `WHERE id = ${product.type_id}`)
+  let product = getData('Products', `WHERE id = ${productID}`)
+  let type = getData('Types', `WHERE id = ${product.type_id}`)
 
   let productName = product.name
   let productType = type.name
@@ -403,12 +395,12 @@ purchaseAddProduct.addEventListener("click", () => {
     productID,
     productName,
     productType,
-    qunatity,
+    quantity,
     purchasePrice,
     sellPrice,
     rackNo,
     batchNo,
-    expireDate,
+    expireDate
   })
 
   resetProductInfo()
@@ -417,9 +409,9 @@ purchaseAddProduct.addEventListener("click", () => {
   delayFocus(purchaseProductName, 300)
 })
 
-purchaseTbody.addEventListener("click", e => {
-  let row = e.target.closest("tr")
-  let closeBtn = row.querySelector("& > td:last-child")
+purchaseTbody.addEventListener('click', e => {
+  let row = e.target.closest('tr')
+  let closeBtn = row.querySelector('& > td:last-child')
 
   let rowNo = row.dataset.rowNo
   let productID = row.dataset.productId
@@ -446,56 +438,55 @@ purchaseTbody.addEventListener("click", e => {
   setDate(purchaseExpireDate, new Date(Number(expireDate)))
 })
 
-purchaseDiscount.addEventListener("keyup", updateTotalBill)
-purchasePaid.addEventListener("keyup", updateTotalBill)
-purchaseDue.addEventListener("keyup", updateTotalBill)
+purchaseDiscount.addEventListener('keyup', updateTotalBill)
+purchasePaid.addEventListener('keyup', updateTotalBill)
+purchaseDue.addEventListener('keyup', updateTotalBill)
 
-purchaseSave.addEventListener("click", () => {
-  let cash = Number(getData("StoreInfo", "WHERE id = 1").cash)
+purchaseSave.addEventListener('click', () => {
+  let cash = Number(getData('StoreInfo', 'WHERE id = 1').cash)
 
   let companyID = Number(purchaseCompanyNameSuggetions.dataset.id)
   let invoiceNo = purchaseInvoiceNo.value.trim()
   let invoiceDate = purchaseInvoiceDate.valueAsNumber
 
   let totalBill = purchaseTotalBill.value
-  let payableBill = Number(purchasePayableBill.value)
   let discount = Number(purchaseDiscount.value)
   let toPay = Number(purchaseToPay.value)
   let paid = Number(purchasePaid.value)
   let dues = Number(purchaseDue.value)
 
   if (carts.length === 0) {
-    showMessege("Could not add produt", "Select some product to add")
+    showMessege('Could not add produt', 'Select some product to add')
     delayFocus(purchaseProductName)
     return
   }
 
   if (purchaseID <= 0) {
-    showMessege("Invalid Company Name", "Select a company")
+    showMessege('Invalid Company Name', 'Select a company')
     delayFocus(purchaseCompanyName)
     return
   }
 
-  if (invoiceNo === "") {
-    showMessege("Invalid invoice no", "")
+  if (invoiceNo === '') {
+    showMessege('Invalid invoice no', '')
     delayFocus(purchaseInvoiceNo)
     return
   }
 
   if (discount > toPay) {
-    showMessege("Invalid discount value", "Check your discount amount")
+    showMessege('Invalid discount value', 'Check your discount amount')
     delayFocus(purchaseDiscount)
     return
   }
 
   if (paid > toPay) {
-    showMessege("Invalid paid value", "Check your paid  amount")
+    showMessege('Invalid paid value', 'Check your paid  amount')
     delayFocus(purchasePaid)
     return
   }
 
   if (cash < paid) {
-    showMessege("Have not sufficient cash", `You have ${cash} Taka cash.`)
+    showMessege('Have not sufficient cash', `You have ${cash} Taka cash.`)
     return
   }
 
@@ -507,25 +498,25 @@ purchaseSave.addEventListener("click", () => {
   if (paid > 0)
     paymentData.push({
       paid: paid,
-      dateTime: new Date(),
+      dateTime: new Date()
     })
 
   let productData = sanitizeCarts(carts)
 
   let purchase_insert_info = insertInto(
-    "Purchases",
+    'Purchases',
     [
-      "company_id",
-      "invoice_no",
-      "invoice_date",
-      "total_bill",
-      "discount",
-      "payable_bill",
-      "to_pay",
-      "paid",
-      "dues",
-      "product_data",
-      "payment_data",
+      'company_id',
+      'invoice_no',
+      'invoice_date',
+      'total_bill',
+      'discount',
+      'payable_bill',
+      'to_pay',
+      'paid',
+      'dues',
+      'product_data',
+      'payment_data'
     ],
     [
       companyID,
@@ -538,48 +529,48 @@ purchaseSave.addEventListener("click", () => {
       paid,
       dues,
       JSON.stringify(productData),
-      JSON.stringify(paymentData),
+      JSON.stringify(paymentData)
     ]
   )
 
   carts.forEach(cart => {
     insertInto(
-      "Stocks",
+      'Stocks',
       [
-        "product_id",
-        "purchase_id",
-        "quantity",
-        "purchase_price",
-        "sell_price",
-        "rack_no",
-        "batch_no",
-        "expire_date",
-        "create_date",
+        'product_id',
+        'purchase_id',
+        'quantity',
+        'purchase_price',
+        'sell_price',
+        'rack_no',
+        'batch_no',
+        'expire_date',
+        'create_date'
       ],
       [
         cart.productID,
         purchase_insert_info.lastInsertRowid,
-        cart.qunatity,
+        cart.quantity,
         cart.purchasePrice,
         cart.sellPrice,
         cart.rackNo,
         cart.batchNo,
         cart.expireDate,
-        Date.now(),
+        Date.now()
       ]
     )
   })
 
   resetPurchaseWindow()
   showMessege(
-    "Suucessfully Purchases",
+    'Suucessfully Purchases',
     `Purchase ID: ${purchase_insert_info.lastInsertRowid}`
   )
 })
 
 let now = Date.now()
 
-purchaseID.value = nextRowId("purchases")
+purchaseID.value = nextRowId('purchases')
 setDate(purchaseInvoiceDate, new Date(now))
 setDate(purchaseExpireDate, new Date(now + 365 * 24 * 3600000))
 
@@ -587,7 +578,6 @@ intInput(purchaseProductQuantity, 1)
 floatInput(purchasePurchasePrice, 0)
 floatInput(purchaseSellPrice, 0)
 
-intInput(purchaseRackNo, 1)
 intInput(purchaseDiscount, 0)
 intInput(purchasePaid, 0)
 intInput(purchaseDue, 0)

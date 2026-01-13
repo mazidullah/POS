@@ -30,28 +30,20 @@
       }
     }
 
-    .row:nth-child(4),
-    .row:nth-child(5),
-    .row:nth-child(6) {
-      .input:nth-child(1),
+    .row:nth-child(4) {
+      .input:nth-child(1) {
+        width: 140px;
+      }
+
       .input:nth-child(2) {
-        width: 180px;
+        width: 140px;
       }
-    }
-
-    .row:nth-child(4),
-    .row:nth-child(5) {
       .input:nth-child(3) {
-        width: 220px;
+        width: 140px;
       }
-    }
 
-    .row:nth-child(6) {
-      .input:nth-child(3) {
-        width: 120px;
-      }
       .input:nth-child(4) {
-        width: 94px;
+        width: 220px;
       }
     }
   }
