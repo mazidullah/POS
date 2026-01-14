@@ -55,6 +55,7 @@ input:disabled {
 .input {
   display: flex;
   height: 30px;
+
   & label {
     padding-inline: 8px;
 
@@ -76,6 +77,7 @@ input:disabled {
 }
 
 .input.checkbox {
+  height: unset;
   label,
   input {
     border: none;
@@ -87,11 +89,13 @@ input:disabled {
 }
 
 input.number {
+  width: 80px;
   text-align: right;
-  padding-right: 6px;
+  padding-right: 8px;
 }
 
 input.mobile {
+  width: 120px;
   font-family: monospace;
   font-size: 0.9rem;
 }

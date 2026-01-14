@@ -1,7 +1,7 @@
 #editGenericList {
   .wrapper {
     width: 80%;
-    height: 90%;
+    height: auto;
   }
   main {
     display: flex;

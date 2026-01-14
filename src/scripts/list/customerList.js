@@ -165,17 +165,17 @@ export function render() {
 enterToNextInput([customerListSearch, customerListGotoPage, customerListSearch])
 enterToNextInput([
   editCustomerListName,
+  editCustomerListMobile,
   editCustomerListAddress,
   editCustomerListRemark,
-  editCustomerListMobile,
   editCustomerListSave,
 ])
 
 focusToSelectAll([
   customerListSearch,
   editCustomerListName,
-  editCustomerListAddress,
   editCustomerListMobile,
+  editCustomerListAddress,
   editCustomerListRemark,
 ])
 

@@ -31,7 +31,7 @@
 
           .input:nth-child(1),
           .input:nth-child(2) {
-            width: 160px;
+            width: 140px;
           }
         }
 
@@ -40,15 +40,15 @@
           .input:nth-child(1) {
             flex: 1;
           }
+
+          .input:nth-child(2) {
+            width: 180px;
+          }
         }
 
         .row:nth-child(3) {
           .input:nth-child(1) {
             flex: 1;
-          }
-
-          .input:nth-child(2) {
-            width: 220px;
           }
         }
       }
