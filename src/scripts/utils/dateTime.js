@@ -16,14 +16,25 @@ function padZeroYear(num) {
 }
 
 export function getDateTime(date = new Date()) {
+  let isPm = false
+
   let dd = padZeroDate(date.getDate())
-  let mm = padZeroMonth(date.getMonth())
+  let mm = padZeroMonth(date.getMonth() + 1)
   let yy = padZeroYear(date.getFullYear())
 
   let hours = padZeroDate(date.getHours())
   let minutes = padZeroDate(date.getMinutes())
 
-  return `${dd}/${mm}/${yy} at ${hours}:${minutes}`
+  if (hours > 12) {
+    isPm = true
+    hours %= 12
+  }
+
+  if (isPm) {
+    return `${dd}-${mm}-${yy} at ${hours}:${minutes} PM`
+  }
+
+  return `${dd}-${mm}-${yy} at ${hours}:${minutes} AM`
 }
 
 export function getTime(date) {
@@ -33,9 +44,9 @@ export function getTime(date) {
   return `${hours}:${minutes}`
 }
 
-export function getDate(date) {
+export function getDate(date = new Date()) {
   let dd = padZeroDate(date.getDate())
-  let mm = padZeroMonth(date.getMonth())
+  let mm = padZeroMonth(date.getMonth() + 1)
   let yy = padZeroYear(date.getFullYear())
 
   return `${dd}/${mm}/${yy}`
@@ -47,12 +58,4 @@ export function setDate(element, date = new Date()) {
   let yy = padZeroYear(date.getFullYear())
 
   element.value = `${yy}-${mm}-${dd}`
-}
-
-export function getSetableDate(date = new Date()) {
-  let dd = padZeroDate(date.getDate())
-  let mm = padZeroMonth(date.getMonth() + 1)
-  let yy = padZeroYear(date.getFullYear())
-
-  return `${yy}-${mm}-${dd}`
 }

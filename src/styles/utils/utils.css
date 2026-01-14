@@ -1,13 +1,13 @@
 .container {
   padding: 10px;
-  border: 1px solid #505050;
-  background-color: #1b1b1b;
+  border: 1px solid #292929;
+  background-color: #181818;
   border-radius: 8px;
 }
 
 .table-container {
-  border: 1px solid #353535;
-  background-color: #1d1d1d;
+  border: 1px solid #292929;
+  background-color: #181818;
   overflow-y: auto;
   border-radius: 8px;
 }

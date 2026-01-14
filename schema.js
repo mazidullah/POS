@@ -88,7 +88,7 @@ db.prepare(
 db.prepare(
   `CREATE TABLE IF NOT EXISTS Stocks (
   id INTEGER,
-  tag TEXT,
+  batch_no TEXT,
   product_id INTEGER,
   purchase_id INTEGER,
   quantity INTEGER,
@@ -168,6 +168,7 @@ db.prepare(
   `CREATE TABLE IF NOT EXISTS Invests (
   id INTEGER,
   amount INTEGER,
+  remark TEXT, 
   date INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
@@ -177,6 +178,7 @@ db.prepare(
   `CREATE TABLE IF NOT EXISTS Withdraws (
   id INTEGER,
   amount INTEGER,
+  remark TEXT,
   date INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`

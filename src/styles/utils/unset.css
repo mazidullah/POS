@@ -1,3 +1,12 @@
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3d3d3d;
+}
+
 ::selection {
   color: #000;
   background-color: #ffd000;
@@ -104,8 +113,9 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr:hover {
-  color: #00013f;
-  background-color: #3eb2ff;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #000000;
 }
 
 td {

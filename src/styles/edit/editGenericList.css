@@ -1,4 +1,8 @@
 #editGenericList {
+  .wrapper {
+    width: 80%;
+    height: 90%;
+  }
   main {
     display: flex;
     flex-direction: column;

@@ -90,12 +90,12 @@ export function mobileInput(element) {
 
     if (isDegit(key)) {
       if (length >= 12) return
-      if (length === 0 && key !== "0") return
-      if (length === 1 && key !== "1") return
-      if (length === 5 && key !== "-") {
-        element.value = chunk1 + "-" + key + chunk2
-        element.selectionStart = chunk1.length + 2
-        element.selectionEnd = chunk1.length + 2
+      if (selectionStart === 0 && key !== "0") return
+      if (selectionStart === 1 && key !== "1") return
+      if (selectionStart === 5 && key !== "-") {
+        element.value = chunk1 + "-" + chunk2
+        element.selectionStart = chunk1.length + 1
+        element.selectionEnd = chunk1.length + 1
         return
       }
 
@@ -286,6 +286,9 @@ export function intInput(element, min = -Infinity, max = Infinity) {
         element.value = nextValue
         element.selectionStart = (chunk1 + key).length
         element.selectionEnd = (chunk1 + key).length
+
+        element.dispatchEvent(new Event("input"))
+
         return
       }
 
@@ -293,6 +296,9 @@ export function intInput(element, min = -Infinity, max = Infinity) {
         element.value = max
         element.selectionStart = element.value.length
         element.selectionEnd = element.value.length
+
+        element.dispatchEvent(new Event("input"))
+
         return
       }
 
@@ -300,6 +306,9 @@ export function intInput(element, min = -Infinity, max = Infinity) {
         element.value = min
         element.selectionStart = element.value.length
         element.selectionEnd = element.value.length
+
+        element.dispatchEvent(new Event("input"))
+
         return
       }
     }
@@ -308,6 +317,9 @@ export function intInput(element, min = -Infinity, max = Infinity) {
       element.value = Number(value) + 1 <= max ? Number(value) + 1 : max
       element.selectionStart = element.value.length
       element.selectionEnd = element.value.length
+
+      element.dispatchEvent(new Event("input"))
+
       return
     }
 
@@ -315,12 +327,18 @@ export function intInput(element, min = -Infinity, max = Infinity) {
       element.value = Number(value) - 1 >= min ? Number(value) - 1 : min
       element.selectionStart = element.value.length
       element.selectionEnd = element.value.length
+
+      element.dispatchEvent(new Event("input"))
+
       return
     }
 
     if (key === "ArrowLeft") {
       element.selectionStart = selectionStart - 1 >= 0 ? selectionStart - 1 : 0
       element.selectionEnd = selectionStart - 1 >= 0 ? selectionStart - 1 : 0
+
+      element.dispatchEvent(new Event("input"))
+
       return
     }
 
@@ -329,6 +347,8 @@ export function intInput(element, min = -Infinity, max = Infinity) {
         selectionEnd + 1 <= length ? selectionEnd + 1 : length
       element.selectionEnd =
         selectionEnd + 1 <= length ? selectionStart + 1 : length
+
+      element.dispatchEvent(new Event("input"))
 
       return
     }
@@ -350,6 +370,8 @@ export function intInput(element, min = -Infinity, max = Infinity) {
         element.value = nextValue
         element.selectionStart = chunk1.length
         element.selectionEnd = chunk1.length
+        element.dispatchEvent(new Event("input"))
+
         return
       }
 
@@ -357,6 +379,8 @@ export function intInput(element, min = -Infinity, max = Infinity) {
         element.value = max
         element.selectionStart = element.value.length
         element.selectionEnd = element.value.length
+        element.dispatchEvent(new Event("input"))
+
         return
       }
 
@@ -364,6 +388,8 @@ export function intInput(element, min = -Infinity, max = Infinity) {
         element.value = nextValue === "" ? "" : min
         element.selectionStart = element.value.length
         element.selectionEnd = element.value.length
+        element.dispatchEvent(new Event("input"))
+
         return
       }
     }
@@ -371,6 +397,7 @@ export function intInput(element, min = -Infinity, max = Infinity) {
     if (key === "Enter") {
       if (value < min) element.value = min
       if (value > max) element.value = max
+      element.dispatchEvent(new Event("input"))
     }
     if (key === "Tab") element.dispatchEvent(new Event("next"))
   })

@@ -42,6 +42,8 @@ document.querySelectorAll("input").forEach(element => {
 
     if ("date" === type) element.focus()
     else if ("file" === type) element.focus()
+    else if ("checkbox" === type) element.focus()
+    else if ("radio" === type) element.focus()
     else {
       element.selectionStart = 0
       element.selectionEnd = element.value.length

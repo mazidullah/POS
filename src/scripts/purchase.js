@@ -305,20 +305,20 @@ function renderTable() {
     }
 
     txt += `
-      <tr data-row-no="${i + 1}" 
-          data-product-id="${cart.productID}" 
-          data-product-name="${cart.productName}" 
-          data-product-type="${cart.productType}" 
-          data-quantity="${cart.qunatity}" 
-          data-purchase-price="${cart.purchasePrice}" 
-          data-total-purchase-price="${cart.totalPurchasePrice}" 
-          data-vat="${cart.vat}" 
-          data-total-vat="${cart.totalVat}" 
-          data-trade-price="${cart.tradePrice}" 
-          data-total-trade-price="${cart.totalTradePrice}" 
-          data-sell-price="${cart.sellPrice}" 
-          data-rack-no="${cart.rackNo}" 
-          data-expire-date="${cart.expireDate}" 
+      <tr data-row-no="${i + 1}"
+          data-product-id="${cart.productID}"
+          data-product-name="${cart.productName}"
+          data-product-type="${cart.productType}"
+          data-quantity="${cart.qunatity}"
+          data-purchase-price="${cart.purchasePrice}"
+          data-total-purchase-price="${cart.totalPurchasePrice}"
+          data-vat="${cart.vat}"
+          data-total-vat="${cart.totalVat}"
+          data-trade-price="${cart.tradePrice}"
+          data-total-trade-price="${cart.totalTradePrice}"
+          data-sell-price="${cart.sellPrice}"
+          data-rack-no="${cart.rackNo}"
+          data-expire-date="${cart.expireDate}"
         >
         <td>${padZero(i + 1)}</td>
         <td>[${cart.productType}] ${cart.productName}</td>
@@ -480,14 +480,7 @@ purchaseAddProduct.addEventListener("click", () => {
   let companyID = Number(purchaseCompanyNameSuggetions.dataset.id)
   let productID = Number(purchaseProductNameSuggetions.dataset.id)
   let qunatity = Number(purchaseProductQuantity.value.trim())
-
   let purchasePrice = Number(purchasePurchasePrice.value.trim())
-  let totalPurchasePrice = Number(purchaseTotalPurchasePrice.value.trim())
-  let vat = Number(purchaseVat.value.trim())
-  let totalVat = Number(purchaseTotalVat.value.trim())
-
-  let tradePrice = Number(purchaseTradePrice.value.trim())
-  let totalTradePrice = Number(purchaseTotalTradePrice.value.trim())
   let sellPrice = Number(purchaseSellPrice.value.trim())
   let rackNo = Number(purchaseRackNo.value.trim())
   let expireDate = purchaseExpireDate.valueAsNumber

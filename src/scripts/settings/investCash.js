@@ -1,77 +1,110 @@
 import { delayFocus, enterToNextInput, intInput } from "../utils/utils.js"
-import { getDateTime, setDate, getSetableDate } from "../utils/dateTime.js"
+import { getDateTime, setDate } from "../utils/dateTime.js"
 import {
   getData,
   getAllData,
   insertInto,
-  updateInto,
   getCash,
   updateCash,
 } from "../utils/database.js"
-
 import { showMessege } from "../utils/messege.js"
 
-let startDate = ""
-let endDate = ""
-let totalInvest = 0
+intInput(investCashAmount, 0)
+intInput(investCashGotoPage, 1)
+enterToNextInput([investCashAmount, investCashRemark, investCashSave])
 
-intInput(investCashAmount, 1)
-enterToNextInput([investCashAmount, investCashSave])
-
-function clearInvestCash(sd = new Date(), ed = new Date()) {
-  totalInvest = 0
-
-  startDate = getSetableDate(sd)
-  endDate = getSetableDate(ed)
+function clearInvestCash() {
+  let storeInfo = getData("StoreInfo", "WHERE id = 1")
+  let startDate = new Date(storeInfo.create_date)
+  let endDate = new Date()
 
   investCashAmount.value = ""
+  investCashRemark.value = ""
   investCashTbody.innerHTML = ""
-  setDate(investCashStartDate, sd)
-  setDate(investCashEndDate, ed)
-  investCashTotal.value = totalInvest
+
+  setDate(investCashStartDate, startDate)
+  setDate(investCashEndDate, endDate)
 }
 
 function renderInvestCashTbody() {
-  let sd, ed
-  totalInvest = 0
+  let totalCash = 0
 
-  if (new Date(startDate) <= new Date(endDate)) {
-    sd = new Date(startDate).getTime()
-    ed = new Date(endDate).getTime()
-  } else {
-    sd = new Date(endDate).getTime()
-    ed = new Date(startDate).getTime()
+  let startDate = new Date(investCashStartDate.value)
+  let endDate = new Date(investCashEndDate.value)
+  let displayPerPage = Number(investCashDisplayPerPage.value.trim())
+  let possiblePage = 1
+  let gotoPage = Number(investCashGotoPage.value.trim())
+
+  if (startDate > endDate) {
+    let temp = startDate
+    startDate = endDate
+    endDate = temp
   }
 
-  ed += 3600000 * 24
+  let startDateYear = startDate.getFullYear()
+  let startDateMonth = startDate.getMonth()
+  let startDateDate = startDate.getDate()
 
-  let invests = getAllData(
+  let endDateYear = endDate.getFullYear()
+  let endDateMonth = endDate.getMonth()
+  let endDateDate = endDate.getDate()
+
+  startDate = new Date(startDateYear, startDateMonth, startDateDate).getTime()
+  endDate = new Date(endDateYear, endDateMonth, endDateDate + 1).getTime() - 1
+
+  let allData = getAllData(
     "Invests",
-    `where date >= ${sd} and date <= ${ed} order by date desc`
+    `WHERE date >= ${startDate} and date <= ${endDate}`
   )
 
-  let htmlText = ""
-  invests.forEach((invest, i) => {
-    totalInvest += invest.amount
+  possiblePage = Math.floor(allData.length / displayPerPage) + 1
+  investCashPossiblePage.innerHTML = possiblePage
 
-    htmlText += `
-      <tr>
-        <td>${i + 1}</td>
-        <td>${getDateTime(new Date(invest.date))}</td>
+  if (gotoPage > possiblePage) {
+    gotoPage = possiblePage
+    investCashGotoPage.value = gotoPage
+  }
+
+  let renderData = allData.slice(
+    (gotoPage - 1) * displayPerPage,
+    gotoPage * displayPerPage
+  )
+
+  let html = ""
+  let thisPageTotal = 0
+
+  renderData.forEach(invest => {
+    let dateTime = getDateTime(new Date(invest.date))
+    thisPageTotal += invest.amount
+    html += `
+      <tr data-id=${invest.id}>
+        <td>${invest.id}</td>
+        <td>${invest.remark}</td>
+        <td>${dateTime}</td>
         <td>${invest.amount}</td>
       </tr>
     `
   })
 
-  investCashTbody.innerHTML = htmlText
-  investCashTotal.value = totalInvest
+  html += `
+    <tr class="summary">
+      <td colspan="3">Total</td>
+      <td>${thisPageTotal}</td>
+    </tr>
+  `
+
+  investCashTbody.innerHTML = html
+
+  allData.forEach(invest => {
+    totalCash += invest.amount
+  })
+
+  investCashTotal.value = totalCash
 }
 
 openInvestCash.addEventListener("click", () => {
-  let date = new Date()
-  clearInvestCash(date, date)
+  clearInvestCash()
   renderInvestCashTbody()
-
   investCash.classList.remove("hidden")
   delayFocus(investCashAmount)
 })
@@ -88,20 +121,30 @@ investCashClear.addEventListener("click", () => {
 })
 
 investCashStartDate.addEventListener("input", () => {
-  startDate = getSetableDate(new Date(investCashStartDate.value))
+  setDate(new Date(investCashStartDate.value))
   renderInvestCashTbody()
 })
 
 investCashEndDate.addEventListener("input", () => {
-  endDate = getSetableDate(new Date(investCashEndDate.value))
+  setDate(new Date(investCashEndDate.value))
+  renderInvestCashTbody()
+})
+
+investCashDisplayPerPage.addEventListener("input", () => {
+  renderInvestCashTbody()
+})
+
+investCashGotoPage.addEventListener("input", () => {
   renderInvestCashTbody()
 })
 
 investCashSave.addEventListener("click", e => {
+  let date = Date.now()
   let amount = Number(investCashAmount.value.trim())
+  let remark = investCashRemark.value.trim()
 
   if (amount > 0) {
-    insertInto("Invests", ["date", "amount"], [new Date().getTime(), amount])
+    insertInto("Invests", ["date", "amount", "remark"], [date, amount, remark])
     updateCash(amount)
     clearInvestCash()
     renderInvestCashTbody()

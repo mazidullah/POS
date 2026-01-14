@@ -1,75 +1,110 @@
 import { delayFocus, enterToNextInput, intInput } from "../utils/utils.js"
-import { getDateTime, setDate, getSetableDate } from "../utils/dateTime.js"
+import { getDateTime, setDate } from "../utils/dateTime.js"
 import {
+  getData,
   getAllData,
   insertInto,
-  updateCash,
   getCash,
+  updateCash,
 } from "../utils/database.js"
-
 import { showMessege } from "../utils/messege.js"
 
-let startDate = ""
-let endDate = ""
-let totalWithdraw = 0
+intInput(withdrawCashAmount, 0)
+intInput(withdrawCashGotoPage, 1)
+enterToNextInput([withdrawCashAmount, withdrawCashRemark, withdrawCashSave])
 
-intInput(withdrawCashAmount, 1)
-enterToNextInput([withdrawCashAmount, withdrawCashSave])
-
-function clearWithdrawCash(sd = new Date(), ed = new Date()) {
-  totalWithdraw = 0
-
-  startDate = getSetableDate(sd)
-  endDate = getSetableDate(ed)
+function clearWithdrawCash() {
+  let storeInfo = getData("StoreInfo", "WHERE id = 1")
+  let startDate = new Date(storeInfo.create_date)
+  let endDate = new Date()
 
   withdrawCashAmount.value = ""
+  withdrawCashRemark.value = ""
   withdrawCashTbody.innerHTML = ""
-  setDate(withdrawCashStartDate, sd)
-  setDate(withdrawCashEndDate, ed)
-  withdrawCashTotal.value = totalWithdraw
+
+  setDate(withdrawCashStartDate, startDate)
+  setDate(withdrawCashEndDate, endDate)
 }
 
 function renderWithdrawCashTbody() {
-  let sd, ed
-  totalWithdraw = 0
+  let totalCash = 0
 
-  if (new Date(startDate) <= new Date(endDate)) {
-    sd = new Date(startDate).getTime()
-    ed = new Date(endDate).getTime()
-  } else {
-    sd = new Date(endDate).getTime()
-    ed = new Date(startDate).getTime()
+  let startDate = new Date(withdrawCashStartDate.value)
+  let endDate = new Date(withdrawCashEndDate.value)
+  let displayPerPage = Number(withdrawCashDisplayPerPage.value.trim())
+  let possiblePage = 1
+  let gotoPage = Number(withdrawCashGotoPage.value.trim())
+
+  if (startDate > endDate) {
+    let temp = startDate
+    startDate = endDate
+    endDate = temp
   }
 
-  ed += 3600000 * 24
+  let startDateYear = startDate.getFullYear()
+  let startDateMonth = startDate.getMonth()
+  let startDateDate = startDate.getDate()
 
-  let withdraws = getAllData(
+  let endDateYear = endDate.getFullYear()
+  let endDateMonth = endDate.getMonth()
+  let endDateDate = endDate.getDate()
+
+  startDate = new Date(startDateYear, startDateMonth, startDateDate).getTime()
+  endDate = new Date(endDateYear, endDateMonth, endDateDate + 1).getTime() - 1
+
+  let allData = getAllData(
     "Withdraws",
-    `where date >= ${sd} and date <= ${ed} order by date desc`
+    `WHERE date >= ${startDate} and date <= ${endDate}`
   )
 
-  let htmlText = ""
-  withdraws.forEach((withdraw, i) => {
-    totalWithdraw += withdraw.amount
+  possiblePage = Math.floor(allData.length / displayPerPage) + 1
+  withdrawCashPossiblePage.innerHTML = possiblePage
 
-    htmlText += `
-      <tr>
-        <td>${i + 1}</td>
-        <td>${getDateTime(new Date(withdraw.date))}</td>
+  if (gotoPage > possiblePage) {
+    gotoPage = possiblePage
+    withdrawCashGotoPage.value = gotoPage
+  }
+
+  let renderData = allData.slice(
+    (gotoPage - 1) * displayPerPage,
+    gotoPage * displayPerPage
+  )
+
+  let html = ""
+  let thisPageTotal = 0
+
+  renderData.forEach(withdraw => {
+    let dateTime = getDateTime(new Date(withdraw.date))
+    thisPageTotal += withdraw.amount
+    html += `
+      <tr data-id=${withdraw.id}>
+        <td>${withdraw.id}</td>
+        <td>${withdraw.remark}</td>
+        <td>${dateTime}</td>
         <td>${withdraw.amount}</td>
       </tr>
     `
   })
 
-  withdrawCashTbody.innerHTML = htmlText
-  withdrawCashTotal.value = totalWithdraw
+  html += `
+    <tr class="summary">
+      <td colspan="3">Total</td>
+      <td>${thisPageTotal}</td>
+    </tr>
+  `
+
+  withdrawCashTbody.innerHTML = html
+
+  allData.forEach(withdraw => {
+    totalCash += withdraw.amount
+  })
+
+  withdrawCashTotal.value = totalCash
 }
 
 openWithdrawCash.addEventListener("click", () => {
-  let date = new Date()
-  clearWithdrawCash(date, date)
+  clearWithdrawCash()
   renderWithdrawCashTbody()
-
   withdrawCash.classList.remove("hidden")
   delayFocus(withdrawCashAmount)
 })
@@ -86,28 +121,47 @@ withdrawCashClear.addEventListener("click", () => {
 })
 
 withdrawCashStartDate.addEventListener("input", () => {
-  startDate = getSetableDate(new Date(withdrawCashStartDate.value))
+  setDate(new Date(withdrawCashStartDate.value))
   renderWithdrawCashTbody()
 })
 
 withdrawCashEndDate.addEventListener("input", () => {
-  endDate = getSetableDate(new Date(withdrawCashEndDate.value))
+  setDate(new Date(withdrawCashEndDate.value))
+  renderWithdrawCashTbody()
+})
+
+withdrawCashDisplayPerPage.addEventListener("input", () => {
+  renderWithdrawCashTbody()
+})
+
+withdrawCashGotoPage.addEventListener("input", () => {
   renderWithdrawCashTbody()
 })
 
 withdrawCashSave.addEventListener("click", e => {
+  let date = Date.now()
   let amount = Number(withdrawCashAmount.value.trim())
-  let cash = getCash()
+  let remark = withdrawCashRemark.value.trim()
 
-  if (amount > 0 && amount <= cash) {
-    insertInto("Withdraws", ["date", "amount"], [new Date().getTime(), amount])
+  if (amount > 0) {
+    if (amount > getCash()) {
+      showMessege("Invalid amount", "Have not sufficcient amount!")
+      delayFocus(withdrawCashAmount)
+      return
+    }
+
+    insertInto(
+      "Withdraws",
+      ["date", "amount", "remark"],
+      [date, amount, remark]
+    )
     updateCash(-amount)
     clearWithdrawCash()
     renderWithdrawCashTbody()
 
     displayCash.innerHTML = `Cash: ${getCash()}`
     showMessege("Successfully withdrawed", `Amount: ${amount}`)
-  } else showMessege("Invalid amount", "Have not sufficent balance!")
+  } else showMessege("Invalid amount", "Enter some valid amount!")
 
   delayFocus(withdrawCashAmount)
 })

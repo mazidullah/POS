@@ -1,7 +1,43 @@
 #investCash {
-  .wrapper {
-    width: 700px;
+  & > .wrapper {
+    width: 95%;
+    height: 90%;
     grid-template-rows: 30px 1fr;
+  }
+
+  main {
+    & > div:nth-child(1) {
+      & > div:nth-child(1) {
+        width: 170px;
+      }
+
+      & > div:nth-child(2) {
+        width: 170px;
+      }
+    }
+
+    & > div:nth-child(2) {
+      justify-content: space-between;
+
+      & > .wrapper:nth-child(1) {
+        & > div {
+          width: 170px;
+        }
+      }
+
+      & > .wrapper:nth-child(2) {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        & > div:nth-child(1) {
+          width: 160px;
+        }
+
+        & > div:nth-child(2) {
+          width: 160px;
+        }
+      }
+    }
   }
 
   table {
@@ -13,13 +49,36 @@
 
     th:nth-child(2),
     td:nth-child(2) {
-      width: 160px;
-      text-align: center;
+      width: auto;
     }
 
     th:nth-child(3),
     td:nth-child(3) {
+      width: 210px;
       text-align: center;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 120px;
+      text-align: center;
+    }
+
+    tr.summary {
+      td:nth-child(1) {
+        text-align: right;
+        font-weight: 900;
+        padding-right: 10px;
+        background-color: rgb(22, 22, 22);
+        color: #fff;
+      }
+
+      td:nth-child(2) {
+        text-align: center;
+        font-weight: 900;
+        background-color: rgb(22, 22, 22);
+        color: #fff;
+      }
     }
   }
 }

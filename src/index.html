@@ -574,74 +574,25 @@
                   placeholder="Price Per Piece" />
               </div>
 
-              <div class="input" title="Vat">
-                <label for="purchaseVat">VAT</label>
+              <div class="input" title="Sell price">
+                <label for="purchaseSellPrice">SP</label>
                 <input
                   type="text"
-                  id="purchaseVat"
-                  placeholder="VAT Per Piece" />
+                  id="purchaseSellPrice"
+                  placeholder="Sell price" />
+              </div>
+
+              <div class="input" title="Batch No.">
+                <label for="purchaseBatchNo">Batch/Serial No.</label>
+                <input
+                  type="text"
+                  id="purchaseBatchNo"
+                  placeholder="Batch No." />
               </div>
 
               <div class="input to-right" title="Rack No.">
                 <label for="purchaseRackNo">Rack</label>
                 <input type="text" id="purchaseRackNo" placeholder="Rack No." />
-              </div>
-            </div>
-            <div class="row flex flex-row" title="Total purchase price">
-              <div class="input">
-                <label for="purchaseTotalPurchasePrice">Total PP</label>
-                <input
-                  type="text"
-                  id="purchaseTotalPurchasePrice"
-                  placeholder="Total price" />
-              </div>
-
-              <div class="input" title="Total VAT">
-                <label for="purchaseTotalVat">Total VAT</label>
-                <input
-                  type="text"
-                  id="purchaseTotalVat"
-                  placeholder="Total VAT" />
-              </div>
-
-              <div class="input to-right" title="Serial/Batch No.">
-                <label for="purchaseSerialNo">S/B No.</label>
-                <input
-                  type="text"
-                  id="purchaseSerialNo"
-                  placeholder="Serial/Batch No." />
-              </div>
-            </div>
-            <div class="row flex flex-row">
-              <div class="input" title="Trade price (purchase price + VAT)">
-                <label for="purchaseTradePrice">TP</label>
-                <input
-                  type="text"
-                  id="purchaseTradePrice"
-                  placeholder="Trade Price"
-                  disabled />
-              </div>
-
-              <div
-                class="input"
-                title="Total trade price (purchase price + VAT) * quantity">
-                <label for="purchaseTotalTradePrice">Total TP</label>
-                <input
-                  type="text"
-                  id="purchaseTotalTradePrice"
-                  placeholder="Total Trade Price"
-                  disabled />
-              </div>
-
-              <div class="input to-right" title="Sell price">
-                <label for="purchaseSellPrice">SP</label>
-                <input
-                  type="text"
-                  id="purchaseSellPrice"
-                  placeholder="Sell Price" />
-              </div>
-              <div class="input">
-                <button id="purchaseAddProduct" class="btn-primary">Add</button>
               </div>
             </div>
           </header>
@@ -1313,97 +1264,94 @@
 
         <!-- Settings -->
         <div id="settings">
-          <div class="left">
-            <div class="list">
-              <h2>Import lists</h2>
-              <div class="buttons">
-                <button class="btn-primary">Import customer list</button>
-                <button class="btn-primary">Import type list</button>
-                <button class="btn-primary">Import generics list</button>
-                <button class="btn-primary">Import company list</button>
-                <button class="btn-primary">Import product list</button>
-              </div>
-            </div>
-            <div class="stock">
-              <h2>Stock settings</h2>
-              <div class="buttons">
-                <button class="btn-primary">Short item list</button>
-                <button class="btn-primary">Purge damage item</button>
-                <button class="btn-primary">Damage item list</button>
-                <button class="btn-primary">Expired item list</button>
-                <button class="btn-primary">Return expire items</button>
-              </div>
-            </div>
-            <div class="ledger">
-              <h2>Ledger</h2>
-              <div class="buttons">
-                <button class="btn-primary">Income ledger</button>
-                <button class="btn-primary">Expense ledger</button>
-                <button class="btn-primary">Total ledger</button>
-              </div>
-            </div>
-            <div class="dues">
-              <h2>Customer dues</h2>
-              <div class="buttons">
-                <button class="btn-primary">Customer dues list</button>
-                <button class="btn-primary">Due collection list</button>
-              </div>
-            </div>
-
-            <div class="dues">
-              <h2>Comapany dues</h2>
-              <div class="buttons">
-                <button class="btn-primary">Company Dues list</button>
-                <button class="btn-primary">Due payment list</button>
-              </div>
+          <div class="list">
+            <h2>Import lists</h2>
+            <div class="buttons">
+              <button class="btn-primary">Import customer list</button>
+              <button class="btn-primary">Import type list</button>
+              <button class="btn-primary">Import generics list</button>
+              <button class="btn-primary">Import company list</button>
+              <button class="btn-primary">Import product list</button>
             </div>
           </div>
-          <div class="right">
-            <div class="users">
-              <h2>Users settings</h2>
-
-              <div class="buttons">
-                <button class="btn-primary">Setup new user</button>
-                <button class="btn-primary">View all user</button>
-                <button class="btn-primary">Edit users info</button>
-                <button class="btn-primary">Delete user</button>
-              </div>
+          <div class="stock">
+            <h2>Stock settings</h2>
+            <div class="buttons">
+              <button class="btn-primary">Short item list</button>
+              <button class="btn-primary">Purge damage item</button>
+              <button class="btn-primary">Damage item list</button>
+              <button class="btn-primary">Expired item list</button>
+              <button class="btn-primary">Return expire items</button>
             </div>
-            <div class="employee">
-              <h2>Employees settings</h2>
-
-              <div class="buttons">
-                <button class="btn-primary">Setup new employee</button>
-                <button class="btn-primary">View all employee</button>
-                <button class="btn-primary">Edit employee info</button>
-                <button class="btn-primary">Pay salary</button>
-                <button class="btn-primary">Terminate Employee</button>
-              </div>
+          </div>
+          <div class="ledger">
+            <h2>Ledger</h2>
+            <div class="buttons">
+              <button class="btn-primary">Income ledger</button>
+              <button class="btn-primary">Expense ledger</button>
+              <button class="btn-primary">Total ledger</button>
             </div>
-            <div class="cash">
-              <h2>Invest/Withdraw</h2>
-
-              <div class="buttons">
-                <button class="btn-primary" id="openInvestCash">
-                  Invest cash
-                </button>
-                <button class="btn-primary" id="openWithdrawCash">
-                  Withdraw cash
-                </button>
-              </div>
+          </div>
+          <div class="dues">
+            <h2>Customer dues</h2>
+            <div class="buttons">
+              <button class="btn-primary">Customer dues list</button>
+              <button class="btn-primary">Due collection list</button>
             </div>
+          </div>
 
-            <div class="store">
-              <h1>Store Info</h1>
+          <div class="dues">
+            <h2>Comapany dues</h2>
+            <div class="buttons">
+              <button class="btn-primary">Company Dues list</button>
+              <button class="btn-primary">Due payment list</button>
+            </div>
+          </div>
 
-              <div class="buttons">
-                <button class="btn-error" id="openStoreInfo">
-                  Change store info
-                </button>
-                <button class="btn-error" id="openAdminInfo">
-                  Update admin info
-                </button>
-              </div>
+          <div class="users">
+            <h2>Users settings</h2>
+
+            <div class="buttons">
+              <button class="btn-primary">Setup new user</button>
+              <button class="btn-primary">View all user</button>
+              <button class="btn-primary">Edit users info</button>
+              <button class="btn-primary">Delete user</button>
+            </div>
+          </div>
+          <div class="employee">
+            <h2>Employees settings</h2>
+
+            <div class="buttons">
+              <button class="btn-primary">Setup new employee</button>
+              <button class="btn-primary">View all employee</button>
+              <button class="btn-primary">Edit employee info</button>
+              <button class="btn-primary">Pay salary</button>
+              <button class="btn-primary">Terminate Employee</button>
+            </div>
+          </div>
+          <div class="cash">
+            <h2>Invest/Withdraw</h2>
+
+            <div class="buttons">
+              <button class="btn-primary" id="openInvestCash">
+                Invest cash
+              </button>
+              <button class="btn-primary" id="openWithdrawCash">
+                Withdraw cash
+              </button>
+            </div>
+          </div>
+
+          <div class="store">
+            <h2>Store Info</h2>
+
+            <div class="buttons">
+              <button class="btn-error" id="openStoreInfo">
+                Change store info
+              </button>
+              <button class="btn-error" id="openAdminInfo">
+                Update admin info
+              </button>
             </div>
           </div>
         </div>
@@ -2295,6 +2243,11 @@
                   placeholder="Inverst amount" />
               </div>
 
+              <div class="input">
+                <label for="investCashRemark">Remark</label>
+                <input type="text" id="investCashRemark" placeholder="Remark" />
+              </div>
+
               <button id="investCashClear" class="btn-error flex-0">
                 Clear
               </button>
@@ -2304,24 +2257,49 @@
             </div>
 
             <div class="container flex flex-row">
-              <div class="input">
-                <label for="investCashTotal">Total</label>
-                <input
-                  type="text"
-                  id="investCashTotal"
-                  class="number"
-                  placeholder="Total Invest"
-                  disabled />
+              <div class="wrapper">
+                <div class="input">
+                  <label for="investCashTotal">Total</label>
+                  <input
+                    type="text"
+                    id="investCashTotal"
+                    class="number"
+                    placeholder="Total Invest"
+                    disabled />
+                </div>
               </div>
 
-              <div class="input">
-                <label for="investCashStartDate">Start date</label>
-                <input type="date" id="investCashStartDate" />
-              </div>
+              <div class="wrapper">
+                <div class="input">
+                  <label for="investCashDisplayPerPage">Display</label>
+                  <select id="investCashDisplayPerPage">
+                    <option value="100" selected>100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                  </select>
+                </div>
 
-              <div class="input">
-                <label for="investCashEndDate">End date</label>
-                <input type="date" id="investCashEndDate" />
+                <div class="input page">
+                  <label for="investCashGotoPage">
+                    Page [Total:<span id="investCashPossiblePage">1</span>]
+                  </label>
+                  <input
+                    type="text"
+                    id="investCashGotoPage"
+                    value="1"
+                    min="1" />
+                </div>
+
+                <div class="input">
+                  <label for="investCashStartDate">Start date</label>
+                  <input type="date" id="investCashStartDate" />
+                </div>
+
+                <div class="input">
+                  <label for="investCashEndDate">End date</label>
+                  <input type="date" id="investCashEndDate" />
+                </div>
               </div>
             </div>
 
@@ -2330,6 +2308,7 @@
                 <thead>
                   <tr>
                     <th>ID</th>
+                    <th>Remark</th>
                     <th>Date-Time</th>
                     <th>Amount</th>
                   </tr>
@@ -2366,6 +2345,14 @@
                   placeholder="Withdraw amount" />
               </div>
 
+              <div class="input">
+                <label for="withdrawCashRemark">Remark</label>
+                <input
+                  type="text"
+                  id="withdrawCashRemark"
+                  placeholder="Remark" />
+              </div>
+
               <button id="withdrawCashClear" class="btn-error flex-0">
                 Clear
               </button>
@@ -2375,24 +2362,49 @@
             </div>
 
             <div class="container flex flex-row">
-              <div class="input">
-                <label for="withdrawCashTotal">Total</label>
-                <input
-                  type="text"
-                  id="withdrawCashTotal"
-                  class="number"
-                  placeholder="Total Invest"
-                  disabled />
+              <div class="wrapper">
+                <div class="input">
+                  <label for="withdrawCashTotal">Total</label>
+                  <input
+                    type="text"
+                    id="withdrawCashTotal"
+                    class="number"
+                    placeholder="Total Invest"
+                    disabled />
+                </div>
               </div>
 
-              <div class="input">
-                <label for="withdrawCashStartDate">Start date</label>
-                <input type="date" id="withdrawCashStartDate" />
-              </div>
+              <div class="wrapper">
+                <div class="input">
+                  <label for="withdrawCashDisplayPerPage">Display</label>
+                  <select id="withdrawCashDisplayPerPage">
+                    <option value="100" selected>100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                  </select>
+                </div>
 
-              <div class="input">
-                <label for="withdrawCashEndDate">End date</label>
-                <input type="date" id="withdrawCashEndDate" />
+                <div class="input page">
+                  <label for="withdrawCashGotoPage">
+                    Page [Total:<span id="withdrawCashPossiblePage">1</span>]
+                  </label>
+                  <input
+                    type="text"
+                    id="withdrawCashGotoPage"
+                    value="1"
+                    min="1" />
+                </div>
+
+                <div class="input">
+                  <label for="withdrawCashStartDate">Start date</label>
+                  <input type="date" id="withdrawCashStartDate" />
+                </div>
+
+                <div class="input">
+                  <label for="withdrawCashEndDate">End date</label>
+                  <input type="date" id="withdrawCashEndDate" />
+                </div>
               </div>
             </div>
 
@@ -2401,6 +2413,7 @@
                 <thead>
                   <tr>
                     <th>ID</th>
+                    <th>Remark</th>
                     <th>Date-Time</th>
                     <th>Amount</th>
                   </tr>

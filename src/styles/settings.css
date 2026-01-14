@@ -1,28 +1,21 @@
 #settings.active {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  flex-wrap: wrap;
   justify-content: center;
-  align-content: flex-start;
+  gap: 10px;
   overflow-y: auto;
 
-  button {
-    width: 100%;
-  }
-
-  .left,
-  .right {
-    width: 300px;
+  & > div {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 
     .buttons {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+    }
 
-      padding: 0 1rem;
+    button {
+      width: 100%;
     }
   }
 }
