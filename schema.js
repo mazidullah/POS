@@ -88,14 +88,15 @@ db.prepare(
 db.prepare(
   `CREATE TABLE IF NOT EXISTS Stocks (
   id INTEGER,
-  batch_no TEXT,
   product_id INTEGER,
   purchase_id INTEGER,
   quantity INTEGER,
   purchase_price TEXT,
   sell_price TEXT,
-  expire_date INTEGER,
   rack_no INTEGER,
+  batch_no TEXT,
+  expire_date INTEGER,
+  create_date INTEGER,
   PRIMARY KEY("id" AUTOINCREMENT)
 )`
 ).run()

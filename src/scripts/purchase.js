@@ -6,7 +6,7 @@ import { updateCompanyDue } from "./utils/database.js"
 import { showMessege } from "./utils/messege.js"
 import { getDate, setDate } from "./utils/dateTime.js"
 import { padZero, intInput, floatInput } from "./utils/utils.js"
-import { focus, delayFocus, focusToSelectAll } from "./utils/utils.js"
+import { delayFocus, focusToSelectAll } from "./utils/utils.js"
 import { enterToNextInput } from "./utils/utils.js"
 import { suggestionHandler } from "./utils/utils.js"
 
@@ -169,13 +169,9 @@ function sanitizeCarts(carts) {
   carts.forEach(cart => {
     sanitizedCarts.push({
       productID: cart.productID,
+      batchNo: cart.batchNo,
       qunatity: cart.quantity,
       purchasePrice: cart.purchasePrice,
-      totalPurchasePrice: cart.totalPurchasePrice,
-      vat: cart.vat,
-      totalVat: cart.totalVat,
-      tradePrice: cart.tradePrice,
-      totalTradePrice: cart.totalTradePrice,
       sellPrice: cart.sellPrice,
       rackNo: cart.rackNo,
       expireDate: cart.expireDate,
@@ -205,12 +201,8 @@ function resetProductInfo() {
   purchaseProductName.value = ""
   purchaseProductQuantity.value = ""
   purchasePurchasePrice.value = ""
-  purchaseTotalPurchasePrice.value = ""
-  purchaseVat.value = ""
-  purchaseTotalVat.value = ""
-  purchaseTradePrice.value = ""
-  purchaseTotalTradePrice.value = ""
   purchaseSellPrice.value = ""
+  purchseBatchNo.value = ""
   purchaseRackNo.value = ""
 
   setDate(purchaseExpireDate, new Date(Date.now() + 365 * 24 * 3600000))
@@ -226,10 +218,10 @@ function updateTotalBill() {
   let due = Number(purchaseDue.value)
 
   carts.forEach(cart => {
-    totalBill += Number(cart.totalTradePrice)
+    totalBill += Number((cart.quantity * cart.purchasePrice).toFixed(2))
   })
 
-  totalBill = Number(totalBill.toFixed(4))
+  totalBill = Number(totalBill.toFixed(2))
   payableBill = Number(totalBill.toFixed(0))
   toPay = Number(totalBill - discount).toFixed(0)
   paid = Number(paid.toFixed(0))
@@ -248,19 +240,6 @@ function updateTotalBill() {
     purchasePaid.value = 0
     purchaseDue.value = 0
   }
-}
-
-function updateTradePrice() {
-  let purchasePrice = Number(purchasePurchasePrice.value)
-  let vat = Number(purchaseVat.value)
-  let totalPurchasePrice = Number(purchaseTotalPurchasePrice.value)
-  let totalVat = Number(purchaseTotalVat.value)
-
-  let tradePrice = Number((purchasePrice + vat).toFixed(4))
-  let totalTradePrice = Number((totalPurchasePrice + totalVat).toFixed(4))
-
-  purchaseTradePrice.value = tradePrice
-  purchaseTotalTradePrice.value = totalTradePrice
 }
 
 function deleteProductFromList(prodIndex) {
@@ -309,28 +288,21 @@ function renderTable() {
           data-product-id="${cart.productID}"
           data-product-name="${cart.productName}"
           data-product-type="${cart.productType}"
-          data-quantity="${cart.qunatity}"
           data-purchase-price="${cart.purchasePrice}"
-          data-total-purchase-price="${cart.totalPurchasePrice}"
-          data-vat="${cart.vat}"
-          data-total-vat="${cart.totalVat}"
-          data-trade-price="${cart.tradePrice}"
-          data-total-trade-price="${cart.totalTradePrice}"
           data-sell-price="${cart.sellPrice}"
+          data-quantity="${cart.qunatity}"
           data-rack-no="${cart.rackNo}"
+          data-batch-no="${cart.batchNo}"
           data-expire-date="${cart.expireDate}"
         >
         <td>${padZero(i + 1)}</td>
         <td>[${cart.productType}] ${cart.productName}</td>
         <td>${padZero(cart.qunatity)}</td>
         <td>${cart.purchasePrice}</td>
-        <td>${cart.vat}</td>
-        <td>${cart.totalPurchasePrice}</td>
-        <td>${cart.totalVat}</td>
-        <td>${cart.tradePrice}</td>
-        <td>${cart.totalTradePrice}</td>
+        <td>${(cart.purchasePrice * cart.quantity).toFixed(2)}</td>
         <td class="${sellClassName}" title="${sellMsg}">${cart.sellPrice}</td>
         <td>${cart.rackNo}</td>
+        <td>${cart.batchNo}</td>
         <td class="${expireClassName}" title="${expireMsg}">${expireDate}</td>
         <td>X</td>
       </tr>
@@ -351,7 +323,7 @@ enterToNextInput([
 
 enterToNextInput([
   purchaseRackNo,
-  purchaseSerialNo,
+  purchaseBatchNo,
   purchaseSellPrice,
   purchaseAddProduct,
 ])
@@ -364,11 +336,8 @@ focusToSelectAll([
   purchaseProductName,
   purchaseProductQuantity,
   purchasePurchasePrice,
-  purchaseTotalPurchasePrice,
-  purchaseVat,
-  purchaseTotalVat,
-  purchaseSellPrice,
   purchaseRackNo,
+  purchaseBatchNo,
   purchaseDiscount,
   purchasePaid,
   purchaseDue,
@@ -390,92 +359,6 @@ purchaseCompanyName.addEventListener("input", () => {
   purchaseDue.value = "0"
 })
 
-purchaseProductQuantity.addEventListener("keyup", e => {
-  let purchasePrice = purchasePurchasePrice.value.trim()
-  let quantity = purchaseProductQuantity.value.trim()
-  let vat = purchaseVat.value.trim()
-
-  let pp = Number(purchasePrice)
-  let qnt = Number(quantity)
-  let v = Number(vat)
-
-  if (purchasePrice !== "" || purchasePrice !== "0") {
-    purchaseTotalPurchasePrice.value = Number((pp * qnt).toFixed(4))
-  }
-
-  if (vat !== "" || vat !== "0") {
-    purchaseTotalVat.value = Number((v * qnt).toFixed(4))
-  }
-
-  updateTradePrice()
-})
-
-purchasePurchasePrice.addEventListener("keyup", e => {
-  let qunatity = purchaseProductQuantity.value.trim()
-  let purchasePrice = purchasePurchasePrice.value.trim()
-
-  let qnt = Number(qunatity) ? Number(qunatity) : 1
-
-  let pp = Number(purchasePrice)
-
-  purchaseTotalPurchasePrice.value = Number((pp * qnt).toFixed(4))
-
-  updateTradePrice()
-
-  if (e.key === "Enter") {
-    if (e.target.value === "" || e.target.value === "0")
-      focus(purchaseTotalPurchasePrice)
-    else focus(purchaseVat)
-  }
-})
-
-purchaseVat.addEventListener("keyup", e => {
-  let qunatity = purchaseProductQuantity.value.trim()
-  let vat = purchaseVat.value.trim()
-
-  let qnt = Number(qunatity) ? Number(qunatity) : 1
-  let v = Number(vat)
-
-  purchaseTotalVat.value = Number((v * qnt).toFixed(4))
-  updateTradePrice()
-
-  if (e.key === "Enter") {
-    if (e.target.value === "" || e.target.value === "0") focus(purchaseTotalVat)
-    else focus(purchaseRackNo)
-  }
-})
-
-purchaseTotalPurchasePrice.addEventListener("keyup", e => {
-  let qunatity = purchaseProductQuantity.value.trim()
-  let totalPurchasePrice = purchaseTotalPurchasePrice.value.trim()
-
-  let qnt = Number(qunatity) ? Number(qunatity) : 1
-  let tpp = Number(totalPurchasePrice)
-  let pp = Number(tpp / qnt)
-
-  purchasePurchasePrice.value = Number(pp.toFixed(4))
-
-  updateTradePrice()
-
-  if (e.key === "Enter") focus(purchaseTotalVat)
-})
-
-purchaseTotalVat.addEventListener("keyup", e => {
-  let qunatity = purchaseProductQuantity.value.trim()
-  let totalVat = purchaseTotalVat.value.trim()
-
-  let qnt = Number(qunatity) ? Number(qunatity) : 1
-
-  let tv = Number(totalVat)
-  let v = Number(tv / qnt)
-
-  purchaseVat.value = Number(v.toFixed(4))
-
-  updateTradePrice()
-
-  if (e.key === "Enter") focus(purchaseRackNo)
-})
-
 purchaseAddProduct.addEventListener("click", () => {
   let companyID = Number(purchaseCompanyNameSuggetions.dataset.id)
   let productID = Number(purchaseProductNameSuggetions.dataset.id)
@@ -483,6 +366,7 @@ purchaseAddProduct.addEventListener("click", () => {
   let purchasePrice = Number(purchasePurchasePrice.value.trim())
   let sellPrice = Number(purchaseSellPrice.value.trim())
   let rackNo = Number(purchaseRackNo.value.trim())
+  let batchNo = Number(purchaseBatchNo.value.trim())
   let expireDate = purchaseExpireDate.valueAsNumber
 
   if (companyID <= 0) {
@@ -503,7 +387,7 @@ purchaseAddProduct.addEventListener("click", () => {
     return
   }
 
-  if (sellPrice <= 0) {
+  if (sellPrice < 0) {
     showMessege("Invalid sell price", "Enter product sell price")
     delayFocus(purchaseSellPrice)
     return
@@ -521,13 +405,9 @@ purchaseAddProduct.addEventListener("click", () => {
     productType,
     qunatity,
     purchasePrice,
-    totalPurchasePrice,
-    vat,
-    totalVat,
-    tradePrice,
-    totalTradePrice,
     sellPrice,
     rackNo,
+    batchNo,
     expireDate,
   })
 
@@ -547,13 +427,9 @@ purchaseTbody.addEventListener("click", e => {
   let productType = row.dataset.productType
   let quantity = row.dataset.quantity
   let purchasePrice = row.dataset.purchasePrice
-  let totalPurchasePrice = row.dataset.totalPurchasePrice
-  let vat = row.dataset.vat
-  let totalVat = row.dataset.totalVat
-  let tradePrice = row.dataset.tradePrice
-  let totalTradePrice = row.dataset.totalTradePrice
   let sellPrice = row.dataset.sellPrice
   let rackNo = row.dataset.rackNo
+  let batchNo = row.dataset.batchNo
   let expireDate = row.dataset.expireDate
 
   deleteProductFromList(rowNo - 1)
@@ -564,13 +440,9 @@ purchaseTbody.addEventListener("click", e => {
   purchaseProductName.value = `[${productType}] ${productName}`
   purchaseProductQuantity.value = quantity
   purchasePurchasePrice.value = purchasePrice
-  purchaseTotalPurchasePrice.value = totalPurchasePrice
-  purchaseVat.value = vat
-  purchaseTotalVat.value = totalVat
-  purchaseTradePrice.value = tradePrice
-  purchaseTotalTradePrice.value = totalTradePrice
   purchaseSellPrice.value = sellPrice
   purchaseRackNo.value = rackNo
+  purchaseBatchNo.value = batchNo
   setDate(purchaseExpireDate, new Date(Number(expireDate)))
 })
 
@@ -579,7 +451,8 @@ purchasePaid.addEventListener("keyup", updateTotalBill)
 purchaseDue.addEventListener("keyup", updateTotalBill)
 
 purchaseSave.addEventListener("click", () => {
-  let cash = Number(getData("StoreInfo", "WHERE id = 1").cash) || 0
+  let cash = Number(getData("StoreInfo", "WHERE id = 1").cash)
+
   let companyID = Number(purchaseCompanyNameSuggetions.dataset.id)
   let invoiceNo = purchaseInvoiceNo.value.trim()
   let invoiceDate = purchaseInvoiceDate.valueAsNumber
@@ -646,8 +519,8 @@ purchaseSave.addEventListener("click", () => {
       "invoice_no",
       "invoice_date",
       "total_bill",
-      "payable_bill",
       "discount",
+      "payable_bill",
       "to_pay",
       "paid",
       "dues",
@@ -659,8 +532,8 @@ purchaseSave.addEventListener("click", () => {
       invoiceNo,
       invoiceDate,
       totalBill,
-      payableBill,
       discount,
+      payableBill,
       toPay,
       paid,
       dues,
@@ -678,8 +551,10 @@ purchaseSave.addEventListener("click", () => {
         "quantity",
         "purchase_price",
         "sell_price",
-        "expire_date",
         "rack_no",
+        "batch_no",
+        "expire_date",
+        "create_date",
       ],
       [
         cart.productID,
@@ -687,8 +562,10 @@ purchaseSave.addEventListener("click", () => {
         cart.qunatity,
         cart.purchasePrice,
         cart.sellPrice,
-        cart.expireDate,
         cart.rackNo,
+        cart.batchNo,
+        cart.expireDate,
+        Date.now(),
       ]
     )
   })
@@ -708,9 +585,6 @@ setDate(purchaseExpireDate, new Date(now + 365 * 24 * 3600000))
 
 intInput(purchaseProductQuantity, 1)
 floatInput(purchasePurchasePrice, 0)
-floatInput(purchaseTotalPurchasePrice, 0)
-floatInput(purchaseVat, 0)
-floatInput(purchaseTotalVat, 0)
 floatInput(purchaseSellPrice, 0)
 
 intInput(purchaseRackNo, 1)
